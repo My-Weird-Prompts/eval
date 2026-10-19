@@ -1,0 +1,70 @@
+# Candidate script writers for MWP-Script V1. Bare ids are OpenRouter model ids;
+# ids and reasoning behaviour carried over from the private harness roster,
+# checked against https://openrouter.ai/api/v1/models on 2026-10-17.
+#
+# `args` are Inspect OpenRouter model args (`inspect eval -M`). Set
+# `reasoning_enabled` explicitly for every model: OpenRouter's default differs
+# per model, and a reasoning default can silently drop temperature.
+# `config` (optional) is per-model Inspect GenerateConfig, e.g. reasoning_effort.
+# `tags` pick subsets: `python scripts/run.py --tag v1`.
+
+# Default also in src/mwp_eval/scorers.py JUDGE_DEFAULT; change both.
+judge: openrouter/anthropic/claude-opus-5.5
+
+models:
+  # The show's production writer since 2026-09-21. `-1017` is DeepSeek's own
+  # snapshot, served only by DeepSeek; plain `deepseek/deepseek-v4.1-flash`
+  # routed across fp4-quantised third-party hosts on 2026-10-17.
+  - id: deepseek/deepseek-v4.1-flash-1017
+    tags: [v1, baseline]
+    args: {reasoning_enabled: false}
+
+  - id: deepseek/deepseek-v4-pro-0813
+    tags: [v1]
+    args: {reasoning_enabled: false}
+
+  - id: xiaomi/mimo-v2.6-pro
+    tags: [v1]
+    args: {reasoning_enabled: false, provider: {quantizations: [bf16, fp8]}}
+
+  # OpenRouter rejects reasoning off for this model (2026-10-17).
+  - id: z-ai/glm-5.3-flash
+    tags: [v1]
+    args: {reasoning_enabled: true, provider: {quantizations: [bf16, fp8, unknown]}}
+    config: {reasoning_effort: low}
+
+  - id: z-ai/glm-5.3
+    tags: [v1]
+    args: {reasoning_enabled: false}
+
+  - id: moonshotai/kimi-k3
+    tags: [v1]
+    args: {reasoning_enabled: false}
+
+  - id: inclusionai/ling-3.1-flash
+    tags: [v1]
+    args: {reasoning_enabled: false, provider: {quantizations: [bf16, fp8, unknown]}}
+
+  - id: qwen/qwen3.8-flash
+    tags: [v1]
+    args: {reasoning_enabled: false}
+
+  - id: google/gemini-3.8-flash
+    tags: [v1]
+    args: {reasoning_enabled: false}
+
+  # Same family as the default judge: expect self-preference. Re-judge with
+  # --judge set to another family before reading these rows as a ranking.
+  - id: anthropic/claude-haiku-5.5
+    tags: [v1]
+    args: {reasoning_enabled: false}
+
+  - id: anthropic/claude-sonnet-5.5   # reasoning mandatory on OpenRouter (2026-10-17)
+    tags: [v1, reference]
+    args: {reasoning_enabled: true}
+    config: {reasoning_effort: low}
+
+  - id: anthropic/claude-opus-5.5
+    tags: [reference]
+    args: {reasoning_enabled: true}
+    config: {reasoning_effort: low}

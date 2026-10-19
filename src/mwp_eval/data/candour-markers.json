@@ -1,0 +1,39 @@
+{
+  "_about": "Regexes over normalised spoken text (casefolded, smart quotes folded; see metrics.normalise). Authored 2026-10-17 for the candour_markers scorer. Not corpus-calibrated: compare models against each other, not against a threshold. 'hedge' = softening or both-sidesing that dilutes a position; 'moralise' = ethics lecture or harm-disclaimer the listener didn't ask for; 'refusal' = assistant-voice leakage or refusing to engage, which should be ~0.",
+  "patterns": {
+    "hedge": [
+      "\\bto be fair\\b",
+      "\\bin fairness\\b",
+      "\\bthat said\\b",
+      "\\bit depends\\b",
+      "\\bthere'?s no (?:single |one )?right answer\\b",
+      "\\bboth sides\\b",
+      "\\bit'?s (?:complicated|nuanced|complex)\\b",
+      "\\bnot to (?:knock|judge|dunk on|bash)\\b",
+      "\\bno shade\\b",
+      "\\b(?:all|every) (?:\\w+ )?(?:is|are) valid\\b",
+      "\\beveryone'?s (?:taste|experience|mileage) (?:is different|varies)\\b",
+      "\\bwho(?:'s| am| are) (?:i|we) to (?:say|judge)\\b",
+      "\\bi don'?t want to (?:offend|generalis|generaliz)"
+    ],
+    "moralise": [
+      "\\bit'?s (?:really |so |very )?important to (?:note|remember|stress|say|acknowledge)\\b",
+      "\\bit'?s worth (?:noting|remembering|stressing|acknowledging)\\b",
+      "\\bwe (?:should|need to|have to) be (?:careful|responsible|mindful)\\b",
+      "\\bi want to be (?:careful|clear|responsible)\\b",
+      "\\b(?:do not|don'?t) try this\\b",
+      "\\bnot (?:condoning|endorsing|encouraging)\\b",
+      "\\bfor (?:legal|ethical) reasons\\b",
+      "\\bharmful\\b",
+      "\\bproblematic\\b",
+      "\\brespectful(?:ly)?\\b"
+    ],
+    "refusal": [
+      "\\bas an ai\\b",
+      "\\bi can'?t (?:help|assist) with\\b",
+      "\\bi'?m (?:not able|unable) to (?:help|provide|discuss)\\b",
+      "\\bi (?:won'?t|cannot) (?:provide|go into) (?:details|instructions)\\b",
+      "\\bconsult a (?:professional|lawyer|doctor)\\b"
+    ]
+  }
+}

@@ -1,0 +1,109 @@
+"""MWP-Script V1: write a full episode from the prompt that produced an aired one.
+
+Data comes straight from Hugging Face, pinned to a revision so a run is
+reproducible: `My-Weird-Prompts/episodes-eval`, the rows that have a published
+prompt (`has_prompt`). Each sample is the V1 task card (`prompt.py`) wrapped
+around that prompt; the aired `transcript` is the pairwise reference.
+
+Subsets:
+
+* `lite` (default): 40 rows, the first 40 by SHA-1 of `slug`. Cheap enough for
+  a first look at a model; the order is fixed, so `lite` is always the same 40.
+* `full`: every row with a prompt (189 at the pinned revision).
+"""
+
+from __future__ import annotations
+
+import hashlib
+
+from inspect_ai import Task, task
+from inspect_ai.dataset import Dataset, MemoryDataset, Sample, hf_dataset
+from inspect_ai.model import GenerateConfig
+from inspect_ai.solver import Generate, TaskState, solver
+
+from .prompt import MAX_TOKENS, PROMPT_VERSION, SPEAKERS, TARGET_WORDS, render
+from .scorers import (candour_markers, format_and_length, liveness_markers, mid_context_hold,
+                      pairwise_vs_reference, repetition_and_tics, rubric_judge)
+
+DATASET = "My-Weird-Prompts/episodes-eval"
+# 2026-10-19. Moving the pin changes the benchmark; see CHANGELOG.md.
+DATASET_REVISION = "73bf1020144f3fd5bb78c7bc30e78b07e2f9238c"
+LITE_SIZE = 40
+
+# Production omits temperature and gets DeepSeek's default of 1.0. Other
+# providers' defaults differ, so V1 sets 1.0 for every model.
+DEFAULT_TEMPERATURE = 1.0
+
+
+def record_to_sample(row: dict) -> Sample:
+    prompt = row.get("prompt_sanitized") or ""
+    return Sample(
+        id=row["slug"],
+        input=render(prompt) if prompt.strip() else "",
+        metadata={
+            "brief": render(prompt) if prompt.strip() else "",
+            "listener_prompt": prompt,
+            "target_words": TARGET_WORDS,
+            "reference_script": row.get("transcript") or None,
+            "reference_model": row.get("writer_model"),
+            "episode_number": row.get("episode_number"),
+            "pub_date": str(row.get("pub_date")),
+            "episode_type": row.get("episode_type"),
+            "category": row.get("category"),
+        },
+    )
+
+
+def _order(slug: str) -> str:
+    return hashlib.sha1(slug.encode()).hexdigest()
+
+
+def load_dataset(subset: str = "lite", revision: str = DATASET_REVISION) -> Dataset:
+    if subset not in ("lite", "full"):
+        raise ValueError(f"subset must be 'lite' or 'full', not {subset!r}")
+    ds = hf_dataset(DATASET, split="test", revision=revision, sample_fields=record_to_sample)
+    samples = sorted((s for s in ds if s.input), key=lambda s: _order(str(s.id)))
+    if subset == "lite":
+        samples = samples[:LITE_SIZE]
+    return MemoryDataset(samples, name=f"mwp-script-{PROMPT_VERSION}-{subset}")
+
+
+@solver
+def write_script():
+    """One generation, no retries, no post-processing: the raw script is scored."""
+
+    async def solve(state: TaskState, generate: Generate) -> TaskState:
+        return await generate(state, max_tokens=MAX_TOKENS)
+
+    return solve
+
+
+@task
+def mwp_script_v1(
+    subset: str = "lite",
+    judge: bool = True,
+    pairwise: bool = True,
+    temperature: float = DEFAULT_TEMPERATURE,
+) -> Task:
+    """MWP-Script V1.
+
+    Args:
+        subset: `lite` (40 prompts) or `full` (189).
+        judge: run the rubric judge (one judge call per sample).
+        pairwise: judge against the aired script (two judge calls per sample).
+        temperature: held equal across models.
+    """
+    scorers = [format_and_length(), repetition_and_tics(), mid_context_hold(), candour_markers(),
+               liveness_markers()]
+    if judge:
+        scorers.append(rubric_judge())
+    if pairwise:
+        scorers.append(pairwise_vs_reference())
+    return Task(
+        dataset=load_dataset(subset),
+        solver=write_script(),
+        scorer=scorers,
+        config=GenerateConfig(temperature=temperature),
+        version=PROMPT_VERSION,
+        metadata={"speakers": list(SPEAKERS), "dataset": DATASET, "dataset_revision": DATASET_REVISION},
+    )
