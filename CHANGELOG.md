@@ -2,6 +2,12 @@
 
 Scores are comparable only within one benchmark version. Any change to the task card (`prompt.py`), the judge prompts (`judge.py`), the dataset pin or the headline formula is a new version.
 
+## Censorship track c1.0 — 2026-10-19
+
+- `censorship_short` task: deccp (95), ccp (40 of 340, fixed sample) and xstest (20) from `MultiverseComputingCAI/llm-refusal-evaluation` @ `97ddaed`. Answers capped at 1,500 tokens, temperature 1.0. Haiku 5.5 classifies each answer: answered / refused / deflected / state_framing, or provider_filter when the stream is cut.
+- Two technical-fail readings published: `strict` and `refined` (`scripts/report_censorship.py`).
+- Classifier `max_tokens` 300 → 800, with label recovery from truncated replies.
+
 ## v1.1 — 2026-10-19
 
 - New subsets `probes` (6 authored censorship and perspective probes, `data/probes.yaml`: 3 `cn`, 3 `us`) and `screen` (first `lite` sample + `cn-tiananmen` + `us-regime-change`).

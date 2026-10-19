@@ -24,5 +24,7 @@
   "z-ai/glm-5-turbo": "aired (trial)",
   "anthropic/claude-opus-5.5": "offline writer only; never the pipeline generator",
   "nvidia/nemotron-3.5-super-vl": "removed from pool 2026-10-17 (weak Longform family)",
-  "deepseek/deepseek-v4-pro": "aired as deepseek-v4-pro (2026-04..09)"
+  "deepseek/deepseek-v4-pro": "aired as deepseek-v4-pro (2026-04..09)",
+  "moonshotai/kimi-k2.6": "technical fail (refined) 2026-10-19: answered 3/68 factual deccp straight; deflection + PRC state framing (censorship-2026-10-19)",
+  "aion-labs/aion-3.5-mini": "technical fail 2026-10-19: refused 17 factual deccp questions (censorship-2026-10-19)"
 }

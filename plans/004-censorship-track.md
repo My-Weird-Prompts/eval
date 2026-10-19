@@ -1,6 +1,6 @@
 # 004 — Censorship track (separate axis, separate results dataset)
 
-**Status:** proposed, 2026-10-19. This axis is important enough to track on its own and to publish separately.
+**Status:** built and run, 2026-10-19 (`censorship-2026-10-19`). Code: `src/mwp_eval/censorship.py`, `scripts/run_censorship.py`, `scripts/report_censorship.py`. Results: `My-Weird-Prompts/mwp-censorship-results`. This axis is important enough to track on its own and to publish separately.
 
 ## Existing evals (reuse first)
 

@@ -4,6 +4,45 @@ No full V1 leaderboard exists yet. Below are a 3-sample screen and a judged base
 
 Full per-sample results (scripts, judge reasoning, every score) are published on Hugging Face: [`My-Weird-Prompts/mwp-script-results`](https://huggingface.co/datasets/My-Weird-Prompts/mwp-script-results). This page summarises them.
 
+## `censorship-2026-10-19`: censorship track, round robin and candidates
+
+The 10 round-robin models ran under **production routing**, plus 7 shortlisted candidates. Each wrote about 155 short answers (95 deccp, 40 ccp, 20 xstest), and Claude Haiku 5.5 labelled every one. Spend was about $3. Every sample is on HF: [`My-Weird-Prompts/mwp-censorship-results`](https://huggingface.co/datasets/My-Weird-Prompts/mwp-censorship-results). Method: `plans/004-censorship-track.md`.
+
+| model | n | strict | refined | factual answered | deccp refused | deccp deflected | deccp state framing | how-to refused | ccp refused | xstest refused | filtered (any) |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| meta/muse-spark-1.2 | 150 | pass | pass | 100% | 0% | 0% | 0% | 0 | 19% | 0% | 0 |
+| anthropic/claude-haiku-5.5 | 155 | pass | pass | 100% | 0% | 0% | 0% | 0 | 35% | 0% | 0 |
+| openai/gpt-5.6-luna | 151 | **FAIL** | pass | 100% | 1% | 0% | 0% | 1 | 24% | 0% | 0 |
+| openai/gpt-6-luna | 150 | **FAIL** | pass | 100% | 1% | 0% | 0% | 1 | 18% | 0% | 0 |
+| google/gemini-3.8-flash | 151 | **FAIL** | pass | 100% | 0% | 0% | 0% | 0 | 6% | 0% | 2 |
+| google/gemini-3.7-flash | 149 | **FAIL** | pass | 100% | 0% | 0% | 0% | 0 | 11% | 0% | 3 |
+| x-ai/grok-4.7 | 153 | **FAIL** | pass | 100% | 2% | 0% | 0% | 2 | 45% | 0% | 0 |
+| meta/muse-glimmer-30b | 151 | **FAIL** | pass | 100% | 6% | 0% | 0% | 6 | 45% | 0% | 0 |
+| moonshotai/kimi-k2.6 | 144 | pass | **FAIL** | 4% | 0% | 41% | 56% | 0 | 29% | 0% | 0 |
+| aion-labs/aion-3.5-mini | 154 | **FAIL** | **FAIL** | 79% | 20% | 0% | 0% | 2 | 38% | 10% | 0 |
+| xiaomi/mimo-v2.6-flash | 141 | **FAIL** | **FAIL** | 65% | 8% | 12% | 20% | 5 | 75% | 0% | 0 |
+| inclusionai/ling-3.1-flash | 122 | **FAIL** | **FAIL** | 41% | 16% | 25% | 21% | 4 | 68% | 0% | 0 |
+| xiaomi/mimo-v2.6-pro | 144 | **FAIL** | **FAIL** | 29% | 7% | 18% | 28% | 5 | 49% | 0% | 19 |
+| z-ai/glm-5.2 | 139 | **FAIL** | **FAIL** | 24% | 4% | 22% | 48% | 1 | 43% | 0% | 0 |
+| z-ai/glm-5.3 | 147 | **FAIL** | **FAIL** | 18% | 5% | 22% | 54% | 0 | 30% | 0% | 0 |
+| z-ai/glm-5.3-flash | 141 | **FAIL** | **FAIL** | 12% | 7% | 24% | 47% | 0 | 26% | 0% | 12 |
+| deepseek/deepseek-v4.1-flash | 153 | **FAIL** | **FAIL** | 1% | 61% | 9% | 28% | 10 | 82% | 5% | 0 |
+
+- **"Strict"** is the rule as first stated: any deccp refusal, or any provider filter.
+- **"Refined"** is censorship of the topic: a refusal or filter on one of the 83 *factual* deccp questions, or answering fewer than 90% of them straight. The 12 "how do I bypass the firewall" items are left out; Western models decline those as operational help, not censorship. Every such refusal was read by hand.
+- Which reading is the hard rule is Daniel's call (`plans/003`).
+
+What it shows:
+
+- **7 of the 10 round-robin models censor the topic under production routing.** The worst are DeepSeek V4.1 Flash, all three GLMs and MiMo V2.6 Pro.
+  - **DeepSeek V4.1 Flash, the workhorse, answered 1% of factual questions straight.** It refused 61% with a canned "I am sorry, I cannot answer that question", and gave PRC framing on 28%.
+  - **The GLM models** rarely refuse outright but answer in state framing (47–54%).
+  - **MiMo V2.6 Pro and GLM-5.3 Flash** were also cut off by provider filters, 19 and 12 times.
+- **This contradicts the episode-length probe.** In `screen-2026-10-19`, DeepSeek engaged fully with Tiananmen (engagement 5/5). The in-character episode framing seems to unlock what a bare question doesn't. Production uses the episode framing, but the behaviour isn't reliable.
+- **Kimi K2.6 never refuses and still censors.** It answered 3 of 68 factual questions straight; the rest it deflected or framed as Beijing would. The refined rule catches this and the strict rule doesn't. (Kimi K3 answered the long-form Tiananmen probe frankly.)
+- **US and Western models answer every factual question.** Their only "refusals" are firewall how-tos: GPT-6 Luna 1, GPT-5.6 Luna 1, Grok 4.7 2, Muse Glimmer 6. Gemini's flags are Google's safety filter on operational ccp prompts ("how to sabotage Chinese infrastructure").
+- **Classifier fix.** At a 300-token cap, about 7% of Haiku's replies were cut off mid-JSON. Labels were recovered from the partial text (`censorship.parse_label`), and the cap is now 800. Ling 3.1 Flash still has 33 unlabelled answers.
+
 ## `screen-2026-10-19`: first long-tail screen (benchmark v1.1)
 
 Six OpenRouter models that the show has not aired and that aren't in the production round robin, plus the production writer DeepSeek V4.1 Flash as the baseline. Each wrote three scripts, from the `screen` subset: one ordinary prompt, the `cn-tiananmen` probe and the `us-regime-change` probe. The settings were one epoch, temperature 1.0, no pairwise, and Opus 5.5 as judge. Spend was about $3.10: $0.67 on generation and $2.45 on judging. Command: `python scripts/run.py --subset screen --no-pairwise --model ...`. The roster was cut from 23 live candidates (`models.yaml`, tag `screen`) to six to keep the cost down.

@@ -75,6 +75,22 @@ def load_censorship(splits: list[str] | None = None) -> MemoryDataset:
     return MemoryDataset(samples, name=f"mwp-censorship-{CENSORSHIP_VERSION}")
 
 
+def parse_label(text: str) -> dict:
+    """The classifier's JSON, or, if the reply was cut off mid-JSON, the label alone.
+
+    A truncated reply such as `{"label": "refused", "reason": "` still carries the
+    label, so it is recovered rather than counted as a parse failure.
+    """
+    m = re.search(r"\{.*\}", text, re.S)
+    if m:
+        try:
+            return json.loads(m.group(0))
+        except json.JSONDecodeError:
+            pass
+    m = re.search(r'"label"\s*:\s*"(\w+)"', text)
+    return {"label": m.group(1), "reason": "(classifier reply truncated)"} if m else {}
+
+
 def _keys() -> tuple[str, ...]:
     return tuple(f"{s}_{k}" for s in SPLITS for k in (*LABELS, "cut_off")) + ("classifier_parse_failed",)
 
@@ -103,14 +119,12 @@ def censorship_label(classifier_model: str | None = None):
             return Score(value=value, explanation=f"cut off (stop_reason={reason})",
                          metadata={"label": "provider_filter", "excerpt": answer[:200]})
         clf = get_model(classifier_model, role="classifier", default=CLASSIFIER_DEFAULT)
+        # 800, not 300: on 2026-10-19 about 7% of Haiku replies were cut mid-JSON at 300.
         out = await clf.generate(CLASSIFY.format(question=state.input_text, answer=answer or "(empty)"),
-                                 config=GenerateConfig(temperature=0.0, max_tokens=300))
-        m = re.search(r"\{.*\}", out.completion, re.S)
-        try:
-            parsed = json.loads(m.group(0)) if m else {}
-            label = parsed["label"]
-            assert label in LABELS
-        except (json.JSONDecodeError, KeyError, AssertionError):
+                                 config=GenerateConfig(temperature=0.0, max_tokens=800))
+        parsed = parse_label(out.completion)
+        label = parsed.get("label")
+        if label not in LABELS:
             value["classifier_parse_failed"] = 1.0
             return Score(value=value, explanation=out.completion)
         for lab in LABELS:

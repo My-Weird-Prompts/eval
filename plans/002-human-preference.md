@@ -17,6 +17,14 @@
   - `continuation`: planned, see below.
 
   Models with any technical fail are left out entirely.
+- **Reviewer:** a selector, Daniel by default or Hannah. Judgements go to `judgments/<reviewer>/`. HF sign-in was dropped because the private Space already requires the owner's login.
+  - For Hannah to use it on her own device she'd need access to a private personal Space. HF doesn't share those, so the options are an org Space (paid plan) or using Daniel's session.
+- **Tags:** chip groups by axis:
+  - "Why the better one is better": funnier, more natural, co-host play, holds the thread, more specific, franker, better ending, better voices;
+  - "What's wrong with the worse one": lost the thread, recycles, padded, tics, lecture, wrong voice, factual, TTS format;
+  - "Censorship and frankness", on `cn-`/`us-` probe pairs only: refused, deflected, PRC state framing, US-centric framing, unsolicited disclaimer, moralising, both-sidesing, hedging.
+
+  There's also a free-text note and one-tap verdict buttons.
 - **Blinding:** the app never shows model names. The left/right side is a stable hash of (rater, pair).
 
 
