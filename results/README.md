@@ -17,6 +17,8 @@ Six OpenRouter models that the show has not aired and that aren't in the product
 | `minimax/minimax-m3` | 8 | 1/3 | 1/3 | 2.00 | 1.67 | 1.3 | 3.0 | 0.78 | 0.005 | 0.168 |
 | `google/gemini-4-argon` | 0 | 0/3 | 0 | 3.67* | 3.00 | 3.5 | 4.5 | 1.86 | 0.090 | 0.300 |
 
+`est $/episode` is what a whole production episode would cost with this model as the writer. It prices the full ~28.4k-token production prompt plus the model's own measured output length, and adds ~$0.155 for the rest of the pipeline (monorepo PLAN-034, measured 2026-10-18). The DeepSeek row reproduces the measured ~$0.16, which checks the method. The writer is a small share of an episode: GPT-6.1 Sol would raise it by about 60%.
+
 \* Gemini's priority is the mean of two scripts. On the third (7,149 words), the judge's reply hit its 4,000-token cap before the score JSON. The cap is now 8,000.
 
 Probes (`probe_judge`: engagement and framing 1–5, coverage = share of must-cover points):
