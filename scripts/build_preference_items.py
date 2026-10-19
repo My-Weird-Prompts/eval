@@ -2,6 +2,9 @@
 
     python scripts/build_preference_items.py logs/screen-2026-10-19 --out build/preference/items-screen-2026-10-19.jsonl
     python scripts/build_preference_items.py logs/screen-2026-10-19 --push   # upload to the private bucket
+    # Cross-run pairs only (models from different screens on the same prompt), so the
+    # ratings connect into one ranking:
+    python scripts/build_preference_items.py logs/screen-2026-10-19 logs/screen-2026-10-19b --cross-only --push
 
 For every prompt in the log dir, every pair of models that wrote a usable script
 (models with any technical fail are left out entirely) becomes items of two kinds:
@@ -48,8 +51,8 @@ def opening(script: str, words: int = OPENING_WORDS) -> str:
     return "\n".join(out)
 
 
-def scripts_by_prompt(log_dir: str) -> dict[str, dict]:
-    by: dict[str, dict] = {}
+def scripts_by_prompt(log_dir: str, by: dict[str, dict] | None = None) -> dict[str, dict]:
+    by = {} if by is None else by
     logs = [read_eval_log(i) for i in list_eval_logs(log_dir)]
     # A technical fail on any sample removes the model entirely (plans/003).
     failed = {log.eval.model for log in logs for s in log.samples or [] if technical_fail(s.scores or {})}
@@ -65,24 +68,35 @@ def scripts_by_prompt(log_dir: str) -> dict[str, dict]:
                 continue
             p = by.setdefault(str(s.id), {"prompt": s.metadata.get("listener_prompt", ""), "scripts": {}})
             p["scripts"][model] = text
+            p.setdefault("run_of", {})[model] = Path(log_dir).name
             ref = s.metadata.get("reference_script")
             if ref:
                 p["scripts"][f"aired:{s.metadata.get('reference_model')}"] = ref
+                p.setdefault("run_of", {})[f"aired:{s.metadata.get('reference_model')}"] = "aired"
     return by
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("log_dir")
+    ap.add_argument("log_dirs", nargs="+")
+    ap.add_argument("--cross-only", action="store_true", help="only pairs whose models come from different runs")
     ap.add_argument("--out")
     ap.add_argument("--kinds", default="opening,full_script")
     ap.add_argument("--push", action="store_true")
     args = ap.parse_args()
-    run = Path(args.log_dir).name
+    run = "+".join(Path(d).name for d in args.log_dirs) if len(args.log_dirs) > 1 else Path(args.log_dirs[0]).name
+    if args.cross_only:
+        run = "cross-" + run
     out = Path(args.out or ROOT / "build" / "preference" / f"items-{run}.jsonl")
     items = []
-    for prompt_id, p in sorted(scripts_by_prompt(args.log_dir).items()):
+    by: dict[str, dict] = {}
+    for d in args.log_dirs:
+        scripts_by_prompt(d, by)
+    for prompt_id, p in sorted(by.items()):
         for (ma, ta), (mb, tb) in itertools.combinations(sorted(p["scripts"].items()), 2):
+            ra, rb = p["run_of"][ma], p["run_of"][mb]
+            if args.cross_only and (ra == rb or "aired" in (ra, rb)):
+                continue
             for kind in args.kinds.split(","):
                 cut = opening if kind == "opening" else (lambda t: t.strip())
                 items.append({

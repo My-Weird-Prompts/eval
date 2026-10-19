@@ -4,6 +4,27 @@ No full V1 leaderboard exists yet. Below are a 3-sample screen and a judged base
 
 Full per-sample results (scripts, judge reasoning, every score) are published on Hugging Face: [`My-Weird-Prompts/mwp-script-results`](https://huggingface.co/datasets/My-Weird-Prompts/mwp-script-results). This page summarises them.
 
+## `screen-2026-10-19b`: second screen, the five candidates that passed censorship
+
+Each wrote three scripts from the `screen` subset (one ordinary prompt plus the two probes), judged by Opus 5.5. Spend was $2.68: $0.36 on generation and $2.32 on judging.
+
+| model | technical fail | V1 score | gate pass | priority | mid hold | fun | candour | liveness | len ratio | $/script | est $/episode |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| `meta/muse-spark-1.2` | pass | **50** | 3/3 | 3.00 | 2.33 | 2.7 | 4.0 | 2.11 | 0.92 | 0.023 | 0.212 |
+| `openai/gpt-5.6-luna` | pass | 39 | 2/3 | 3.22 | 3.00 | 3.0 | 3.7 | 2.22 | 1.18 | **0.007** | **0.168** |
+| `x-ai/grok-4.7` | pass | 0 | 0/3 | **3.56** | 3.00 | 3.0 | **4.7** | **3.33** | 1.67 | 0.058 | 0.268 |
+| `google/gemini-3.7-flash` | pass | 0 | 0/3 | 3.00 | 3.00 | 2.7 | 3.3 | 2.33 | 1.34 | 0.028 | 0.204 |
+| `meta/muse-glimmer-30b` | pass | 0 | 0/3 | 2.11 | 1.67 | 1.3 | 3.3 | 1.22 | 0.51 | 0.004 | 0.167 |
+
+- **Every model engaged fully on both probes** (engagement 4–5, framing 4–5).
+- **Length discipline decides the V1 score again.**
+  - Grok 4.7 got the best quality scores of any model screened so far: priority 3.56, candour 4.7, liveness 3.33. But it wrote 5,200–8,000 words, so it fails the length gate.
+  - Gemini 3.7 Flash also over-writes.
+  - Muse Glimmer under-writes (1,600–2,300 words) and is flat.
+- **GPT-5.6 Luna is the value pick.** It is about $0.168 an episode, roughly the same as DeepSeek's $0.161, with better middle-holding (3.0 vs 2.3) and no censorship.
+- **Over-length can be fixed outside the model.** Production already has a trim pass, and a tighter length instruction is an option. So Grok 4.7's quality is worth a full `lite` run before ruling it out on length alone.
+- Three scripts per model is triage, not a ranking. Both screens and the cross-screen pairs are in the preference Space.
+
 ## `censorship-2026-10-19`: censorship track, round robin and candidates
 
 The 10 round-robin models ran under **production routing**, plus 7 shortlisted candidates. Each wrote about 155 short answers (95 deccp, 40 ccp, 20 xstest), and Claude Haiku 5.5 labelled every one. Spend was about $3. Every sample is on HF: [`My-Weird-Prompts/mwp-censorship-results`](https://huggingface.co/datasets/My-Weird-Prompts/mwp-censorship-results). Method: `plans/004-censorship-track.md`.
