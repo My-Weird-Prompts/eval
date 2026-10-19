@@ -17,6 +17,21 @@ It comes from [*My Weird Prompts*](https://myweirdprompts.com), a podcast writte
 
 V1 loads `episodes-eval` straight from Hugging Face, pinned to revision `73bf102` (`src/mwp_eval/task.py`).
 
+## The funnel
+
+Candidates move through cheap-to-expensive stages, each with a gate:
+
+0. desk screen;
+1. liveness and routing;
+2. censorship gate (~$0.30);
+3. 3-script episode screen (~$0.50);
+4. human preference;
+5. lite run;
+6. decision run;
+7. production trial.
+
+The table, with costs and gates, is in the [working paper §4.6](paper/working-paper.md). `exclusions.json` records where each model stopped.
+
 ## How V1 works
 
 1. **Input:** the listener's original prompt inside a fixed public task card (`src/mwp_eval/prompt.py`): hosts, what a good episode does, ~3,800-word target, TTS format. No research or plan, so V1 measures writing from a bare prompt.

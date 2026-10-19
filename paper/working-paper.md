@@ -116,6 +116,33 @@ The writer sees only the prompt. A separate probe judge also sees each probe's m
 
 A second failure mode turned up in the first screen and is now measured too. **Hosting providers can censor output that the model itself produced.** Alibaba and GMICloud cut the stream mid-sentence; OpenRouter reports this as a 502, and the harness would otherwise score the partial script as finished. `completion_status/cut_off` flags it and fails the gate. For a production pipeline the provider matters as much as the model: the same weights behind a different host may not be filtered.
 
+### 4.6 Stepwise evaluation: the funnel
+
+Candidates go through stages that get dearer and narrower. Each stage has a gate, and a model that fails stops there, so money is spent only on models that could still win. A failure at any stage goes into `exclusions.json`, so the model is never re-run without a reason.
+
+| Stage | What | Cost per model | Gate to pass | Tooling |
+|---|---|---|---|---|
+| **0. Desk screen** | Catalogue sweep: OpenRouter, other platforms, HF. Public boards: EQ-Bench Creative Writing v3 and Longform, Lech Mazur, UGI, Arena, SpeechMap. | free | Within budget. A plausible writing signal on at least one board, *or* new and unscored. Not already excluded. | `model_scan.py --budget --exclude-file`, `docs/candidates-<date>.md` |
+| **1. Liveness and routing** | One short call: is the model reachable from Israel, allowed by the data policy, which reasoning mode does it accept, and which host serves it? | ~$0.001 | Callable with acceptable routing (no fp4 host, no geo-block) | one-off probe call |
+| **2. Censorship gate** | ~155 short answers (deccp, ccp, xstest), labelled by a cheap classifier, under the routing production would use | ~$0.10–0.50 | No technical fail (§5.2, `plans/003`) | `run_censorship.py`, `report_censorship.py` |
+| **3. Episode screen** | 3 full scripts: one ordinary prompt plus a China probe and a US probe. Judged on the rubric and the probes. | ~$0.50 | No technical fail. Priority score not clearly below the baseline. Length problems are noted, since a trim pass or a prompt can fix them. | `run.py --subset screen` |
+| **4. Human preference** | Blind pairwise ratings in the private Space, including cross-screen pairs and the aired baseline | free (reviewer time) | Preferred over the baseline in Daniel's (and Hannah's) ratings | preference Space, `build_preference_items.py` |
+| **5. Lite run** | 40 prompts, rubric plus pairwise against aired scripts | ~$3–6 | Beats the baseline on `v1_score` and priority | `run.py --subset lite` |
+| **6. Decision run** | All 189 prompts × 3 epochs, plus a second judge family | ~$15–25 | The criteria in §5.3 | `run.py --subset full --epochs 3 --judge ...` |
+| **7. Production trial** | Into the round robin at low weight (1 in 4 split across candidates). Aired episodes are reviewed. | episode cost | No regressions in the aired corpus. Listeners and Daniel are happy. | monorepo `script_model_pool`, `retrospective-eval` |
+
+Stages 0–2 are wide and cheap; that's where most models should drop out. Stages 3–4 are where a writer's quality first shows. Stages 5–6 are for the two or three finalists only.
+
+**First pass through the funnel (2026-10-19):**
+- Stage 0: 469 OpenRouter models, 177 of them under $0.06 a script, and an off-OpenRouter sweep. That gave a shortlist of about 10.
+- Stage 2: 17 models, the 10 in the round robin plus 7 candidates, about $3. **7 of the 10 round-robin models failed**, among them DeepSeek, the workhorse, and so did 2 of the 7 candidates.
+- Stage 3: 10 models in two screens, about $5.80. All passed the probes.
+- Stage 4: 234 pairs were loaded for rating.
+
+**Origin as a desk-stage prior.** Every Chinese-origin model tested at stage 2 failed the refined reading. That's DeepSeek V4.1 Flash, GLM-5.3, GLM-5.2, GLM-5.3 Flash, MiMo V2.6 Pro, MiMo V2.6 Flash, Ling 3.1 Flash, Kimi K2.6 and Aion 3.5 Mini (a GLM derivative). The two Chinese models screened as full episodes earlier, Qwen3.8 Flash and MiniMax M3, were cut off by their hosts. Kimi K3 is the exception: it engaged frankly on the long-form Tiananmen probe, though it hasn't been through stage 2.
+
+So Chinese-origin models are **deprioritised at stage 0, not banned**. Each still gets the stage-2 gate, which is cheap, before any further money. A Chinese model passing would be news.
+
 ## 5. Headline score and decision criteria
 
 ### 5.1 The V1 score
