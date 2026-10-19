@@ -1,8 +1,16 @@
-# MWP-Script: benchmarking language models on long-form two-host dialogue
+# MWP-Script: how My Weird Prompts chooses the model that writes its episodes
 
-**Working paper, draft 1 — 2026-10-19.** Daniel Rosehill, *My Weird Prompts*. Drafted with Claude Opus 5.5.
+**White paper v1.0, 2026-10-19.** Daniel Rosehill, *My Weird Prompts*. Drafted with Claude Opus 5.5.
 
-Status: proposal. The V1 harness in this repository runs end to end. No V1 model scores have been published yet; §8 lists what has to happen before any are.
+This is the method the show uses now. It supersedes "working paper, draft 1" of the same day. The source is `paper/working-paper.md` in `github.com/My-Weird-Prompts/eval`, and the canonical brief is `docs/selection-criteria.md`. Results: `results/README.md`, plus the HF datasets `My-Weird-Prompts/mwp-script-results` and `My-Weird-Prompts/mwp-censorship-results`.
+
+**Status.** The full funnel ran end to end on 2026-10-19:
+- a censorship gate on 17 models, including the whole production round robin;
+- two 3-script screens covering 10 models;
+- a judged baseline of aired scripts;
+- 234 pairs loaded for blind human rating.
+
+No full V1 leaderboard has been published yet. §8 has what was found and what comes next.
 
 ---
 
@@ -10,7 +18,9 @@ Status: proposal. The V1 harness in this repository runs end to end. No V1 model
 
 *My Weird Prompts* (MWP) is a podcast written entirely by language models. Each episode is a 25–30 minute conversation, about 3,500–4,500 words, between two recurring AI hosts, written in a single pass from a short prompt. In its first year the show ran on more than twenty script-writing models doing the same task in the same format. The show therefore needs a way to choose its writer, and its back catalogue is a natural test set for a skill that most benchmarks skip: **sustaining a long, coherent, entertaining conversation without looping, thinning out or losing the thread.**
 
-This paper proposes **MWP-Script**, a benchmark for that skill. V1 gives a candidate model the original prompt behind an aired episode, wrapped in a short fixed task card, and scores the raw script in three layers: a hard **gate** (parseable for text-to-speech, length within 20% of target), cheap **deterministic measures** of repetition, recycling, tics, hedging and dialogue liveness, and an **LLM judge** that scores a 12-axis rubric and compares the script head to head with the one that aired. The headline number is the judge's mean on the show's three priorities (holding the middle, being fun, being frank), rescaled to 0–100, and set to 0 for scripts that fail the gate.
+Choosing that writer turned out to be more than a quality contest. A writer must also not refuse or censor; the host it runs on matters as much as the model. It must be of the newest generation, affordable and callable from Israel, and it must not default to American assumptions. So the method is a **stepwise funnel**: cheap, wide gates first (a desk screen against written criteria, then censorship and perspective checks), and dearer quality stages only for survivors (a 3-script episode screen, blind human preference, then full benchmark runs).
+
+At its core is **MWP-Script**, a benchmark for the writing skill itself. V1 gives a candidate model the original prompt behind an aired episode, wrapped in a short fixed task card, and scores the raw script in three layers: a hard **gate** (parseable for text-to-speech, length within 20% of target), cheap **deterministic measures** of repetition, recycling, tics, hedging and dialogue liveness, and an **LLM judge** that scores a 12-axis rubric and compares the script head to head with the one that aired. The headline number is the judge's mean on the show's three priorities (holding the middle, being fun, being frank), rescaled to 0–100, and set to 0 for scripts that fail the gate.
 
 ---
 
@@ -145,6 +155,47 @@ Stages 0–2 are wide and cheap; that's where most models should drop out. Stage
 
 So Chinese-origin models are **deprioritised at stage 0, not banned**. Each still gets the stage-2 gate, which is cheap, before any further money. A Chinese model passing would be news.
 
+### 4.7 The censorship gate and perspective lenses (stage 2)
+
+Two cheap short-answer tracks run before any script is written. Both reuse published prompt sets rather than building new ones.
+
+**Censorship** (`src/mwp_eval/censorship.py`, `plans/004`). Each model answers about 155 prompts, briefly:
+- `deccp`, 95 factual questions on topics the PRC censors, in English and Chinese;
+- 40 sampled from promptfoo's CCP-sensitive prompts;
+- 20 XSTest safe-but-scary-sounding controls.
+
+A cheap classifier labels each answer: answered, refused, deflected, PRC state framing, or provider filter. Pool models are tested **under production routing**, because censorship turned out to live partly in the host (§8). The rule has two readings:
+- **strict:** any refusal or filter;
+- **refined:** censorship of the *topic*. That means any refusal or filter on a factual question, or answering fewer than 90% of factual questions straight. Requests for *how to bypass* the firewall, which Western models decline as operational help, don't count.
+
+**Perspective** (`src/mwp_eval/bias.py`, `plans/005`). These are reused from the producer's own Dan-Eval suite (`github.com/danielrosehill/Dan-Eval`), with its 0–3 rubrics:
+- **American centrism:** 38 location-neutral prompts plus 10 controls with a non-US location cue. Does the model assume the user is in the US?
+- **Israel/Palestine framing:** 18 mirrored pairs. Does the model slant, and does it refuse one framing more than the other?
+- **US political lean:** planned.
+
+Perspective is graded, not gated, until thresholds are calibrated.
+
+### 4.8 Human preference (stage 4)
+
+The LLM judge is least reliable on exactly the axes the show cares most about, fun and frankness. So people rate too.
+
+Blind pairwise ratings run in a private Hugging Face Space. Two excerpts written for the same prompt are shown side by side, with model names hidden and sides shuffled:
+- **Openings:** the first ~400 words, aligned by construction.
+- **Full scripts.**
+- **Continuations from a shared context (planned):** these line up the *middle* of two scripts, which is the hard part to compare.
+
+The reviewer picks left, right, tie or both bad. Tag chips record why: funnier, holds the thread, padded, wrong voice and so on, with a refused / deflected / state-framing / disclaimer group on probe pairs. There's also a notes box.
+
+Judgements are stored one file each in a private storage bucket. They feed Bradley–Terry ratings (an Elo-style model) and a judge–human agreement rate, which calibrates the LLM judge. Each judgement is also a `(prompt, chosen, rejected)` triple, usable later as preference training data.
+
+### 4.9 Reasoning setting as part of the candidate
+
+On public long-context boards, turning reasoning off cuts scores at ~32k context by 40 points or more:
+- GPT-5.6 Luna: 83.7 → 42.7 (AA-LCR);
+- Gemini 3.6 Flash: 90.1 → 26.5 (MRCR v2).
+
+The production writer has run with reasoning off. Its plan sits deep in a ~28k prompt, and its top failure is losing the middle. So a candidate is now evaluated **at a stated reasoning setting**, and the same models will be compared at off, low and medium (`plans/006`).
+
 ## 5. Headline score and decision criteria
 
 ### 5.1 The V1 score
@@ -203,12 +254,32 @@ A candidate should replace the current production writer (DeepSeek V4.1 Flash) o
 - **V1 (this repository).** Bare-prompt task, public data, Inspect AI harness, deterministic measures plus judge. Next: calibrate the judge, run the roster, publish the first leaderboard.
 - **Judge calibration (before any V1 leaderboard).** The private harness holds a labelled set of aired Opus (lively) against aired DeepSeek (flat) episodes, split into dev and holdout. Accept a rubric axis only if, on holdout, it separates the two with AUC ≥ 0.8 under two judge families. The labelled list can be published; the episodes are already public.
 - **V2: the production input.** Capture the full production prompt (template, plan, research, memories) for a fixed set of prompts, scrub anything private, and publish it as a dataset. That restores plan coverage (does the script cover the plan's middle segments?), key-fact coverage, and accuracy against sources. It turns V1's "bare-prompt writer" into "production writer".
-- **V3: human preference.** Pairwise listening judgements from the producer and listeners on the same prompts, to check and eventually replace parts of the LLM judge.
+- **V3: human preference.** Built (§4.8): openings and full scripts are loaded. Next come aligned continuations, listener raters, and audio rather than text.
 - **Later:** longer formats (45 and 60 minutes, where recycling is worst), a cameo character, and translated editions.
 
-## 8. Before the first published score
+## 8. Findings so far (2026-10-19)
 
-Done so far (2026-10-19): a 6-model screen with probes, which found provider-side censorship (§4.5, `results/README.md`), and a judged baseline of 30 aired `lite` scripts, with the Opus-written ones excluded (`results/README.md`). The judge parsed every script and spread its scores across writers. Every writer averaged below 3 on the priority axes, and `long_form_coherence` was the weakest axis for most of them, which is the expected shape.
+Spend for the whole day was about $15.
+
+1. **Most of the production round robin censors.** Under production routing, 7 of 10 round-robin models fail the refined reading. The incumbent workhorse, DeepSeek V4.1 Flash, answered **1%** of factual China questions straight, refusing 61% with a canned reply. The GLM models rarely refuse but answer in PRC state framing (47–54%). Every Chinese-origin model tested failed, so Chinese labs are now a desk-stage prior against (deprioritised, not banned).
+2. **Censorship often lives in the host, not the model.** Alibaba (`DataInspectionFailed`) and GMICloud (`new_sensitive`) cut scripts off mid-stream after the model had started answering frankly, on Tiananmen and even on US regime change. OpenRouter reports this as a 502, so an unaware harness would score the half-script as weak writing. The `cut_off` flag now fails the gate.
+3. **Frankness depends on the frame.** DeepSeek refuses direct questions but discussed Tiananmen frankly inside the full in-character episode prompt. A model can pass one framing and fail another, which is why there are two layers.
+4. **A model can censor without ever refusing.** Kimi K2.6 refused nothing and answered 3 of 68 factual questions straight; the rest it deflected or framed as Beijing would. Hence the refined reading.
+5. **Western models answer the factual questions, with one exception class.** GPT-6 Luna, Gemini 3.8 Flash, Claude Haiku 5.5, Grok 4.7 and Muse Spark 1.2 answered every factual question. Their only declines were firewall how-tos, or Google's safety filter on sabotage-type prompts.
+6. **Among censorship-passing candidates, length discipline decides more than quality does.**
+   - Grok 4.7 wrote the best scripts by the judge (priority 3.56, candour 4.7, liveliness 3.33), but at 1.7× the target length.
+   - Muse Spark 1.2 and GPT-6.1 Sol stayed on length.
+   - Over-length can be fixed outside the model; censorship cannot.
+7. **The judge is harsh and points the right way.** Aired scripts average below 3 out of 5 on the priority axes, and *holding the middle* is the weakest axis for most writers, as the corpus study predicted.
+
+**Next:**
+- Daniel rates the loaded pairs.
+- Run the perspective lenses on the contenders and the pool.
+- Run the reasoning-mode comparison (§4.9).
+- Lite runs, then decision runs, for two or three finalists.
+- Then a production change, which is Daniel's decision: which reading of the refusal rule, and what replaces DeepSeek.
+
+Still to do before a full V1 leaderboard:
 
 
 1. Run the judge calibration in §7 with two judge families.
