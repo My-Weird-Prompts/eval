@@ -92,7 +92,7 @@ COLUMNS = [
 ]
 
 
-def summarise(log_dir: str) -> list[dict]:
+def summarise(log_dir: str, group_by: str | None = None) -> list[dict]:
     """One row per model, built from the per-sample scores.
 
     Built from samples rather than `log.results`, so a log that errored at the
@@ -112,6 +112,15 @@ def summarise(log_dir: str) -> list[dict]:
             if smp.error or not smp.scores:
                 continue
             entry["samples"][(smp.id, smp.epoch)] = smp
+    if group_by:
+        # Regroup by a sample metadata key (e.g. reference_model for judge_aired.py runs).
+        regrouped: dict[str, dict] = {}
+        for entry in by_model.values():
+            for key, smp in entry["samples"].items():
+                g = regrouped.setdefault(str(smp.metadata.get(group_by)),
+                                         {"samples": {}, "status": entry["status"]})
+                g["samples"][key] = smp
+        by_model = regrouped
     rows = []
     for model, entry in by_model.items():
         vals: dict[str, list[float]] = defaultdict(list)
@@ -180,8 +189,9 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("log_dir")
     ap.add_argument("--json")
+    ap.add_argument("--group-by", help="sample metadata key to group rows by instead of model")
     args = ap.parse_args()
-    rows = summarise(args.log_dir)
+    rows = summarise(args.log_dir, args.group_by)
     print(markdown(rows))
     if args.json:
         Path(args.json).write_text(json.dumps(rows, indent=2, default=str))

@@ -18,7 +18,7 @@ import hashlib
 
 from inspect_ai import Task, task
 from inspect_ai.dataset import Dataset, MemoryDataset, Sample, hf_dataset
-from inspect_ai.model import GenerateConfig
+from inspect_ai.model import GenerateConfig, ModelOutput
 from inspect_ai.solver import Generate, TaskState, solver
 
 from .prompt import MAX_TOKENS, PROMPT_VERSION, SPEAKERS, TARGET_WORDS, render
@@ -76,6 +76,44 @@ def write_script():
         return await generate(state, max_tokens=MAX_TOKENS)
 
     return solve
+
+
+@solver
+def aired_script():
+    """No generation: the aired transcript becomes the output, so the V1 scorers grade what aired."""
+
+    async def solve(state: TaskState, generate: Generate) -> TaskState:
+        state.output = ModelOutput.from_content(model="aired", content=state.metadata["reference_script"] or "")
+        return state
+
+    return solve
+
+
+@task
+def mwp_script_v1_aired(subset: str = "full", exclude_writers: str = "") -> Task:
+    """Judge the scripts that aired, with the V1 scorers (no pairwise: the reference is the output).
+
+    A baseline, not a leaderboard row: aired scripts were written from the full
+    production prompt and went through polish and length correction. Run it with
+    `--model mockllm/model`; only the judge is billed.
+
+    Args:
+        subset: `lite` or `full`.
+        exclude_writers: comma-separated `writer_model` values to leave out, e.g.
+            the judge's own model to avoid self-preference.
+    """
+    excluded = {w.strip() for w in exclude_writers.split(",") if w.strip()}
+    ds = load_dataset(subset)
+    samples = [s for s in ds if s.metadata["reference_model"] not in excluded]
+    return Task(
+        dataset=MemoryDataset(samples, name=f"{ds.name}-aired"),
+        solver=aired_script(),
+        scorer=[format_and_length(), repetition_and_tics(), mid_context_hold(), candour_markers(),
+                liveness_markers(), rubric_judge()],
+        version=PROMPT_VERSION,
+        metadata={"speakers": list(SPEAKERS), "dataset": DATASET, "dataset_revision": DATASET_REVISION,
+                  "excluded_writers": sorted(excluded)},
+    )
 
 
 @task
