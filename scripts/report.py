@@ -44,6 +44,19 @@ def _price(model_id: str) -> tuple[float, float] | None:
     except (TypeError, KeyError, ValueError):
         return None
 
+# Estimated production cost per episode (monorepo PLAN-034, measured 2026-10-18):
+# a pipeline episode costs about $0.16 in total, of which the writer is $0.0051
+# (28.4k tokens in, 5.6k out on DeepSeek). Everything else (research, Exa,
+# planner, utilities, TTS GPU) is held fixed at the difference. In production
+# the writer reads the full ~28.4k-token prompt, not V1's ~1.4k task card, so
+# the estimate prices PROD_WRITER_INPUT_TOKENS of input plus the model's OWN
+# measured output tokens per script (reasoning tokens bill as output).
+EPISODE_TOTAL_USD = 0.16
+BASELINE_WRITER_USD = 0.0051
+NON_WRITER_USD = EPISODE_TOTAL_USD - BASELINE_WRITER_USD
+PROD_WRITER_INPUT_TOKENS = 28_400
+
+
 # Gate for the headline score: a script the show could not air scores 0.
 GATE_LENGTH = (0.8, 1.2)
 
@@ -154,6 +167,9 @@ def summarise(log_dir: str, group_by: str | None = None) -> list[dict]:
         if price and row["samples"]:
             row["cost_usd"] = usage["input_tokens"] * price[0] + usage["output_tokens"] * price[1]
             row["cost_per_script_usd"] = row["cost_usd"] / row["samples"]
+            out_per_script = usage["output_tokens"] / row["samples"]
+            row["est_prod_writer_usd"] = PROD_WRITER_INPUT_TOKENS * price[0] + out_per_script * price[1]
+            row["est_episode_usd"] = NON_WRITER_USD + row["est_prod_writer_usd"]
         rows.append(row)
     return rows
 
@@ -171,7 +187,7 @@ def _lookup(row: dict, key: str):
 
 
 def markdown(rows: list[dict]) -> str:
-    head = ["model", "n", *[c[1] for c in COLUMNS], "out tok/script", "$/script"]
+    head = ["model", "n", *[c[1] for c in COLUMNS], "out tok/script", "$/script", "est $/episode"]
     lines = ["| " + " | ".join(head) + " |", "|" + "---|" * len(head)]
     ok = [r for r in rows if r.get("samples")]
     ok.sort(key=lambda r: -(_lookup(r, "v1_score") or 0))
@@ -182,6 +198,7 @@ def markdown(rows: list[dict]) -> str:
             cells.append("—" if v is None else f"{v:.3f}" if abs(v) < 10 else f"{v:.0f}")
         cells.append(str(round(r["output_tokens"] / r["samples"])) if r.get("output_tokens") else "—")
         cells.append(f"{r['cost_per_script_usd']:.4f}" if r.get("cost_per_script_usd") else "—")
+        cells.append(f"{r['est_episode_usd']:.3f}" if r.get("est_episode_usd") else "—")
         lines.append("| " + " | ".join(cells) + " |")
     for r in rows:
         if not r.get("samples") or r.get("status") != "success":

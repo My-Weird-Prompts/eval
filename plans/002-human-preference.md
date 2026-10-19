@@ -40,7 +40,14 @@ For finalists only, run a few full A/B comparisons on the same prompt, ideally *
 
 ## Tooling (reuse first)
 
-- **Argilla** has ready-made pairwise and ranking annotation, deploys as a Hugging Face Space in the `My-Weird-Prompts` org, and exports straight to an HF dataset. **Recommended**, especially if listeners are ever invited to rate.
+- **Argilla** (recommended) has ready-made annotation, runs as a Hugging Face Space in the `My-Weird-Prompts` org, and exports straight to an HF dataset. Setup, per the Argilla docs (checked 2026-10-19):
+  - Create the Space from the Argilla template under the org and set it to **private**, so only org members can see it.
+  - Set the `USERNAME` secret to `danielrosehill` for the `owner` role.
+  - Choose **`Small` persistent storage**. It is paid and billed hourly. The free "ephemeral" option loses all datasets and annotations on any restart, including restarts caused by changing settings, so pick storage at creation.
+  - Sign in with Hugging Face OAuth. Invited raters join as `annotator`.
+  - The Python client reaches a private Space with `headers={"Authorization": f"Bearer {HF_TOKEN}"}`.
+  - Docs: https://docs.argilla.io/latest/getting_started/how-to-configure-argilla-on-huggingface
+- **Record design in Argilla:** fields `context` (the shared prefix, as markdown), `a` and `b`. Questions: `preference` (label: A / B / tie / both bad), `reasons` (multi-label: the tags above) and an optional free-text `note`. Metadata (hidden from the rater): both model ids, cut point, prompt id, and the randomised side assignment. Export judgements nightly to a private HF dataset as a backup, whatever the storage tier.
 - **Fallback:** a small, phone-friendly page with one tap per judgement and a shared database. This is quicker to use for a single rater on a phone, but it's custom code to maintain.
 - Judgements are published as an HF dataset alongside `mwp-script-results`, either as a `preferences` config or as their own dataset. Only public prompts are used.
 

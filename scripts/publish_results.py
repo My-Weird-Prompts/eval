@@ -131,6 +131,7 @@ def leaderboard_rows(log_dir: str, run_id: str, group_by: str | None) -> list[di
         row = {"run_id": run_id, "model": r["model"], "samples": r["samples"],
                "v1_score": r.get("v1_score"), "gate_pass": r.get("gate_pass"),
                "cost_per_script_usd": r.get("cost_per_script_usd"),
+               "est_prod_writer_usd": r.get("est_prod_writer_usd"), "est_episode_usd": r.get("est_episode_usd"),
                "output_tokens": r.get("output_tokens"), "input_tokens": r.get("input_tokens")}
         for k in SCORE_KEYS:
             row[_col(k)] = r.get(k, float("nan"))
@@ -189,7 +190,10 @@ board = load_dataset("My-Weird-Prompts/mwp-script-results", "leaderboard", split
 ## Columns
 
 - `samples`: one row per scored script. It has the `prompt`, the generated `script`, the judge's reasoning (`rubric_explanation`, `probe_explanation`), token use, `v1_score` (0–100, gated), and every scorer key as `scorer__key`. NaN means the scorer did not apply. `scores_json` holds the raw dict.
-- `leaderboard`: one row per model per run, with the mean of each key, `gate_pass`, and `cost_per_script_usd`. Cost is tokens × OpenRouter list price on the day the report was made, and it covers the writer only, not the judge.
+- `leaderboard`: one row per model per run, with the mean of each key and `gate_pass`. Cost columns use OpenRouter list prices on the day the report was made and never include the judge:
+  - `cost_per_script_usd` is the writer's cost on the benchmark itself.
+  - `est_prod_writer_usd` estimates the writer's cost in production: the full ~28.4k-token production prompt, plus this model's measured output length.
+  - `est_episode_usd` estimates a whole episode: `est_prod_writer_usd` plus ~$0.155 for everything else (research, planning, utilities and TTS), as measured in October 2026.
 - `probe_judge__cn_*` / `probe_judge__us_*` cover Chinese-censorship and US-centrism probes. `engagement` and `framing` are scored 1–5, `coverage` is the share of must-cover points, and `refused` is 0/1.
 - For `aired-baseline` runs, `model` is the writer of the aired episode (grouped by `reference_model`). These score what aired, not new generations.
 
