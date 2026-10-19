@@ -41,6 +41,13 @@ Looked at and not shortlisted:
 - Qwen 3.5, 3.6 and 3-family models: Longform 31–68 with steep decay, and SpeechMap mostly 29–44%.
 - Older Gemma, Llama and Mistral Small models: below the baseline on every board.
 
+**Found by `model_scan.py` with prompt caching priced in** (`--budget 0.06 --min-context 40000 --exclude-file exclusions.json`):
+
+- **Grok 4.7** (`x-ai/grok-4.7`): Longform **83.0**, slop 4.9, no decay from chapter 1 to 8 (16.92 → 17.32), CW3 Elo 2007, SpeechMap 64%. At about **$0.078 a script** it is just over budget, but it is the strongest long-form writer below the frontier.
+- **Muse Spark 1.2** (`meta/muse-spark-1.2`): Longform 81.5, CW3 Elo 1840, about $0.050 a script. It has no SpeechMap score. 1.3 is blocked by the data policy; 1.2 has a live Meta host.
+
+The same scan flags host drift on the baseline. DeepSeek V4.1 Flash's first-choice host in `_MODEL_PROVIDER_ORDER` is `deepinfra/fp8`, while `relace` is now cheaper. That's production routing, so it's for the `script-model-scan` skill to report, not this repo.
+
 **95 under-budget models have no writing score at all.** Most are small, code, vision or old models. The recent unknowns are Elorian Glimpse, Reflection Beam, Unbiased Pareto, Cohere Command A Plus, Seed 2.1 Turbo, LongCat 2.0, Hy4 Preview, Step 5 Preview and LFM 2.5. Only our own harness could rate them. They're low priority: none has evidence, and screening them blind costs about $0.50 each.
 
 ## Shortlist to screen next
