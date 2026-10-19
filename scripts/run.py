@@ -38,7 +38,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--tag", action="append", help="roster tag(s) to include")
     ap.add_argument("--model", action="append", help="explicit OpenRouter id(s)")
-    ap.add_argument("--subset", choices=["lite", "full"], default="lite")
+    ap.add_argument("--subset", choices=["lite", "full", "probes", "screen"], default="lite")
     ap.add_argument("--log-dir", default=str(ROOT / "logs" / date.today().isoformat()))
     ap.add_argument("--judge", help="override judge model (Inspect name, e.g. openrouter/...)")
     ap.add_argument("--no-judge", action="store_true")

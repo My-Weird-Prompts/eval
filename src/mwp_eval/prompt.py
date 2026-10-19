@@ -22,7 +22,7 @@ comparable.
 
 from __future__ import annotations
 
-PROMPT_VERSION = "v1.0"
+PROMPT_VERSION = "v1.1"
 
 TARGET_WORDS = 3800
 FLOOR_WORDS = 3400

@@ -105,6 +105,17 @@ Two more judge calls: candidate against the script that actually aired for the s
 
 The comparison is deliberately unfair to the candidate: the aired script had research, a plan and post-processing behind it. The judge is told that one writer had a richer brief, but not which. "Beats what aired from less input" is a strong signal; losing to it is expected for most models.
 
+### 4.5 Censorship and perspective probes (v1.1)
+
+The show's writer has to be frank on topics where models are known to be shaped by their makers' politics. v1.1 adds six authored episode prompts in the show's own voice (`src/mwp_eval/data/probes.yaml`):
+
+- **`cn`**: Tiananmen 1989, Xinjiang, Taiwan. These are topics Chinese-trained models are known to refuse, deflect or render in the PRC's official framing.
+- **`us`**: regime change since 1945, who beat Nazi Germany, and a Jerusalem household budget. The `us` probes are deliberately subtler: softening the US record, a Hollywood-weighted history, and defaulting to dollars and US institutions for someone who lives in Israel.
+
+The writer sees only the prompt. A separate probe judge also sees each probe's must-cover points and failure signs, and scores `engagement` and `framing` (1–5), `coverage` (share of must-cover points) and `refused`. These scores sit beside the rubric and do not feed `v1_score`.
+
+A second failure mode turned up in the first screen and is now measured too. **Hosting providers can censor output that the model itself produced.** Alibaba and GMICloud cut the stream mid-sentence; OpenRouter reports this as a 502, and the harness would otherwise score the partial script as finished. `completion_status/cut_off` flags it and fails the gate. For a production pipeline the provider matters as much as the model: the same weights behind a different host may not be filtered.
+
 ## 5. Headline score and decision criteria
 
 ### 5.1 The V1 score
@@ -112,7 +123,7 @@ The comparison is deliberately unfair to the candidate: the aired script had res
 Per sample:
 
 ```
-v1_score = 25 × (priority − 1)    if parse_ok and 0.8 ≤ length_ratio ≤ 1.2
+v1_score = 25 × (priority − 1)    if parse_ok and 0.8 ≤ length_ratio ≤ 1.2 and not cut_off
          = 0                       otherwise
 ```
 
@@ -149,6 +160,8 @@ A candidate should replace the current production writer (DeepSeek V4.1 Flash) o
 | Routing and quantisation | The same model id can route to degraded quants | Pin provider snapshots or quantisations in `models.yaml` |
 | Prompt contamination | The catalogue is public and may be in training data | Low concern: the task is to write a *new* script; exact reproduction would show up as high pairwise ties |
 | Length dependence | Repetition measures grow with length | Same prompts and target for every model; length in the gate |
+| Provider filtering | A host truncates or blocks output; the partial script looks like a weak model | `cut_off` flag in the gate; report the serving provider; retest on another host before blaming the model |
+| Judge nationality | A US-made judge may under-detect US-centric framing | Re-judge `us` probes with a non-US judge family |
 
 ## 7. Roadmap
 
@@ -160,7 +173,7 @@ A candidate should replace the current production writer (DeepSeek V4.1 Flash) o
 
 ## 8. Before the first published score
 
-Done so far (2026-10-19): a judged baseline of 31 aired `lite` scripts, with the Opus-written ones excluded (`results/README.md`). The judge parsed every script and spread its scores across writers. Every writer averaged below 3 on the priority axes, and `long_form_coherence` was the weakest axis for most of them, which is the expected shape.
+Done so far (2026-10-19): a 6-model screen with probes, which found provider-side censorship (§4.5, `results/README.md`), and a judged baseline of 30 aired `lite` scripts, with the Opus-written ones excluded (`results/README.md`). The judge parsed every script and spread its scores across writers. Every writer averaged below 3 on the priority axes, and `long_form_coherence` was the weakest axis for most of them, which is the expected shape.
 
 
 1. Run the judge calibration in §7 with two judge families.

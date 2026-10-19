@@ -10,11 +10,21 @@ Subsets:
 * `lite` (default): 40 rows, the first 40 by SHA-1 of `slug`. Cheap enough for
   a first look at a model; the order is fixed, so `lite` is always the same 40.
 * `full`: every row with a prompt (189 at the pinned revision).
+* `probes` (v1.1): the six censorship and perspective probes in
+  `data/probes.yaml`, three Chinese-censorship (`cn`) and three US-centrism (`us`).
+* `screen` (v1.1): three samples for screening many models cheaply: the first
+  `lite` sample plus one probe per category (`screen:` in `data/probes.yaml`).
+
+Probe samples carry `metadata["probe"]`, which `probe_judge` scores; they have
+no aired reference, so pairwise skips them.
 """
 
 from __future__ import annotations
 
 import hashlib
+from importlib import resources
+
+import yaml
 
 from inspect_ai import Task, task
 from inspect_ai.dataset import Dataset, MemoryDataset, Sample, hf_dataset
@@ -22,8 +32,8 @@ from inspect_ai.model import GenerateConfig, ModelOutput
 from inspect_ai.solver import Generate, TaskState, solver
 
 from .prompt import MAX_TOKENS, PROMPT_VERSION, SPEAKERS, TARGET_WORDS, render
-from .scorers import (candour_markers, format_and_length, liveness_markers, mid_context_hold,
-                      pairwise_vs_reference, repetition_and_tics, rubric_judge)
+from .scorers import (candour_markers, completion_status, format_and_length, liveness_markers, mid_context_hold,
+                      pairwise_vs_reference, probe_judge, repetition_and_tics, rubric_judge)
 
 DATASET = "My-Weird-Prompts/episodes-eval"
 # 2026-10-19. Moving the pin changes the benchmark; see CHANGELOG.md.
@@ -58,14 +68,41 @@ def _order(slug: str) -> str:
     return hashlib.sha1(slug.encode()).hexdigest()
 
 
+SUBSETS = ("lite", "full", "probes", "screen")
+
+
+def _probe_config() -> dict:
+    return yaml.safe_load(resources.files(__package__).joinpath("data/probes.yaml").read_text())
+
+
+def probe_samples(ids: list[str] | None = None) -> list[Sample]:
+    probes = _probe_config()["probes"]
+    if ids is not None:
+        by_id = {p["id"]: p for p in probes}
+        probes = [by_id[i] for i in ids]
+    return [Sample(
+        id=p["id"],
+        input=render(p["prompt"]),
+        metadata={"brief": render(p["prompt"]), "listener_prompt": p["prompt"], "target_words": TARGET_WORDS,
+                  "reference_script": None, "reference_model": None, "category": f"probe-{p['category']}",
+                  "probe": p},
+    ) for p in probes]
+
+
 def load_dataset(subset: str = "lite", revision: str = DATASET_REVISION) -> Dataset:
-    if subset not in ("lite", "full"):
-        raise ValueError(f"subset must be 'lite' or 'full', not {subset!r}")
+    if subset not in SUBSETS:
+        raise ValueError(f"subset must be one of {SUBSETS}, not {subset!r}")
+    name = f"mwp-script-{PROMPT_VERSION}-{subset}"
+    if subset == "probes":
+        return MemoryDataset(probe_samples(), name=name)
     ds = hf_dataset(DATASET, split="test", revision=revision, sample_fields=record_to_sample)
     samples = sorted((s for s in ds if s.input), key=lambda s: _order(str(s.id)))
     if subset == "lite":
         samples = samples[:LITE_SIZE]
-    return MemoryDataset(samples, name=f"mwp-script-{PROMPT_VERSION}-{subset}")
+    elif subset == "screen":
+        screen = _probe_config()["screen"]
+        samples = samples[:screen["ordinary"]] + probe_samples(screen["probes"])
+    return MemoryDataset(samples, name=name)
 
 
 @solver
@@ -126,15 +163,16 @@ def mwp_script_v1(
     """MWP-Script V1.
 
     Args:
-        subset: `lite` (40 prompts) or `full` (189).
+        subset: `lite` (40 prompts), `full` (189), `probes` (6) or `screen` (3).
         judge: run the rubric judge (one judge call per sample).
         pairwise: judge against the aired script (two judge calls per sample).
         temperature: held equal across models.
     """
-    scorers = [format_and_length(), repetition_and_tics(), mid_context_hold(), candour_markers(),
-               liveness_markers()]
+    scorers = [completion_status(), format_and_length(), repetition_and_tics(), mid_context_hold(),
+               candour_markers(), liveness_markers()]
     if judge:
         scorers.append(rubric_judge())
+        scorers.append(probe_judge())
     if pairwise:
         scorers.append(pairwise_vs_reference())
     return Task(

@@ -53,7 +53,8 @@ def v1_score(scores: dict) -> float | None:
 
     `rubric_judge/priority` (1-5, mean of long_form_coherence, fun, candour)
     rescaled to 0-100, or 0 when the script fails the gate: unparseable for
-    TTS, or more than 20% off the target length. Pairwise win rate is reported
+    TTS, more than 20% off the target length, or cut off mid-generation
+    (`completion_status/cut_off`, v1.1). Pairwise win rate is reported
     alongside, not folded in (working paper §5).
     """
     fmt = scores.get("format_and_length")
@@ -70,6 +71,7 @@ def v1_score(scores: dict) -> float | None:
 COLUMNS = [
     ("v1_score", "V1 score", "high"),
     ("gate_pass", "gate pass", "high"),
+    ("completion_status/cut_off", "cut off", "low"),
     ("rubric_judge/priority", "priority", "high"),
     ("rubric_judge/long_form_coherence", "mid hold", "high"),
     ("rubric_judge/fun", "fun", "high"),
@@ -159,7 +161,9 @@ def summarise(log_dir: str, group_by: str | None = None) -> list[dict]:
 def _gated(scores: dict) -> bool:
     fmt = scores["format_and_length"].value
     ratio = fmt.get("length_ratio", float("nan"))
-    return fmt.get("parse_ok") == 1.0 and GATE_LENGTH[0] <= ratio <= GATE_LENGTH[1]
+    status = scores.get("completion_status")
+    cut = status is not None and status.value.get("cut_off") == 1.0
+    return fmt.get("parse_ok") == 1.0 and GATE_LENGTH[0] <= ratio <= GATE_LENGTH[1] and not cut
 
 
 def _lookup(row: dict, key: str):

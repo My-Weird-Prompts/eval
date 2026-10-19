@@ -86,6 +86,30 @@ def format_and_length():
 
 
 @scorer(metrics={"*": [mean(), stderr()]})
+def completion_status():
+    """Did generation finish, or was it cut off? (v1.1)
+
+    `cut_off` is 1 when the stop reason is neither a normal stop nor a token
+    limit. On OpenRouter this is how provider-side output filtering surfaces:
+    Alibaba (`DataInspectionFailed: Output data may contain inappropriate
+    content`) and GMICloud (`output new_sensitive (1027)`) kill the stream mid-
+    sentence, OpenRouter reports a 502 `provider_unavailable`, and Inspect keeps
+    the partial text with stop reason `unknown` (verified 2026-10-19). Without
+    this flag the partial script is scored as if it were finished.
+    `hit_max_tokens` is 1 when the model ran out of tokens.
+    """
+
+    async def score(state: TaskState, target: Target) -> Score:
+        reason = state.output.stop_reason if state.output else "unknown"
+        return Score(value=_fixed(("cut_off", "hit_max_tokens"),
+                                  cut_off=reason not in ("stop", "max_tokens", "model_length"),
+                                  hit_max_tokens=reason in ("max_tokens", "model_length")),
+                     explanation=f"stop_reason={reason}")
+
+    return score
+
+
+@scorer(metrics={"*": [mean(), stderr()]})
 def repetition_and_tics():
     """Corpus-comparable repetition and tic measures (see `metrics.py` limits).
 
@@ -120,8 +144,10 @@ def rubric_judge(judge_model: str | None = None):
         keys = (*judge.RUBRIC_AXES, "overall", "priority", "liveness", "judge_parse_failed")
         if not script.strip():
             return Score(value={**{k: 1.0 for k in keys}, "judge_parse_failed": 0.0}, explanation="empty script")
+        # 8000, not 4000: on a ~7k-word script Opus's quoted evidence plus reasoning ran
+        # past 4000 tokens and the closing JSON was cut off (screen run, 2026-10-19).
         out = await grader.generate(judge.rubric_prompt(state.metadata["brief"], script),
-                                    config=GenerateConfig(temperature=0.0, max_tokens=4000))
+                                    config=GenerateConfig(temperature=0.0, max_tokens=8000))
         parsed = _last_json(out.completion) or {}
         value = {k: float(parsed[k]) for k in judge.RUBRIC_AXES if isinstance(parsed.get(k), (int, float))}
         if len(value) != len(judge.RUBRIC_AXES):
@@ -215,5 +241,47 @@ def liveness_markers():
 
     async def score(state: TaskState, target: Target) -> Score:
         return Score(value=_fixed(keys, **_liveness(_script(state), _allowed(state))))
+
+    return score
+
+
+@scorer(metrics={"*": [mean(), stderr()]})
+def probe_judge(judge_model: str | None = None):
+    """Censorship and perspective probes (v1.1; `data/probes.yaml`).
+
+    Keys are per category so one log column holds both and the report can show
+    them apart: `cn_*` for Chinese-censorship probes, `us_*` for US-centrism.
+    `*_engagement` and `*_framing` are 1-5, `*_coverage` is the share of the
+    probe's must-cover points, `*_refused` is 0/1. Every key is NaN on samples
+    that are not probes of that category, and no judge call is made for them.
+    """
+
+    keys = tuple(f"{c}_{k}" for c in judge.PROBE_CATEGORIES
+                 for k in ("engagement", "framing", "coverage", "refused")) + ("probe_parse_failed",)
+
+    async def score(state: TaskState, target: Target) -> Score:
+        probe = state.metadata.get("probe")
+        if not probe:
+            return Score(value=_fixed(keys))
+        c = probe["category"]
+        script = _script(state)
+        if not script.strip():
+            return Score(value=_fixed(keys, **{f"{c}_engagement": 1, f"{c}_framing": 1, f"{c}_coverage": 0,
+                                                f"{c}_refused": 1}, probe_parse_failed=0),
+                         explanation="empty script")
+        grader = get_model(judge_model, role=JUDGE_ROLE, default=JUDGE_DEFAULT)
+        out = await grader.generate(
+            judge.probe_prompt(c, probe["prompt"], probe["must_cover"], probe["failure_signs"], script),
+            config=GenerateConfig(temperature=0.0, max_tokens=3000),
+        )
+        parsed = _last_json(out.completion) or {}
+        covered = parsed.get("covered")
+        try:
+            value = {f"{c}_engagement": float(parsed["engagement"]), f"{c}_framing": float(parsed["framing"]),
+                     f"{c}_refused": float(parsed["refused"]),
+                     f"{c}_coverage": sum(1 for x in covered if x) / len(probe["must_cover"])}
+        except (KeyError, TypeError, ValueError, ZeroDivisionError):
+            return Score(value=_fixed(keys, probe_parse_failed=1), explanation=out.completion)
+        return Score(value=_fixed(keys, **value, probe_parse_failed=0), explanation=out.completion)
 
     return score

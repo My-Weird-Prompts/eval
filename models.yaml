@@ -68,3 +68,117 @@ models:
     tags: [reference]
     args: {reasoning_enabled: true}
     config: {reasoning_effort: low}
+
+  # --- `screen` (2026-10-19) ------------------------------------------------
+  # The OpenRouter long tail: models the show has NOT aired and that are not in
+  # the production round robin (routes.py _TRIAL_CANDIDATES), plus the DeepSeek
+  # baseline. Run on the 3-sample `screen` subset. Liveness and reasoning mode
+  # checked with a one-word call on 2026-10-19: "reasoning OFF ok" models run
+  # with reasoning disabled; the rest reject that and run at low effort.
+  # Dropped: sakana/fugu-max (Sakana blocks requests from Israel, 403).
+  # Open-weight models are kept off fp4 hosts with `quantizations`.
+  #
+  # Baseline routing: the org's no-training data policy removes DeepSeek's own
+  # endpoint on OpenRouter (2026-10-19), and the snapshot otherwise routes to
+  # Morph/DeepInfra/Wafer (mxfp4). Production calls DeepSeek direct, so the
+  # screen's baseline is "V4.1 Flash on fp8 third-party hosts".
+  - id: deepseek/deepseek-v4.1-flash-1017
+    tags: [screen]
+    args: {reasoning_enabled: false, provider: {quantizations: [bf16, fp8]}}
+
+  - id: elorian/glimpse
+    tags: [screen]
+    args: {reasoning_enabled: false}
+
+  - id: reflection/beam-1.0-501b-a23b
+    tags: [screen]
+    args: {reasoning_enabled: true, provider: {quantizations: [bf16, fp8, unknown]}}
+    config: {reasoning_effort: low}
+
+  - id: meta/muse-spark-open
+    tags: [screen]
+    args: {reasoning_enabled: true, provider: {quantizations: [bf16, fp8, unknown]}}
+    config: {reasoning_effort: low}
+
+  - id: nvidia/nemotron-3.5-super-vl
+    tags: [screen]
+    args: {reasoning_enabled: false, provider: {quantizations: [bf16, fp8, unknown]}}
+
+  - id: unbiased/pareto-26.10
+    tags: [screen]
+    args: {reasoning_enabled: false}
+
+  - id: liquid/lfm-2.5-24b-a2b
+    tags: [screen]
+    args: {reasoning_enabled: true, provider: {quantizations: [bf16, fp8, unknown]}}
+    config: {reasoning_effort: low}
+
+  - id: google/gemini-4-argon
+    tags: [screen]
+    args: {reasoning_enabled: true}
+    config: {reasoning_effort: low}
+
+  - id: stepfun/step-5-preview
+    tags: [screen]
+    args: {reasoning_enabled: true, provider: {quantizations: [bf16, fp8, unknown]}}
+    config: {reasoning_effort: low}
+
+  - id: mistralai/mistral-large-4-0
+    tags: [screen]
+    args: {reasoning_enabled: false}
+
+  - id: openai/gpt-6.1-sol
+    tags: [screen]
+    args: {reasoning_enabled: true}
+    config: {reasoning_effort: low}
+
+  - id: cohere/command-a-plus
+    tags: [screen]
+    args: {reasoning_enabled: false}
+
+  - id: qwen/qwen3.8-flash
+    tags: [screen]
+    args: {reasoning_enabled: false}
+
+  - id: qwen/qwen3.8-max-0902
+    tags: [screen]
+    args: {reasoning_enabled: true}
+    config: {reasoning_effort: low}
+
+  - id: x-ai/grok-4.7
+    tags: [screen]
+    args: {reasoning_enabled: true}
+    config: {reasoning_effort: low}
+
+  - id: tencent/hy4-preview
+    tags: [screen]
+    args: {reasoning_enabled: false, provider: {quantizations: [bf16, fp8, unknown]}}
+
+  - id: bytedance-seed/seed-2-1-turbo
+    tags: [screen]
+    args: {reasoning_enabled: false}
+
+  - id: moonshotai/kimi-k3
+    tags: [screen]
+    args: {reasoning_enabled: false, provider: {quantizations: [bf16, fp8, unknown]}}
+
+  - id: meituan/longcat-2.0
+    tags: [screen]
+    args: {reasoning_enabled: false, provider: {quantizations: [bf16, fp8, unknown]}}
+
+  - id: thinkingmachines/inkling
+    tags: [screen]
+    args: {reasoning_enabled: false, provider: {quantizations: [bf16, fp8, unknown]}}
+
+  - id: minimax/minimax-m3
+    tags: [screen]
+    args: {reasoning_enabled: false, provider: {quantizations: [bf16, fp8, unknown]}}
+
+  - id: nvidia/nemotron-3-ultra-550b-a55b
+    tags: [screen]
+    args: {reasoning_enabled: false, provider: {quantizations: [bf16, fp8, unknown]}}
+
+  - id: aion-labs/aion-3.5
+    tags: [screen]
+    args: {reasoning_enabled: true}
+    config: {reasoning_effort: low}
