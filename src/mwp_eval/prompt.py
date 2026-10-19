@@ -9,7 +9,7 @@ version, and the listener's original prompt from the dataset.
 
 So V1 measures **writing from a bare prompt**: the model has to supply its own
 structure and its own facts. It does not measure following a plan or using
-research; that is V2 (docs/roadmap.md).
+research; that is V2 (working paper §7).
 
 Host descriptions are condensed from the public pipeline snapshot
 (My-Weird-Prompts/pipeline @ 2026-10-17, prompt version 4.21,
