@@ -21,7 +21,8 @@ Each wrote three scripts from the `screen` subset (one ordinary prompt plus the 
   - Grok 4.7 got the best quality scores of any model screened so far: priority 3.56, candour 4.7, liveness 3.33. But it wrote 5,200–8,000 words, so it fails the length gate.
   - Gemini 3.7 Flash also over-writes.
   - Muse Glimmer under-writes (1,600–2,300 words) and is flat.
-- **GPT-5.6 Luna is the value pick.** It is about $0.168 an episode, roughly the same as DeepSeek's $0.161, with better middle-holding (3.0 vs 2.3) and no censorship.
+- **Superseded (rule H2, newest generation only; set later the same day).** GPT-5.6 Luna is the previous OpenAI generation (GPT-6.x exists), and Gemini 3.7 Flash is superseded by 3.8 Flash. Their results stay here as evidence, but they're out of selection.
+- **GPT-5.6 Luna was the value pick before H2.** It is about $0.168 an episode, roughly the same as DeepSeek's $0.161, with better middle-holding (3.0 vs 2.3) and no censorship.
 - **Over-length can be fixed outside the model.** Production already has a trim pass, and a tighter length instruction is an option. So Grok 4.7's quality is worth a full `lite` run before ruling it out on length alone.
 - Three scripts per model is triage, not a ranking. Both screens and the cross-screen pairs are in the preference Space.
 
