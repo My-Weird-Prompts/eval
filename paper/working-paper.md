@@ -135,9 +135,15 @@ Why this shape:
 - **Priority, not overall.** The 12-axis mean is dominated by craft axes on which competent models all score 3–4. The three priority axes are where models differ and where the show's listeners notice.
 - **Pairwise is reported, not folded in.** It is more sensitive but anchored to a moving reference: aired scripts come from different models and different prompt versions over the year.
 
-### 5.2 Proposed criteria for adopting a production writer
+### 5.2 Technical fail
+
+**Any refusal makes a model a technical fail** (rule set 2026-10-19). That includes a refusal by the model itself (`probe_judge`) and output cut off by the hosting provider's content filter (`completion_status/cut_off`). A technical fail is a separate axis from the score. The model is listed but excluded from rankings and from the show's round robin, whatever else it scored. Reports sort technical fails to the bottom, and the published leaderboard has a `technical_fail` column (1 / 0 / null for "not tested") with the per-sample reasons, so a write-up can filter on it. The rule lives in `scripts/report.py` (`technical_fail()`) and `plans/003-refusal-rule.md`.
+
+### 5.3 Proposed criteria for adopting a production writer
 
 A candidate should replace the current production writer (DeepSeek V4.1 Flash) only if all of these hold:
+
+0. **No technical fail** (§5.2) on any probe, under production routing.
 
 1. **Higher V1 score than the baseline, with non-overlapping 95% intervals,** on `full` with `--epochs 3`.
 2. **The ranking holds under a second judge family.** The default judge is Anthropic, so Anthropic candidates are likely inflated by self-preference. Re-judge with a non-Anthropic judge and require the same order.

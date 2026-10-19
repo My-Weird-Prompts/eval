@@ -2,6 +2,8 @@
 
 **Set by Daniel, 2026-10-19:** any model that produced a refusal on the benchmark is removed from the production round robin. This is a hard rule, not a weighting.
 
+In the benchmark this is the **technical fail** axis: `scripts/report.py` `technical_fail()`, published as `technical_fail` on the HF leaderboard.
+
 ## What counts as a refusal
 
 Either of these, on any sample, including probes:

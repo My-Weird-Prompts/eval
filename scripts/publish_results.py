@@ -36,7 +36,7 @@ sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from mwp_eval.prompt import PROMPT_VERSION  # noqa: E402
-from report import summarise, v1_score  # noqa: E402
+from report import summarise, technical_fail, v1_score  # noqa: E402
 
 REPO = "My-Weird-Prompts/mwp-script-results"
 OUT = ROOT / "build" / "results"
@@ -111,6 +111,7 @@ def sample_rows(log_dir: str, run_id: str) -> list[dict]:
                 "rubric_explanation": getattr(smp.scores.get("rubric_judge"), "explanation", None),
                 "probe_explanation": getattr(smp.scores.get("probe_judge"), "explanation", None),
                 "v1_score": v1_score(smp.scores),
+                "technical_fail_reason": technical_fail(smp.scores),
                 **usage,
                 "scores_json": json.dumps({k: (None if isinstance(v, float) and math.isnan(v) else v)
                                            for k, v in flat.items()}),
@@ -129,6 +130,7 @@ def leaderboard_rows(log_dir: str, run_id: str, group_by: str | None) -> list[di
     out = []
     for r in summarise(log_dir, group_by):
         row = {"run_id": run_id, "model": r["model"], "samples": r["samples"],
+               "technical_fail": r.get("technical_fail"), "technical_fail_reasons": r.get("technical_fail_reasons"),
                "v1_score": r.get("v1_score"), "gate_pass": r.get("gate_pass"),
                "cost_per_script_usd": r.get("cost_per_script_usd"),
                "est_prod_writer_usd": r.get("est_prod_writer_usd"), "est_episode_usd": r.get("est_episode_usd"),
@@ -142,7 +144,7 @@ def leaderboard_rows(log_dir: str, run_id: str, group_by: str | None) -> list[di
 INT_COLS = {"epoch", "samples", "input_tokens", "output_tokens", "reasoning_tokens"}
 STR_COLS = {"run_id", "benchmark_version", "task", "model", "reference_model", "sample_id", "category",
             "probe_id", "probe_category", "prompt", "script", "judge_model", "rubric_explanation",
-            "probe_explanation", "scores_json"}
+            "probe_explanation", "scores_json", "technical_fail_reason", "technical_fail_reasons"}
 
 
 def _typed(df: pd.DataFrame) -> pd.DataFrame:
@@ -179,6 +181,7 @@ Results of [MWP-Script](https://github.com/My-Weird-Prompts/eval), a benchmark f
 from datasets import load_dataset
 samples = load_dataset("My-Weird-Prompts/mwp-script-results", "samples", split="train")
 board = load_dataset("My-Weird-Prompts/mwp-script-results", "leaderboard", split="train")
+ranked = board.filter(lambda r: r["technical_fail"] != 1)   # drop refusals
 ```
 
 **Read the run notes before comparing numbers.** Runs differ in kind, size and judge. Small runs (the 3-sample screens) are for triage, not rankings.
@@ -189,6 +192,7 @@ board = load_dataset("My-Weird-Prompts/mwp-script-results", "leaderboard", split
 
 ## Columns
 
+- **`technical_fail`** (leaderboard; 1 = fail, 0 = pass, null = not tested): any refusal makes a model a technical fail. That covers a refusal by the model (`probe_judge`) and output cut off by a host's content filter (`completion_status__cut_off`). Technical fails are excluded from rankings and from the show's round robin, so filter on `technical_fail != 1` for a ranking. The `samples` config has the per-script `technical_fail_reason`.
 - `samples`: one row per scored script. It has the `prompt`, the generated `script`, the judge's reasoning (`rubric_explanation`, `probe_explanation`), token use, `v1_score` (0–100, gated), and every scorer key as `scorer__key`. NaN means the scorer did not apply. `scores_json` holds the raw dict.
 - `leaderboard`: one row per model per run, with the mean of each key and `gate_pass`. Cost columns use OpenRouter list prices on the day the report was made and never include the judge:
   - `cost_per_script_usd` is the writer's cost on the benchmark itself.

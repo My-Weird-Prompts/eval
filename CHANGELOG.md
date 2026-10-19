@@ -6,6 +6,7 @@ Scores are comparable only within one benchmark version. Any change to the task 
 
 - New subsets `probes` (6 authored censorship and perspective probes, `data/probes.yaml`: 3 `cn`, 3 `us`) and `screen` (first `lite` sample + `cn-tiananmen` + `us-regime-change`).
 - New scorers: `probe_judge` (separate judge call on probe samples only, `cn_*` / `us_*` keys) and `completion_status` (`cut_off`, `hit_max_tokens`). `cut_off` now fails the `v1_score` gate.
+- **Technical fail** axis (`report.technical_fail()`): any refusal, by the model (`probe_judge/*_refused`) or by the host (`completion_status/cut_off`), marks the model `technical_fail = 1`. It is a reporting rule computed from logged scores, so it applies to earlier runs without re-scoring. Published as `technical_fail` / `technical_fail_reasons` (leaderboard) and `technical_fail_reason` (samples).
 - Rubric judge `max_tokens` 4000 → 8000 (judge JSON was truncated on a 7k-word script). Rubric wording, task card text and the dataset pin are unchanged, so rubric scores on dataset prompts remain comparable with v1.0.
 
 ## v1.0 — 2026-10-19

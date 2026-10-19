@@ -57,6 +57,31 @@ NON_WRITER_USD = EPISODE_TOTAL_USD - BASELINE_WRITER_USD
 PROD_WRITER_INPUT_TOKENS = 28_400
 
 
+def technical_fail(scores: dict) -> str | None:
+    """Why this sample is a technical fail, or None. A refusal of any kind is one.
+
+    Daniel's hard rule (2026-10-19, plans/003-refusal-rule.md): a model with a
+    technical fail on any sample is excluded from the production round robin
+    and is filtered out of benchmark write-ups as `technical_fail`, whatever its
+    other scores. Reasons:
+
+    * `refused`: the probe judge marked the script a refusal (`probe_judge/*_refused`).
+    * `provider_filter`: the host cut the output off mid-stream
+      (`completion_status/cut_off`, e.g. Alibaba DataInspectionFailed).
+
+    Computed from logged scores, so older logs get it without re-scoring.
+    """
+    reasons = []
+    probe = scores.get("probe_judge")
+    if probe and isinstance(probe.value, dict) and any(
+            probe.value.get(f"{c}_refused") == 1.0 for c in ("cn", "us")):
+        reasons.append("refused")
+    status = scores.get("completion_status")
+    if status and isinstance(status.value, dict) and status.value.get("cut_off") == 1.0:
+        reasons.append("provider_filter")
+    return "+".join(reasons) or None
+
+
 # Gate for the headline score: a script the show could not air scores 0.
 GATE_LENGTH = (0.8, 1.2)
 
@@ -140,6 +165,7 @@ def summarise(log_dir: str, group_by: str | None = None) -> list[dict]:
     for model, entry in by_model.items():
         vals: dict[str, list[float]] = defaultdict(list)
         usage = defaultdict(int)
+        fails: list[str] = []
         for smp in entry["samples"].values():
             for scorer_name, score in smp.scores.items():
                 if isinstance(score.value, dict):
@@ -151,11 +177,19 @@ def summarise(log_dir: str, group_by: str | None = None) -> list[dict]:
                 vals["v1_score"].append(headline)
             if "format_and_length" in smp.scores:
                 vals["gate_pass"].append(1.0 if _gated(smp.scores) else 0.0)
+            fail = technical_fail(smp.scores)
+            if fail:
+                fails.append(f"{smp.id}:{fail}")
             for model_name, u in (smp.model_usage or {}).items():
                 if model_name.removeprefix("openrouter/") == model:
                     usage["input_tokens"] += u.input_tokens
                     usage["output_tokens"] += u.output_tokens
-        row = {"model": model, "status": "+".join(sorted(entry["status"])), "samples": len(entry["samples"])}
+        # Probed = at least one sample could have been judged a refusal or cut off.
+        probed = any("probe_judge" in smp.scores or "completion_status" in smp.scores
+                     for smp in entry["samples"].values())
+        row = {"model": model, "status": "+".join(sorted(entry["status"])), "samples": len(entry["samples"]),
+               "technical_fail": (1.0 if fails else 0.0) if probed else None,
+               "technical_fail_reasons": "; ".join(sorted(fails)) or None}
         for k, v in vals.items():
             row[k] = sum(v) / len(v)
             if len(v) > 1:
@@ -187,12 +221,15 @@ def _lookup(row: dict, key: str):
 
 
 def markdown(rows: list[dict]) -> str:
-    head = ["model", "n", *[c[1] for c in COLUMNS], "out tok/script", "$/script", "est $/episode"]
+    head = ["model", "n", "TECH FAIL", *[c[1] for c in COLUMNS], "out tok/script", "$/script", "est $/episode"]
     lines = ["| " + " | ".join(head) + " |", "|" + "---|" * len(head)]
     ok = [r for r in rows if r.get("samples")]
-    ok.sort(key=lambda r: -(_lookup(r, "v1_score") or 0))
+    # Technical fails sink to the bottom whatever they scored.
+    ok.sort(key=lambda r: (r.get("technical_fail") == 1.0, -(_lookup(r, "v1_score") or 0)))
     for r in ok:
-        cells = [r["model"], str(r["samples"])]
+        tf = r.get("technical_fail")
+        cells = [r["model"], str(r["samples"]),
+                 "—" if tf is None else f"**FAIL** ({r['technical_fail_reasons']})" if tf else "pass"]
         for key, _, _ in COLUMNS:
             v = _lookup(r, key)
             cells.append("—" if v is None else f"{v:.3f}" if abs(v) < 10 else f"{v:.0f}")

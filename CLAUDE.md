@@ -9,4 +9,5 @@ Public benchmark workspace. Read `paper/working-paper.md` for the design and `CH
 - Never publish a score without the judge model, benchmark version and epochs next to it.
 - Judge default lives in `models.yaml` `judge:` and `scorers.JUDGE_DEFAULT`; change both.
 - **Reuse before building.** Before adding a new measure, check for an existing eval that covers it (published scores, items, annotation schemes, Inspect ports) and record what was checked in the plan. Plans live in `plans/` (indexed in `plans/README.md`); this repo is also where benchmark plans are documented.
+- **Technical fail** = any refusal (model or provider filter); computed in `report.technical_fail()`. Never rank a technical fail; always show the column.
 - **Refusal hard rule** (`plans/003-refusal-rule.md`): any model with a refusal or provider-filter cut-off on the benchmark is out of the production round robin.
