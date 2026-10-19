@@ -160,6 +160,9 @@ A candidate should replace the current production writer (DeepSeek V4.1 Flash) o
 
 ## 8. Before the first published score
 
+Done so far (2026-10-19): a judged baseline of 31 aired `lite` scripts, with the Opus-written ones excluded (`results/README.md`). The judge parsed every script and spread its scores across writers. Every writer averaged below 3 on the priority axes, and `long_form_coherence` was the weakest axis for most of them, which is the expected shape.
+
+
 1. Run the judge calibration in §7 with two judge families.
 2. Run the `v1` roster on `lite` as a smoke test, then on `full` with `--epochs 3`.
 3. Read the top and bottom scripts by hand; check the judge's quoted evidence against them.

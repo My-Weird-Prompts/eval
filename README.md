@@ -5,7 +5,7 @@ Workspace for **MWP-Script**, a proposed benchmark for one skill most evals skip
 It comes from [*My Weird Prompts*](https://myweirdprompts.com), a podcast written entirely by language models. Over its first year the show ran on more than twenty script-writing models doing the same task in the same format, and it needs a principled way to choose the next one.
 
 - **Read first:** [the working paper](paper/working-paper.md) — the task, the mechanism, the headline score, the criteria for adopting a writer, threats to validity, and the roadmap.
-- **Status (2026-10-19):** proposal. The V1 harness runs end to end (checked offline with a mock model). **No model scores are published yet**; judge calibration and the first roster run come first (paper §8).
+- **Status (2026-10-19):** proposal. The V1 harness runs end to end (checked offline with a mock model). **No model scores are published yet**; judge calibration and the first roster run come first (paper §8). A first judged baseline of the *aired* scripts (Opus 5.5 judge, 31 scripts, $2.86) is in [`results/`](results/README.md).
 
 ## Data
 
