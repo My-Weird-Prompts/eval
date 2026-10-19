@@ -19,6 +19,9 @@ V1 loads `episodes-eval` straight from Hugging Face, pinned to revision `73bf102
 
 ## The funnel
 
+Start with **[`docs/selection-criteria.md`](docs/selection-criteria.md)**: what a script writer must be (no refusals or censorship, newest generation only, callable, at least 40k context, within budget) and what makes a good one, in ranked order.
+
+
 Candidates move through cheap-to-expensive stages, each with a gate:
 
 0. desk screen;

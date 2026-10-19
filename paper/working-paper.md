@@ -118,11 +118,13 @@ A second failure mode turned up in the first screen and is now measured too. **H
 
 ### 4.6 Stepwise evaluation: the funnel
 
+**The brief comes first.** The selection criteria are in [`docs/selection-criteria.md`](../docs/selection-criteria.md): five hard requirements (no refusal or censorship, newest generation only, callable, at least 40k context, within budget) and six ranked qualities. Every stage reads its candidates against them.
+
 Candidates go through stages that get dearer and narrower. Each stage has a gate, and a model that fails stops there, so money is spent only on models that could still win. A failure at any stage goes into `exclusions.json`, so the model is never re-run without a reason.
 
 | Stage | What | Cost per model | Gate to pass | Tooling |
 |---|---|---|---|---|
-| **0. Desk screen** | Catalogue sweep: OpenRouter, other platforms, HF. Public boards: EQ-Bench Creative Writing v3 and Longform, Lech Mazur, UGI, Arena, SpeechMap. | free | Within budget. A plausible writing signal on at least one board, *or* new and unscored. Not already excluded. | `model_scan.py --budget --exclude-file`, `docs/candidates-<date>.md` |
+| **0. Desk screen** | Catalogue sweep: OpenRouter, other platforms, HF. Public boards, read by the criteria's axes: long-output coherence, long-context comprehension, creative quality, character consistency, willingness. | free | Hard requirements H2 (newest generation), H4 and H5. A plausible writing signal, or new from a creative-capable lab. Not already excluded. | `model_scan.py --budget --exclude-file`, `docs/candidates-<date>.md` |
 | **1. Liveness and routing** | One short call: is the model reachable from Israel, allowed by the data policy, which reasoning mode does it accept, and which host serves it? | ~$0.001 | Callable with acceptable routing (no fp4 host, no geo-block) | one-off probe call |
 | **2. Censorship gate** | ~155 short answers (deccp, ccp, xstest), labelled by a cheap classifier, under the routing production would use | ~$0.10–0.50 | No technical fail (§5.2, `plans/003`) | `run_censorship.py`, `report_censorship.py` |
 | **3. Episode screen** | 3 full scripts: one ordinary prompt plus a China probe and a US probe. Judged on the rubric and the probes. | ~$0.50 | No technical fail. Priority score not clearly below the baseline. Length problems are noted, since a trim pass or a prompt can fix them. | `run.py --subset screen` |
