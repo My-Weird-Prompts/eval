@@ -6,6 +6,8 @@ Full per-sample results (scripts, judge reasoning, every score) are published on
 
 ## `bakeoff-2026-10-19`: budget bakeoff, the five contenders, and the verdict
 
+**Reading copy (PDF, 166 pages; print or tablet):** [`reports/bakeoff-2026-10-19.pdf`](../reports/bakeoff-2026-10-19.pdf). Run → prompt → model → script, with run, model and page in the footer. Judge scores are in an appendix at the end. Built with `scripts/build_bakeoff_pdf.py`.
+
 Each contender wrote 3 ordinary prompts from `lite`, under the three-sample rule, judged by Opus 5.5 on the rubric only. Spend was about $1.75. DeepSeek was not run: it's out of the evaluation.
 
 | model | cost vs DeepSeek / episode | V1 score | on length | priority | **holds the middle** | **fun** | candour | liveness | len ratio |
