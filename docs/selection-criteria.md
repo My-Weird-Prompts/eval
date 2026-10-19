@@ -26,7 +26,13 @@ Apart from refusals, the deciding qualities are two: **vivid, genuinely fun dial
 - **Keep the history.** Every run goes into `results/README.md`, every exit into `exclusions.json`, and samples into the HF results datasets. Nothing is deleted, including partial or aborted runs.
 - **Budget per evaluation step: about $2–5.** State the cost before running.
 
-## Hard requirements (fail any one and the model is out)
+## Two roles: writer and accessory (Daniel, 2026-10-19)
+
+The pipeline uses **two different models**:
+- **Writer:** writes the dialogue, and the trim and expand passes follow it. This page is about the writer. Currently **GPT-6.1 Sol** (OpenAI).
+- **Accessory:** prompt enhancement, the research agent, planning, metadata, tagging, memory extraction. It must be **cheap, non-Chinese** (the censorship rule H1 applies, since a censoring researcher hands the writer sanitised material), good at **long context and tool calls**, and preferably from a **different vendor** from the writer, so one outage can't take down both. Dialogue quality doesn't matter for this role. Currently **Claude Haiku 5.5** (Anthropic), chosen 2026-10-19 to replace DeepSeek V4.1 Flash. That's about $0.032 per episode for these stages at list price, against ~$0.025 on DeepSeek.
+
+
 
 | # | Requirement | How it's checked | Stage |
 |---|---|---|---|
