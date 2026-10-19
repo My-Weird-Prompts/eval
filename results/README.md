@@ -4,6 +4,10 @@ No full V1 leaderboard exists yet. Below are a 3-sample screen and a judged base
 
 Full per-sample results (scripts, judge reasoning, every score) are published on Hugging Face: [`My-Weird-Prompts/mwp-script-results`](https://huggingface.co/datasets/My-Weird-Prompts/mwp-script-results). This page summarises them.
 
+## `on-air-toast-2026-10-19`: four-model mini-eval aired as an episode
+
+One toast prompt, one sample each, judged by the hosts on air rather than by rubric. Sol was the only fully correct script. DeepSeek and GPT-3.5 invented their evidence. Haiku got the answer wrong. Details: [`on-air-toast-2026-10-19/`](on-air-toast-2026-10-19/README.md).
+
 ## `bakeoff-2026-10-19`: budget bakeoff, the five contenders, and the verdict
 
 **Reading copy (PDF, 166 pages; print or tablet):** [`reports/bakeoff-2026-10-19.pdf`](../reports/bakeoff-2026-10-19.pdf). Run → prompt → model → script, with run, model and page in the footer. Judge scores are in an appendix at the end. Built with `scripts/build_bakeoff_pdf.py`.

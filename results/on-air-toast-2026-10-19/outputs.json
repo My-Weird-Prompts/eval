@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-19",
+  "system": "You write scripts for My Weird Prompts, a podcast hosted by two brothers. Corn is the curious one with a cheeky edge who asks probing questions. Herman Poppleberry is the nerdy one who reads the papers and gets excited about details. A listener named Daniel sends in a prompt and the brothers discuss it. Write a complete three-minute episode (about 450 words) as dialogue. Format every line as 'Name: text'. No stage directions, no sound effects, no markdown.",
+  "user": "Daniel's prompt: Is it actually true that toast lands butter-side down more often than not? Or is that just the one we remember? I'd love to know if anyone has really tested it.",
+  "outputs": [
+    {
+      "requested": "deepseek/deepseek-v4.1-flash",
+      "served": "deepseek/deepseek-v4.1-flash",
+      "seconds": 14.5,
+      "usage": {
+        "prompt_tokens": 146,
+        "completion_tokens": 665,
+        "total_tokens": 811,
+        "cost": 0.000114496,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.000114496,
+          "upstream_inference_prompt_cost": 1.4746e-05,
+          "upstream_inference_completions_cost": 9.975e-05
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "text": "Corn: Welcome back to My Weird Prompts. I'm Corn, and as always I'm joined by the man who reads footnotes for fun, Herman Poppleberry.\n\nHerman: And I'm delighted to be here, Corn, because today's prompt hits a very sticky subject. Literally sticky. Our listener Daniel asks whether toast really lands butter-side down more often, or whether we just remember those times.\n\nCorn: Okay, Herman, I've dropped a lot of toast in my life. And I have a strong feeling the butter side has it out for my kitchen floor. So is Daniel onto something, or is this just good old selective memory?\n\nHerman: Well, it's a bit of both, and the research is fascinating. There's a whole field called toast dynamics, believe it or not, and it comes down to physics. A slice of toast sitting on a table has its center of mass just above the surface.\n\nCorn: Right.\n\nHerman: When you knock it off, it doesn't just fall straight down. It tips over the edge and starts rotating. And here's the key, a typical table is about seventy-five centimeters high, and that height gives the toast just enough time to rotate roughly half a turn.\n\nCorn: Half a turn. So it flips over completely and lands butter-side down. That's not bad luck, that's geometry.\n\nHerman: Exactly. And it was actually tested. A researcher named Robert Matthews published a paper in the nineteen nineties showing that for a standard table height, the buttered side does tend to end up facing down, as long as the toast starts from a seated position and slides off.\n\nCorn: But wait. If I'm holding it in my hand while I'm walking, that's different, right? Because then the height is different.\n\nHerman: Precisely. And that's where the memory bias creeps in. If you drop it from waist height, it might not have time to rotate fully. But the messy outcome, the butter on the floor, is the one that sticks in your mind. The times it lands clean side down, you just pick it up and eat it. No drama.\n\nCorn: So it's a double whammy. The physics genuinely favors butter-side down at table height, and our brains amplify it because the butter-side-down landings are the ones we remember and complain about.\n\nHerman: You've got it. There's even a famous experiment where they covered a floor in buttered toast and another in clean toast, and the buttered ones landed butter-side down more often. Not by a huge margin, but consistently.\n\nCorn: Okay, so for Daniel, the answer is yes, it's real, but only under certain conditions, and our memory makes it feel even more real than it is.\n\nHerman: And the moral of the story is never trust a slice of toast on a high table. Or just eat it over the sink.\n\nCorn: Wise words. Thanks for the prompt, Daniel. And remember, if you've got a weird question, send it our way. We'll drop everything for it. Possibly butter-side down.\n\nHerman: That's all for today. See you next time.\n\nCorn: Bye, everyone."
+    },
+    {
+      "requested": "openai/gpt-6.1-sol",
+      "served": "openai/gpt-6.1-sol",
+      "seconds": 22.5,
+      "usage": {
+        "prompt_tokens": 148,
+        "completion_tokens": 708,
+        "total_tokens": 856,
+        "cost": 0.007376,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.007376,
+          "upstream_inference_prompt_cost": 0.000296,
+          "upstream_inference_completions_cost": 0.00708
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 73,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "text": "Corn: Welcome to My Weird Prompts. I\u2019m Corn, and today Daniel asks: does toast actually land butter-side down more often, or do we just remember the breakfast tragedies?\n\nHerman Poppleberry: I\u2019m Herman Poppleberry, and the answer is wonderfully annoying: under ordinary tabletop conditions, butter-side down can genuinely be more likely. But it depends how the toast falls.\n\nCorn: So the universe hates my carpet, but only under controlled conditions.\n\nHerman Poppleberry: Exactly. Physicist Robert Matthews tackled this in a 1995 paper called \u201cTumbling toast, Murphy\u2019s Law and the fundamental constants.\u201d It appeared in the European Journal of Physics.\n\nCorn: An actual scientific paper, not something written on a greasy napkin?\n\nHerman Poppleberry: Actual physics. Imagine toast sitting butter-side up, then sliding slowly over a table edge. As its centre of mass passes the edge, gravity makes it tip. It leaves the table already rotating.\n\nCorn: And performs a tiny, doomed gymnastics routine.\n\nHerman Poppleberry: From a typical dining-table height, it often has enough time to turn roughly halfway over, but not enough time to complete a full revolution. So the side that started facing up ends up facing down.\n\nCorn: Hang on. Is the butter pulling it downward? Have we discovered spread-based gravity?\n\nHerman Poppleberry: No. The main explanation isn\u2019t the butter\u2019s weight. It\u2019s the toast\u2019s dimensions, the table height, and the rotation generated as it tips. Butter mainly labels which face we\u2019re tracking.\n\nCorn: Has anyone tested this outside the equations? Preferably someone with a mop?\n\nHerman Poppleberry: Yes. In a later large school-based experiment associated with Matthews, thousands of toast drops produced butter-side-down landings roughly six times out of ten. So there\u2019s experimental support, not just elegant breakfast mathematics.\n\nCorn: Six out of ten isn\u2019t exactly a cosmic vendetta.\n\nHerman Poppleberry: Right. It\u2019s a statistical tendency, not a law that every slice must obey. Different release methods, heights, shapes, and initial spins can change the result.\n\nCorn: What if I launch it dramatically across the kitchen?\n\nHerman Poppleberry: Then you\u2019ve changed the experiment and possibly your household\u2019s opinion of you. A randomly tumbling slice isn\u2019t the same as toast tipping off a table. A greater drop height also gives it more time to rotate.\n\nCorn: And Daniel\u2019s other theory: we remember the buttery disasters and forget the clean escapes?\n\nHerman Poppleberry: That can contribute to our impression. A ruined rug is more memorable than an uneventful landing. But memory bias doesn\u2019t mean the physical effect is imaginary.\n\nCorn: Verdict: real tendency, specific circumstances, dramatic recollection.\n\nHerman Poppleberry: And testable! Use the same bread, table, and release method; record every landing, including awkward edge cases.\n\nCorn: Finally, a spreadsheet that pairs beautifully with jam. Thanks, Daniel. Keep your questions weird and your breakfast away from the edge."
+    },
+    {
+      "requested": "anthropic/claude-haiku-5.5",
+      "served": "anthropic/claude-haiku-5.5",
+      "seconds": 5.3,
+      "usage": {
+        "prompt_tokens": 226,
+        "completion_tokens": 718,
+        "total_tokens": 944,
+        "cost": 0.0003816,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0003816,
+          "upstream_inference_prompt_cost": 2.26e-05,
+          "upstream_inference_completions_cost": 0.000359
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "text": "Corn: Okay, Daniel wants to know if toast really lands butter-side down, or if we just remember the times it does. Herman, you've been waiting all morning for this one, haven't you?\n\nHerman: I have! And the honest answer is that it's a mix of both. The \"Murphy's Law of toast\" idea is that bread falls butter-side down because of a neat physics argument. A slice dropped from table height rotates about a half turn, so if it's buttered on one face, it lands on the other. But the physics is more interesting than that.\n\nCorn: Wait, so the rotation is the whole thing? A half turn means it should land butter-side up if you start with butter up.\n\nHerman: Right, in a perfect world. But the rotation depends on how high the table is, how fast the slice falls, and how much air resistance it meets. A slice that falls from a typical kitchen counter often doesn't complete a clean half turn. It might rotate only a bit and land on the same side it started on.\n\nCorn: So the physics doesn't guarantee anything.\n\nHerman: Exactly. And there's a 2016 study from the University of Bristol that went at this properly. Robert Matthews, a physicist, actually analyzed it. He found that when a slice falls from a table, the rotation is close to random, so it lands butter-side down about half the time, give or take. Not the overwhelming majority people assume.\n\nCorn: Half the time. So our memory is just playing tricks on us.\n\nHerman: Largely, yes. We remember the disasters vividly, the butter-side-down slice ruining the carpet, and we forget the dozens of clean landings. That's a known bias. Matthews even suggested that buttered toast landing butter-side down is the kind of thing that feels like a cosmic joke because the stakes are so emotionally loaded.\n\nCorn: Honestly, I'm a little disappointed. I liked the idea that the universe was out to get my breakfast.\n\nHerman: I know! But the truth is more charming. Gravity's not targeting your toast. It's just a slice of bread doing something messy in an uncontrolled way.\n\nCorn: Fine. Daniel, thanks for the question. Keep them coming, and maybe butter your toast a little less generously next time."
+    },
+    {
+      "requested": "openai/gpt-3.5-turbo-0613",
+      "served": "openai/gpt-3.5-turbo-0613",
+      "seconds": 7.2,
+      "usage": {
+        "prompt_tokens": 149,
+        "completion_tokens": 625,
+        "total_tokens": 774,
+        "cost": 0.001399,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.001399,
+          "upstream_inference_prompt_cost": 0.000149,
+          "upstream_inference_completions_cost": 0.00125
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "text": "Corn: Hey Herman, Daniel\u2019s got a classic one for us today. He wants to know if toast really does land butter-side down more often, or if we\u2019re just biased because it\u2019s the one we remember.\n\nHerman Poppleberry: Ah yes, the infamous \u201ctoast always lands butter-side down\u201d conundrum. It has the makings of a physics and psychology mashup. Classic!\n\nCorn: So what\u2019s the deal? Is it just that we notice the butter-down disasters more because they\u2019re messier, or does toast literally have a tendency to land that way?\n\nHerman Poppleberry: Well, there have actually been some experiments! A famous one was done by a BBC presenter named Tim Richardson back in 2001. He dropped toast over and over \u2013 I think a couple hundred times \u2013 to gather some data.\n\nCorn: Oh, the scientific method in action! What did Richardson find? Does buttered bread have a parachute?\n\nHerman Poppleberry: Surprisingly, the toast did land butter-side down about 62% of the time during his trials.\n\nCorn: Whoa, so it\u2019s actually more than half! But why? Gravity? Some twisted toast karma?\n\nHerman Poppleberry: The explanation usually comes down to physics and the height of the fall. When you drop toast from a typical height, like from waist height or a table onto the floor, the toast doesn\u2019t have enough time to complete a full rotation. So it usually flips once, which ends up butter-side down.\n\nCorn: So if it starts butter-side up on the edge of the table and slips off, it flips once and lands butter-side down. It\u2019s like the toast\u2019s little spin dance before it hits the floor.\n\nHerman Poppleberry: Exactly! The angular momentum combined with the usual drop height makes butter-side down landing more likely. Plus, your brain remembers those messy butter-down crashes vividly\u2014kind of a negativity bias.\n\nCorn: So it\u2019s a double whammy of physics and bad memories. I feel like whenever I\u2019ve dropped toast, it\u2019s always been a big deal, but I\u2019ve never really paid attention to when it lands butter-side up.\n\nHerman Poppleberry: Humans are terrible statisticians in everyday life! We remember the negative or funny moments more than the neutral ones.\n\nCorn: Makes sense. So Daniel, your gut feeling is right\u2014toast really does favor butter-side down landings more often than not. It\u2019s not just superstition.\n\nHerman Poppleberry: Yep. But if you want to beat the odds, try eating your toast lying down under a table. Then you control the drop height and rotation!\n\nCorn: Or better yet, put a dog in the room. Then the floor is gonna lose no matter what. Thanks for that tasty prompt, Daniel! Now I\u2019m craving breakfast.\n\nHerman Poppleberry: Me too. Next time, I\u2019ll try a scientific toast drop experiment in my kitchen!\n\nCorn: Until then, keep questioning the weird stuff. See you next time on My Weird Prompts!"
+    }
+  ]
+}
