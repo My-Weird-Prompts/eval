@@ -3,8 +3,7 @@
   "qwen/qwen3.8-flash": "technical fail 2026-10-19: refused + Alibaba provider filter (screen-2026-10-19)",
   "minimax/minimax-m3": "technical fail 2026-10-19: GMICloud provider filter on cn-tiananmen (screen-2026-10-19)",
   "sakana/fugu-max": "blocked 2026-10-19: Sakana geo-blocks Israel (403)",
-  "meta/muse-spark-1.3": "blocked: org no-training data policy removes the only endpoint",
-  "meta/muse-spark-1.3-contributor": "blocked: org no-training data policy",
+  "meta/muse-spark-1.3-contributor": "blocked: contributor tier implies data sharing (org no-training policy)",
   "openai/gpt-6.1-sol": "screened 2026-10-19 (screen-2026-10-19); passed, rerun only for a full V1 run",
   "moonshotai/kimi-k3": "screened 2026-10-19 (screen-2026-10-19); passed",
   "google/gemini-4-argon": "screened 2026-10-19 (screen-2026-10-19); passed, over-length",
@@ -29,7 +28,7 @@
   "aion-labs/aion-3.5-mini": "technical fail 2026-10-19: refused 17 factual deccp questions (censorship-2026-10-19)",
   "openai/gpt-5.6-luna": "superseded (newest-generation rule H2, 2026-10-19): GPT-6 generation available (gpt-6-luna in pool; gpt-6.1-sol screened). Was the stage-3 value pick.",
   "x-ai/grok-4.7": "screened 2026-10-19 (screen-2026-10-19b); passed censorship; best quality, over-length",
-  "meta/muse-spark-1.2": "screened 2026-10-19 (screen-2026-10-19b); passed; on length",
+  "meta/muse-spark-1.2": "superseded (H2): Muse Spark 1.3 callable again (verified 2026-10-19). Was screened (screen-2026-10-19b): on length, V1 50.",
   "google/gemini-3.7-flash": "superseded (newest-generation rule H2, 2026-10-19): Gemini 3.8 Flash available (in pool). Passed stage 3, over-length.",
   "meta/muse-glimmer-30b": "screened 2026-10-19 (screen-2026-10-19b); passed; short and flat",
   "openai/gpt-5*": "superseded (newest-generation rule H2, 2026-10-19): GPT-6 generation available",
@@ -54,5 +53,7 @@
   "mistralai/mistral-small-3*": "superseded (newest-generation rule H2, 2026-10-19): newer Mistral generation available",
   "mistralai/mistral-large-2*": "superseded (newest-generation rule H2, 2026-10-19): Mistral Large 4 available",
   "nousresearch/hermes-3*": "superseded (newest-generation rule H2, 2026-10-19): Hermes 4 available",
-  "thinkingmachines/inkling-small": "deprioritised: same generation as inkling; keep only if inkling is shortlisted"
+  "thinkingmachines/inkling-small": "deprioritised: same generation as inkling; keep only if inkling is shortlisted",
+  "meta/muse-spark-open": "deprioritised (prior): OpenRouter describes it as coding-optimised. Censorship partial run 2026-10-19: 90/90 factual answered.",
+  "deepseek/*": "out of the evaluation (Daniel, 2026-10-19): fails censorship (1% factual answered straight); no baseline runs"
 }

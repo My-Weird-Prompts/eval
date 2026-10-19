@@ -13,11 +13,24 @@ One LLM call writes a whole episode:
 
 It is **creative writing**, not analysis, coding or agentic work. A model's general benchmark rank says little about this job.
 
+## What we're really looking for (Daniel, 2026-10-19)
+
+Apart from refusals, the deciding qualities are two: **vivid, genuinely fun dialogue**, and **holding the long context through the middle**. One or two focused runs on a few contenders can tell those apart. Wide, repetitive sweeps across many models add little.
+
+## How to run evaluations (Daniel, 2026-10-19)
+
+- **Three samples per model per evaluation** by default: enough to see a trend and rule out a one-off fluke, and quick enough to change course. Use more only when targeting one specific behaviour.
+- **Few contenders, focused runs.** Shortlist on paper first, then run the 3-sample screen on 3–5 models. Prefer one decisive run over several wide ones.
+- **Censorship testing is for Chinese-origin or unknown labs.** Western labs, Meta included, aren't a censorship concern; at most a quick probe.
+- **No incumbent baseline runs.** DeepSeek is out of the evaluation and isn't re-run as a baseline. Compare contenders with each other and with the aired scripts.
+- **Keep the history.** Every run goes into `results/README.md`, every exit into `exclusions.json`, and samples into the HF results datasets. Nothing is deleted, including partial or aborted runs.
+- **Budget per evaluation step: about $2–5.** State the cost before running.
+
 ## Hard requirements (fail any one and the model is out)
 
 | # | Requirement | How it's checked | Stage |
 |---|---|---|---|
-| H1 | **No refusals and no censorship.** That covers refusals by the model and filtering by the host, whose content filter can cut a script off. Any refusal is a technical fail, and the model never enters the round robin. | Censorship gate (`run_censorship.py`, both readings, `plans/003`); probes in the episode screen | 2, 3 |
+| H1 | **No refusals and no censorship.** That covers refusals by the model and filtering by the host, whose content filter can cut a script off. Any refusal is a technical fail, and the model never enters the round robin. | Censorship gate (`run_censorship.py`) for Chinese-origin or unknown labs; the probes in the episode screen for everyone | 2, 3 |
 | H2 | **Newest generation only.** If a newer generation of the family is available to us, the older one isn't considered, however cheap. A cheaper newer model beats a cheaper older one. The exception is when the newest is not callable for us (geo-block, data policy), e.g. Muse Spark 1.3 is blocked, so 1.2 is allowed. | Desk check against the provider's catalogue; `exclusions.json` "superseded" entries | 0 |
 | H3 | **Callable for us:** from Israel, under the org's no-training data policy, and on a host that isn't fp4. Reasoning must be **controllable**. A candidate is evaluated with a stated reasoning setting: off, low or medium. Reasoning off badly hurts long-context use on public boards (`plans/006`). | One short live call | 1 |
 | H4 | **Context window of at least 40k**, and the model accepts a ~28k prompt with ~10k of output room | Catalogue | 0 |
@@ -36,8 +49,7 @@ It is **creative writing**, not analysis, coding or agentic work. A model's gene
 5. **Length discipline.** It lands near the target in one pass. Overshoot and undershoot both cost a fix-up pass.
    *Signals:* `length_ratio`, gate pass rate. Over-length is fixable (trim pass, prompt), so it's a cost, not a veto.
 6. **Cost.** est $/episode, after quality. A cheaper model only wins at equal quality. Thinking tokens count.
-7. **Perspective.** It doesn't default to American assumptions and doesn't slant on Israel/Palestine. The producer is in Jerusalem.
-   *Signals:* perspective lenses (`plans/005`, reused from Dan-Eval): US-centrism index, Israel/Palestine lean and refusal asymmetry; the `us` episode probes. These are graded, not a gate, until calibrated.
+(*Perspective*, meaning American centrism and Israel/Palestine framing, is Daniel's personal preference. It lives in his own benchmark, Dan-Eval, **not** in MWP selection (2026-10-19). The `bias_short` code stays available but isn't part of the funnel; see `plans/005`.)
 
 ## Priors (deprioritise, don't ban)
 

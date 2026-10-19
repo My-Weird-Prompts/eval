@@ -4,6 +4,24 @@ No full V1 leaderboard exists yet. Below are a 3-sample screen and a judged base
 
 Full per-sample results (scripts, judge reasoning, every score) are published on Hugging Face: [`My-Weird-Prompts/mwp-script-results`](https://huggingface.co/datasets/My-Weird-Prompts/mwp-script-results). This page summarises them.
 
+## `bakeoff-2026-10-19`: budget bakeoff, the five contenders, and the verdict
+
+Each contender wrote 3 ordinary prompts from `lite`, under the three-sample rule, judged by Opus 5.5 on the rubric only. Spend was about $1.75. DeepSeek was not run: it's out of the evaluation.
+
+| model | cost vs DeepSeek / episode | V1 score | on length | priority | **holds the middle** | **fun** | candour | liveness | len ratio |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| **`openai/gpt-6.1-sol`** | 163% | **58** | 3/3 | 3.33 | **4.00** | 3.0 | 3.0 | 2.78 | 0.89 |
+| **`meta/muse-spark-1.3`** | **133%** | 53 | 3/3 | 3.11 | 3.00 | 3.0 | 3.3 | 2.22 | 0.96 |
+| `x-ai/grok-4.7` | 167% | 0 | 0/3 | **3.44** | 2.67 | **3.3** | **4.3** | **3.00** | 1.57 |
+| `google/gemini-3.8-flash` | 128% | 0 | 0/3 | 3.22 | 2.33 | **3.3** | 4.0 | 2.44 | 1.58 |
+| `openai/gpt-6-luna` (reasoning low) | ~100% | 0 | 0/3 | 2.33 | 2.33 | 2.7 | 2.0 | 1.89 | 1.59 |
+
+**Verdict (informal, Claude as judge, 2026-10-19), combining this run with the screens:**
+- **Best option: GPT-6.1 Sol.** It held the middle best in every run (4.0 out of 5, twice) and stayed on length 6 of 6 times. Fun is mid (3.0). It costs about 1.6× today's episode cost.
+- **Value pick: Muse Spark 1.3.** On length 3 of 3 (and 1.2 was 3 of 3 before it), with solid quality at about 1.3×. Its weakness is co-host agency (1.7): one host leads.
+- **Most fun, but undisciplined: Grok 4.7 and Gemini 3.8 Flash.** They're the liveliest and frankest, but write about 1.6× the target length every time, and hold the middle worse. Production's trim pass could fix length, but trimming costs money and risks recycling.
+- **GPT-6 Luna**, even with reasoning on low, is the weakest writer here.
+
 ## `screen-2026-10-19b`: second screen, the five candidates that passed censorship
 
 Each wrote three scripts from the `screen` subset (one ordinary prompt plus the two probes), judged by Opus 5.5. Spend was $2.68: $0.36 on generation and $2.32 on judging.

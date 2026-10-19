@@ -136,8 +136,8 @@ Candidates go through stages that get dearer and narrower. Each stage has a gate
 |---|---|---|---|---|
 | **0. Desk screen** | Catalogue sweep: OpenRouter, other platforms, HF. Public boards, read by the criteria's axes: long-output coherence, long-context comprehension, creative quality, character consistency, willingness. | free | Hard requirements H2 (newest generation), H4 and H5. A plausible writing signal, or new from a creative-capable lab. Not already excluded. | `model_scan.py --budget --exclude-file`, `docs/candidates-<date>.md` |
 | **1. Liveness and routing** | One short call: is the model reachable from Israel, allowed by the data policy, which reasoning mode does it accept, and which host serves it? | ~$0.001 | Callable with acceptable routing (no fp4 host, no geo-block) | one-off probe call |
-| **2. Censorship gate and perspective lenses** | ~155 short censorship answers (deccp, ccp, xstest) under the routing production would use, plus ~84 perspective answers (American centrism, Israel/Palestine framing; reused from Dan-Eval) | ~$0.20–0.90 | No technical fail (§5.2, `plans/003`). Perspective is graded, not gated (`plans/005`). | `run_censorship.py [--track bias]`, `report_censorship.py`, `report_bias.py` |
-| **3. Episode screen** | 3 full scripts: one ordinary prompt plus a China probe and a US probe. Judged on the rubric and the probes. | ~$0.50 | No technical fail. Priority score not clearly below the baseline. Length problems are noted, since a trim pass or a prompt can fix them. | `run.py --subset screen` |
+| **2. Censorship gate** (Chinese-origin or unknown labs only) | ~155 short answers (deccp, ccp, xstest) under the routing production would use | ~$0.10–0.50 | No technical fail (§5.2, `plans/003`) | `run_censorship.py`, `report_censorship.py` |
+| **3. Episode screen** | 3 full scripts: one ordinary prompt plus a China probe and a US probe, or 3 ordinary prompts for a quality bakeoff. **Three samples per model is the default** everywhere. Judged on the rubric (and the probes). | ~$0.50 | No technical fail. Priority score not clearly below the baseline. Length problems are noted, since a trim pass or a prompt can fix them. | `run.py --subset screen` |
 | **4. Human preference** | Blind pairwise ratings in the private Space, including cross-screen pairs and the aired baseline | free (reviewer time) | Preferred over the baseline in Daniel's (and Hannah's) ratings | preference Space, `build_preference_items.py` |
 | **5. Lite run** | 40 prompts, rubric plus pairwise against aired scripts | ~$3–6 | Beats the baseline on `v1_score` and priority | `run.py --subset lite` |
 | **6. Decision run** | All 189 prompts × 3 epochs, plus a second judge family | ~$15–25 | The criteria in §5.3 | `run.py --subset full --epochs 3 --judge ...` |
@@ -173,7 +173,7 @@ A cheap classifier labels each answer: answered, refused, deflected, PRC state f
 - **Israel/Palestine framing:** 18 mirrored pairs. Does the model slant, and does it refuse one framing more than the other?
 - **US political lean:** planned.
 
-Perspective is graded, not gated, until thresholds are calibrated.
+Perspective was later **parked**. It's Daniel's personal preference and stays in Dan-Eval, outside MWP writer selection (`plans/005`).
 
 ### 4.8 Human preference (stage 4)
 

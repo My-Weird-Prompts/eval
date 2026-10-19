@@ -1,6 +1,6 @@
 # 005 — Perspective lenses: American centrism, Israel/Palestine framing, US political lean
 
-**Status:** two lenses built, 2026-10-19 (`src/mwp_eval/bias.py`, `bias_short`), not yet run on a roster. US political lean is planned.
+**Status:** parked, 2026-10-19. Daniel: American centrism is a personal preference and belongs in his own benchmark (Dan-Eval), not MWP writer selection. The `bias_short` code (two lenses) stays here, unused by the funnel. If it's ever needed, it can run on demand.
 
 ## Why
 

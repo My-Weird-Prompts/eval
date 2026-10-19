@@ -252,3 +252,24 @@ models:
     tags: [candidate]
     args: {reasoning_enabled: true}
     config: {reasoning_effort: low}
+  # --- `final` (2026-10-19 budget bakeoff: 3 lite prompts, rubric only) -----
+  - id: openai/gpt-6.1-sol             # reasoning off rejected on OpenRouter
+    tags: [final]
+    args: {reasoning_enabled: true}
+    config: {reasoning_effort: low}
+  - id: meta/muse-spark-1.3            # callable again 2026-10-19; supersedes 1.2
+    tags: [final]
+    args: {reasoning_enabled: true}
+    config: {reasoning_effort: low}
+  - id: x-ai/grok-4.7
+    tags: [final]
+    args: {reasoning_enabled: true}
+    config: {reasoning_effort: low}
+  - id: google/gemini-3.8-flash        # production routing; reasoning mandatory
+    tags: [final]
+    args: {reasoning_enabled: true, provider: {order: [google-ai-studio, google-vertex/global, google-vertex/us], allow_fallbacks: true, quantizations: [fp8, bf16, unknown]}}
+    config: {reasoning_effort: low}
+  - id: openai/gpt-6-luna              # reasoning LOW here (production runs it off): plans/006
+    tags: [final]
+    args: {reasoning_enabled: true, provider: {order: [openai, azure], allow_fallbacks: true}}
+    config: {reasoning_effort: low}
