@@ -4,6 +4,7 @@ What the benchmark should measure next and how. A plan is a proposal until it sh
 
 | # | Plan | Status |
 |---|---|---|
+| 004 | [Censorship track: separate axis and results dataset](004-censorship-track.md) | Proposed |
 | 003 | [Refusal hard rule for the round robin](003-refusal-rule.md) | Rule set 2026-10-19; round-robin models not yet probed |
 | 002 | [Human preference layer](002-human-preference.md) | Proposed |
 | 001 | [Unsolicited disclaimers and excessive hedging](001-unsolicited-disclaimers.md) | Proposed |
