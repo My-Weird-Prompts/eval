@@ -79,3 +79,37 @@ Already in the pool and worth noting: **MiMo V2.6 Pro** is 17th on Lech Mazur's 
 ## Sources
 
 EQ-Bench CW v3 https://eqbench.com/creative_writing.html · Longform https://eqbench.com/creative_writing_longform.html · SpeechMap https://speechmap.ai/models/ · UGI https://huggingface.co/spaces/DontPlanToEnd/UGI-Leaderboard · Lech Mazur https://github.com/lechmazur/writing · Arena Creative Writing https://arena.ai/leaderboard/text/creative-writing · Hemmingway-1 https://huggingface.co/Altworld/Hemmingway-1 · HF router prices https://router.huggingface.co/v1/models · DeepInfra https://api.deepinfra.com/models/list · Featherless https://api.featherless.ai/v1/models · Alibaba role-play https://www.alibabacloud.com/help/en/model-studio/role-play
+
+
+## Second sweep: by capability axis (2026-10-19, later)
+
+Two board sweeps were read against `docs/selection-criteria.md`, newest-generation rule included. One covered characters and dialogue (RP-Bench Round 4, Arena multi-turn, EQ-Bench 4, UGI); the other covered long context and long output (Context Arena MRCR v2, AA-LCR, Fiction.LiveBench, ConStory-Bench).
+
+**Boards worth using:**
+- **RP-Bench Round 4** (github.com/LeviTheWeasel/rp-benchmark; 12-turn roleplay, 27 dimensions including `consistency_over_time`). Its judge is Claude and favours Claude by about +0.2.
+- **Arena multi-turn** (human votes).
+- **Context Arena MRCR v2** (8 needles, by context bin) and **AA-LCR**: long-context use. **Read the reasoning setting**; see `plans/006`.
+
+Stale, or no 2026 models: PingPong, RPBench-Auto, CharacterEval, RoleBench, NoLiMa, RULER, LongBench v2, HELMET, WritingBench, Fiction.LiveBench (last updated April 2026).
+
+**How the contenders look on these axes:**
+
+| Model | RP-Bench R4 | Arena multi-turn | Long context |
+|---|---:|---:|---|
+| Gemini 3.8 Flash | 3.94 (A) | 1503 | AA-LCR 81.3 |
+| GPT-6 Luna | 3.94 (A) | 1440 | AA-LCR 83.3 |
+| Grok 4.7 | 3.80 (B) | 1428 | AA-LCR 76.7, the lowest of the frontier set |
+| Muse Spark 1.2 | — | 1514 | MRCR 90 at 32k, but 65–73 at 64k |
+| Haiku 5.5 | — | — | AA-LCR 82.7 |
+
+**New after H2 and the priors:**
+- **Muse Spark Open** (`meta/muse-spark-open`, released 2026-10-15, ~$0.06/script, AA-LCR 78.3). It is Meta's newest callable release and may supersede 1.2. To stage 2.
+- **Claude Sonnet 5.5** (~$0.12/script, so over H5; batch is ~$0.06 but has hours of latency). Its family leads RP-Bench consistency, and Sonnet 5 scores Longform 78.3 with almost no decay. A premium option, Daniel's call.
+- **Inkling** (~$0.05): Longform 72.5, AA-LCR 77.3, natural voice on EQ-Bench 4. Marginal.
+- **Reflection Beam 1.0** (~$0.045, released 2026-10-16): AA-LCR 78, no writing evidence. Stage 2 only if cheap enough to be worth a look.
+
+**Superseded (H2) or ruled out by priors:**
+- Superseded: Claude Sonnet 5, GPT-6 Sol, GPT-5.6 Terra, Grok 4.6, Gemini 3.5/3.6 Flash, Gemini 3.1/3.5 Flash-Lite, Muse Spark 1.1, GPT-4.1.
+- Weak at writing: Mistral Large 4 (Lech #45, misses length targets).
+- Weak at 32k: Gemma 4, Solar Pro 4.
+- Built on Chinese bases: Fireworks Ember-1 (Kimi K3), Aion 3.5 (GLM).

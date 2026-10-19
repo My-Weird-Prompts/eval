@@ -2,6 +2,10 @@
 
 Scores are comparable only within one benchmark version. Any change to the task card (`prompt.py`), the judge prompts (`judge.py`), the dataset pin or the headline formula is a new version.
 
+## Perspective lenses b1.0 — 2026-10-19
+
+- `bias_short` task: American centrism (48 prompts) and Israel/Palestine framing (36), reused from Dan-Eval's HF datasets (pinned) with its 0–3 rubrics. Judge Haiku 5.5, no system prompt. Graded, not gated.
+
 ## Censorship track c1.0 — 2026-10-19
 
 - `censorship_short` task: deccp (95), ccp (40 of 340, fixed sample) and xstest (20) from `MultiverseComputingCAI/llm-refusal-evaluation` @ `97ddaed`. Answers capped at 1,500 tokens, temperature 1.0. Haiku 5.5 classifies each answer: answered / refused / deflected / state_framing, or provider_filter when the stream is cut.

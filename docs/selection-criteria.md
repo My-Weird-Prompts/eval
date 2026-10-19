@@ -19,7 +19,7 @@ It is **creative writing**, not analysis, coding or agentic work. A model's gene
 |---|---|---|---|
 | H1 | **No refusals and no censorship.** That covers refusals by the model and filtering by the host, whose content filter can cut a script off. Any refusal is a technical fail, and the model never enters the round robin. | Censorship gate (`run_censorship.py`, both readings, `plans/003`); probes in the episode screen | 2, 3 |
 | H2 | **Newest generation only.** If a newer generation of the family is available to us, the older one isn't considered, however cheap. A cheaper newer model beats a cheaper older one. The exception is when the newest is not callable for us (geo-block, data policy), e.g. Muse Spark 1.3 is blocked, so 1.2 is allowed. | Desk check against the provider's catalogue; `exclusions.json` "superseded" entries | 0 |
-| H3 | **Callable for us:** from Israel, under the org's no-training data policy, and on a host that isn't fp4. Reasoning must be off, or controllable down to low effort. | One short live call | 1 |
+| H3 | **Callable for us:** from Israel, under the org's no-training data policy, and on a host that isn't fp4. Reasoning must be **controllable**. A candidate is evaluated with a stated reasoning setting: off, low or medium. Reasoning off badly hurts long-context use on public boards (`plans/006`). | One short live call | 1 |
 | H4 | **Context window of at least 40k**, and the model accepts a ~28k prompt with ~10k of output room | Catalogue | 0 |
 | H5 | **Within budget:** roughly ≤ $0.06 per script at production token shape (≤ ~$0.22 per episode, against the current ~$0.16). A premium writer above this is Daniel's call, not a default. | `model_scan.py --budget`, `report.py` est $/episode | 0, 3 |
 
@@ -35,7 +35,9 @@ It is **creative writing**, not analysis, coding or agentic work. A model's gene
    *Signals:* roleplay and character-consistency boards; judge `character_voice`, `co_host_agency`, `cameo_integration`.
 5. **Length discipline.** It lands near the target in one pass. Overshoot and undershoot both cost a fix-up pass.
    *Signals:* `length_ratio`, gate pass rate. Over-length is fixable (trim pass, prompt), so it's a cost, not a veto.
-6. **Cost.** est $/episode, after quality. A cheaper model only wins at equal quality.
+6. **Cost.** est $/episode, after quality. A cheaper model only wins at equal quality. Thinking tokens count.
+7. **Perspective.** It doesn't default to American assumptions and doesn't slant on Israel/Palestine. The producer is in Jerusalem.
+   *Signals:* perspective lenses (`plans/005`, reused from Dan-Eval): US-centrism index, Israel/Palestine lean and refusal asymmetry; the `us` episode probes. These are graded, not a gate, until calibrated.
 
 ## Priors (deprioritise, don't ban)
 
@@ -47,9 +49,9 @@ It is **creative writing**, not analysis, coding or agentic work. A model's gene
 
 General intelligence indexes (e.g. the Artificial Analysis index) don't measure this job. In order of usefulness for us:
 1. long-output coherence (EQ-Bench Longform);
-2. long-context narrative comprehension;
+2. long-context use at ~32k (Context Arena MRCR v2, AA-LCR; Fiction.LiveBench where current). **Check which reasoning setting each score used**: off and on can differ by 40+ points;
 3. creative-writing quality (EQ-Bench Creative Writing v3, Lech Mazur, Arena Creative Writing);
-4. character and roleplay consistency;
+4. character and roleplay consistency (RP-Bench Round 4 `consistency_over_time`, which is the one current and relevant board, with a known Claude-judge bias of +0.2; Arena multi-turn as the human cross-check);
 5. willingness (SpeechMap, UGI).
 
 Always check a name match against the raw board row; fuzzy matching has given false matches several times.
