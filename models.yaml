@@ -182,3 +182,73 @@ models:
     tags: [screen]
     args: {reasoning_enabled: true}
     config: {reasoning_effort: low}
+
+  # --- `pool` / `candidate` (censorship track, 2026-10-19) ---------------------
+  # `pool` = the production round robin (monorepo routes._TRIAL_CANDIDATES + the
+  # DeepSeek workhorse) with PRODUCTION routing copied from
+  # pipeline/llm/openrouter_client.py _MODEL_PROVIDER_ORDER @ 2245c30:
+  # ordered hosts, allow_fallbacks, fp8/bf16/unknown only. Reasoning as production:
+  # off, except _REASONING_MANDATORY (glm-5.3, glm-5.3-flash, gemini-3.8-flash) at low.
+  # Re-copy if production routing changes; the hard rule is about what production gets.
+  - id: deepseek/deepseek-v4.1-flash
+    tags: [pool]
+    args: {reasoning_enabled: false, provider: {order: [deepinfra/fp8, morph/fp8, atlas-cloud/fp8, streamlake/fp8, deepseek], allow_fallbacks: true, quantizations: [fp8, bf16, unknown]}}
+  - id: z-ai/glm-5.3
+    tags: [pool]
+    args: {reasoning_enabled: true, provider: {order: [sail-research/fp8, baidu/fp8], allow_fallbacks: true, quantizations: [fp8, bf16, unknown]}}
+    config: {reasoning_effort: low}
+  - id: z-ai/glm-5.2
+    tags: [pool]
+    args: {reasoning_enabled: false, provider: {order: [baidu/fp8, streamlake/fp8, novita/fp8], allow_fallbacks: true, quantizations: [fp8, bf16, unknown]}}
+  - id: z-ai/glm-5.3-flash
+    tags: [pool]
+    args: {reasoning_enabled: true, provider: {order: [streamlake/fp8, novita/fp8, gmicloud/fp8], allow_fallbacks: true, quantizations: [fp8, bf16, unknown]}}
+    config: {reasoning_effort: low}
+  - id: xiaomi/mimo-v2.6-pro
+    tags: [pool]
+    args: {reasoning_enabled: false, provider: {order: [deepinfra/fp8, novita/fp8, xiaomi/fp8], allow_fallbacks: true, quantizations: [fp8, bf16, unknown]}}
+  - id: xiaomi/mimo-v2.6-flash
+    tags: [pool]
+    args: {reasoning_enabled: false, provider: {order: [makora/fp8, deepinfra/fp8, xiaomi/fp8, novita/fp8], allow_fallbacks: true, quantizations: [fp8, bf16, unknown]}}
+  - id: inclusionai/ling-3.1-flash
+    tags: [pool]
+    args: {reasoning_enabled: false, provider: {order: [novita], allow_fallbacks: true, quantizations: [fp8, bf16, unknown]}}
+  - id: google/gemini-3.8-flash
+    tags: [pool]
+    args: {reasoning_enabled: true, provider: {order: [google-ai-studio, google-vertex/global, google-vertex/us], allow_fallbacks: true, quantizations: [fp8, bf16, unknown]}}
+    config: {reasoning_effort: low}
+  - id: anthropic/claude-haiku-5.5
+    tags: [pool]
+    args: {reasoning_enabled: false, provider: {order: [anthropic, amazon-bedrock, google-vertex], allow_fallbacks: true, quantizations: [fp8, bf16, unknown]}}
+  - id: openai/gpt-6-luna
+    tags: [pool]
+    args: {reasoning_enabled: false, provider: {order: [openai, azure], allow_fallbacks: true, quantizations: [fp8, bf16, unknown]}}
+
+  # `candidate`: shortlist from docs/candidates-2026-10-19.md, default routing
+  # minus fp4. Liveness/reasoning checked 2026-10-19 (kimi-k2.6 was served by Baidu).
+  - id: openai/gpt-5.6-luna
+    tags: [candidate]
+    args: {reasoning_enabled: false}
+  - id: moonshotai/kimi-k2.6
+    tags: [candidate]
+    args: {reasoning_enabled: false, provider: {quantizations: [bf16, fp8, unknown]}}
+  - id: meta/muse-glimmer-30b
+    tags: [candidate]
+    args: {reasoning_enabled: true, provider: {quantizations: [bf16, fp8, unknown]}}
+    config: {reasoning_effort: low}
+  - id: google/gemini-3.7-flash
+    tags: [candidate]
+    args: {reasoning_enabled: true}
+    config: {reasoning_effort: low}
+  - id: aion-labs/aion-3.5-mini
+    tags: [candidate]
+    args: {reasoning_enabled: true}
+    config: {reasoning_effort: low}
+  - id: x-ai/grok-4.7
+    tags: [candidate]
+    args: {reasoning_enabled: true}
+    config: {reasoning_effort: low}
+  - id: meta/muse-spark-1.2
+    tags: [candidate]
+    args: {reasoning_enabled: true}
+    config: {reasoning_effort: low}

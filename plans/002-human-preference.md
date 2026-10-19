@@ -1,6 +1,25 @@
 # 002 — Human preference layer
 
-**Status:** proposed, 2026-10-19.
+**Status:** tool built and live, 2026-10-19. It is seeded with opening and full-script pairs from the first screen. Continuation pairs are not built yet.
+
+## What was built (and why it isn't Argilla)
+
+- **Space:** `danielrosehill/mwp-preference`, private, Gradio 5.50 on free CPU, with HF sign-in. Source is `spaces/preference/`; deploy with `scripts/deploy_preference_space.py`.
+  - It lives in the personal namespace because HF answers 402 to an *organisation* running a Gradio or Docker Space, even on free CPU, without a Team or Enterprise plan (checked 2026-10-19).
+- **Storage:** the private Storage Bucket `My-Weird-Prompts/mwp-preference`, mounted at `/data`.
+  - `items/*.jsonl` holds the pairs to rate.
+  - `judgments/<rater>/<ts>-<pair_id>.json` holds one file per decision, with the hidden side mapping and `winner_model`.
+  - Buckets have a free tier and survive restarts.
+- **Why not Argilla:** it needs the Space's paid persistent disk, or else it loses everything on restart. Its internal database also doesn't belong on an object-storage mount. A ~150-line Gradio app plus a bucket covers a single rater for free. Reconsider Argilla if many listeners are invited to rate.
+- **Items:** `scripts/build_preference_items.py <log_dir> --push`. It pairs every two usable scripts on the same prompt and adds the aired script when one exists, as `aired:<writer>`. Kinds:
+  - `opening`: the first ~400 words, aligned by construction;
+  - `full_script`;
+  - `continuation`: planned, see below.
+
+  Models with any technical fail are left out entirely.
+- **Blinding:** the app never shows model names. The left/right side is a stable hash of (rater, pair).
+
+
 
 ## Why
 

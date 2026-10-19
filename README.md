@@ -81,6 +81,10 @@ results/                    published outputs (aired-deterministic.json so far)
 - [`My-Weird-Prompts/MWP-Script-Analysis-0926`](https://github.com/My-Weird-Prompts/MWP-Script-Analysis-0926) — the corpus study behind the repetition and tic measures.
 - The show's internal harness (private) runs the same scorers on captured production prompts; V2 aims to publish that input (paper §7).
 
+## Human preference (private tool)
+
+Blind pairwise rating of excerpts from the same prompt runs in a private Space. The app code is `spaces/preference/`; items and judgements stay in a private HF Storage Bucket. Build items from an eval log with `scripts/build_preference_items.py <log_dir> --push`. The design is in `plans/002-human-preference.md`.
+
 ## Plans
 
 Proposals and rules that are not yet code: [`plans/`](plans/README.md). The principle there applies to everything: reuse an existing evaluation before building a new one.
