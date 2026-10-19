@@ -184,6 +184,8 @@ board = load_dataset("My-Weird-Prompts/mwp-script-results", "leaderboard", split
 ranked = board.filter(lambda r: r["technical_fail"] != 1)   # drop refusals
 ```
 
+**Reading copies.** `reports/bakeoff-2026-10-19.pdf` is a printable 166-page booklet of every bakeoff script, ordered run → prompt → model → script, with the matching JSON alongside. The verdict from that bakeoff: GPT-6.1 Sol is now the show's only script writer.
+
 **Read the run notes before comparing numbers.** Runs differ in kind, size and judge. Small runs (the 3-sample screens) are for triage, not rankings.
 
 ## Runs
