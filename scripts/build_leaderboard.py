@@ -11,6 +11,9 @@ Stdlib only. Sources, in order of authority:
   into that run's rows under `extra`.
 * `results/on-air-toast-2026-10-19/README.md`: the on-air mini-eval table.
 * `results/aired-deterministic.json`: deterministic medians per aired writer.
+* `results/aired-catalogue.json`: the objective track on the aired catalogue
+  (`scripts/aired_catalogue.py`); one row per canonical writer, medians and IQRs
+  in `extra`. Per-episode rows stay in that file for drill-down.
 * `exclusions.json`: copied verbatim to `exclusions`; each row also gets the
   matching reason (exact id, or a `prefix*` / `prefix/` family key) as `exclusion`.
 * `src/mwp_eval/prompt.py`: `PROMPT_VERSION`.
@@ -50,6 +53,14 @@ CURRENT = {
 # Newest first (the README's order). `section` is the README heading id when it
 # differs from run_id.
 RUNS: list[dict] = [
+    {
+        "run_id": "aired-catalogue", "date": "2026-10-24", "kind": "aired-catalogue",
+        "benchmark_version": None, "judge": None, "spend_usd": 0.0,
+        "source": "results/aired-catalogue.json",
+        "summary": "Objective track: ScriptBench's deterministic measures on up to 20 aired, pipeline-written scripts per canonical writer model "
+                   "(public transcripts dataset), plus offline-only models as flagged rows. No judge, no spend. "
+                   "Per-episode rows are in results/aired-catalogue.json.",
+    },
     {
         "run_id": "on-air-toast-2026-10-19", "date": "2026-10-19", "kind": "on-air",
         "benchmark_version": None, "judge": None, "spend_usd": 0.01,
@@ -253,6 +264,28 @@ def build_run(meta: dict, body: str | None, exclusions: dict) -> dict:
         rows = rows_from_table(tables[0])
         for r in rows:
             r["extra"] = {("words" if k.startswith("words") else k): v for k, v in r["extra"].items()}
+    elif rid == "aired-catalogue":
+        data = json.loads((RESULTS / "aired-catalogue.json").read_text())
+        run["dataset"] = data["dataset"]
+        run["dataset_revision"] = data["dataset_revision"]
+        run["caveat"] = data["caveat"]
+        rows = []
+        for d in data["models"]:
+            row = {f: None for f in ROW_FIELDS}
+            row["model"], row["n"] = d["model"], d["n"]
+            row["len_ratio"] = d["length_ratio"]["median"]
+            row["on_length"] = f"{round(d['on_length_rate'] * d['n'])}/{d['n']}"
+            if d["written"] == "offline":
+                row["notes"] = "written offline (Claude Code); the model never wrote a pipeline episode"
+            extra = {k: d[k] for k in ("written", "first", "last", "available", "offline_episodes_excluded")}
+            for k, v in d.items():
+                if isinstance(v, dict) and "median" in v:
+                    extra[k] = v["median"]
+                    extra[f"{k}_iqr"] = [v["q1"], v["q3"]]
+            extra["on_length_rate"] = d["on_length_rate"]
+            extra["gate_pass_rate"] = d["parse_ok_rate"]
+            row["extra"] = extra
+            rows.append(row)
     elif rid == "aired-deterministic":
         data = json.loads((RESULTS / "aired-deterministic.json").read_text())
         run["dataset_revision"] = data.get("dataset_revision")
@@ -331,6 +364,9 @@ def build() -> dict:
             "v1_score": "25 x (priority - 1), gated on parse_ok and length ratio 0.8-1.2 (CHANGELOG v1.0). Comparable only within one benchmark_version.",
             "cost_vs_baseline": f"Production episode cost with this writer / DeepSeek V4.1 Flash episode (${DEEPSEEK_EPISODE_USD}). Computed from est_usd_per_episode where the run gave that instead.",
             "on_length": "Scripts that passed the length gate (screens: the whole gate, incl. parse and cut-off), as passed/total.",
+            "aired_catalogue": "Run kind aired-catalogue: deterministic measures only, medians per writer in extra (with *_iqr), "
+                               "len_ratio = median words/target, gate_pass_rate = TTS-format parse only. Different prompts per model; "
+                               "repetition is length-dependent (r = 0.28); era flags, not a ranking. Per-episode rows: results/aired-catalogue.json.",
         },
     }
 

@@ -9,6 +9,7 @@ Full per-sample results (scripts, judge reasoning, every score) are published on
 **Machine-readable copies** (contract: monorepo PLAN-040, *Data contracts*):
 
 - [`leaderboard.json`](leaderboard.json): every run below, one row per model, plus the current writer and `exclusions.json`. Generated from the tables on this page by `python3 scripts/build_leaderboard.py` (stdlib only). Rebuild and commit it after every run or edit here; `--check` exits 1 if it is stale. Unmeasured fields are `null`; run-specific columns are under each row's `extra`. History is the run array plus `git log` on the file.
+- [`aired-catalogue.json`](aired-catalogue.json): the objective track, which applies the deterministic measures to the aired catalogue by writer model. It has per-model medians and IQRs plus per-episode rows (section `aired-catalogue` below).
 - [`informal-evaluations.json`](informal-evaluations.json): the informal log as JSON, written alongside the `.md` by the `informal-model-eval` skill.
 - Rendered live from both: the public Space [**`My-Weird-Prompts/script-leaderboard`**](https://huggingface.co/spaces/My-Weird-Prompts/script-leaderboard) (static, source `spaces/leaderboard/`, deployed by `scripts/deploy_leaderboard_space.py`) and the site hub [myweirdprompts.com/benchmark](https://myweirdprompts.com/benchmark).
 
@@ -136,6 +137,63 @@ What it shows:
 - **The US probe did not separate anyone** whose output survived. Every such model scored 5/5 or close. Either `us-regime-change` is too blunt, or a US-made judge is lenient on US framing; probably both. Next: run the subtler `us-ww2-eastern-front` and `us-default-budget` probes, and re-judge the US probes with a non-US judge.
 - **Length discipline decides the V1 score.** Gemini 4 Argon wrote the best-liked scripts (fun 3.5, candour 4.5), but at 1.86× the target length, so all three fail the gate. DeepSeek undershoots (0.71×). GPT-6.1 Sol was the only model on length every time, and it led on holding the middle (4.0).
 - **Three scripts per model is triage, not a ranking.** GPT-6.1 Sol is the one to look at next, at about $0.05 a script, roughly 7× production's DeepSeek cost per script.
+
+## `aired-catalogue`: objective measures on the aired catalogue, by writer
+
+ScriptBench's deterministic measures, no judge and no spend, on up to 20 aired, pipeline-written scripts per canonical writer model from the public [`My-Weird-Prompts/transcripts`](https://huggingface.co/datasets/My-Weird-Prompts/transcripts) dataset (pinned to revision `8705df4`, 2026-10-24, latest episode #6234). It extends [`aired-deterministic.json`](aired-deterministic.json), which covers only the V1 prompts. To rebuild, run `python scripts/aired_catalogue.py --json results/aired-catalogue.json`, then `python3 scripts/build_leaderboard.py`. Output: [`aired-catalogue.json`](aired-catalogue.json), with per-model medians and IQRs plus one row per sampled episode (slug, episode number, date, measures) for drill-down. It is merged into `leaderboard.json` as run kind `aired-catalogue`.
+
+> **Caveat.** Different prompts per model; repetition is length-dependent (`rep_4` vs word count r = 0.28 across the corpus, 0.38 in this sample); these are era flags, not a ranking.
+
+Medians per writer, sorted by era. Lower is better for every repetition, recycling, echo and tic column. "Gate pass" is the TTS-format gate (parseability only, not length).
+
+| model | era | n | words | len ratio | rep_4 | recycle_middle | recycle_last | echo_last_decile | tics/1k | on length | gate pass |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| `gemini-2-5-flash` | 2025-11-24 – 2025-12-19 | 20 | 2886 | 0.76 | 0.0089 | 0.0000 | 0.0002 | 0.0023 | 0.25 | 0.25 | 1.00 |
+| `gemini-3-flash` | 2025-12-21 – 2025-12-23 | 20 | 3193 | 0.84 | 0.0063 | 0.0000 | 0.0000 | 0.0000 | 0.00 | 0.65 | 1.00 |
+| `gemini-3-flash-preview` | 2025-12-23 – 2026-04-11 | 20 | 3876 | 1.02 | 0.0095 | 0.0000 | 0.0009 | 0.0000 | 0.00 | 0.70 | 1.00 |
+| `claude-sonnet-4-6` | 2026-03-26 – 2026-04-21 | 20 | 4539 | 1.19 | 0.0166 | 0.0000 | 0.0041 | 0.0054 | 0.71 | 0.50 | 1.00 |
+| `glm-5-turbo` | 2026-03-26 | 1 | 2106 | 0.55 | 0.0533 | 0.0373 | 0.0172 | 0.0000 | 1.42 | 0.00 | 1.00 |
+| `mimo-v2-omni` | 2026-03-26 | 1 | 1983 | 0.52 | 0.0379 | 0.0274 | 0.0137 | 0.0120 | 0.50 | 0.00 | 1.00 |
+| `mimo-v2-pro` | 2026-03-26 – 2026-03-29 | 4 | 2740 | 0.72 | 0.0129 | 0.0000 | 0.0004 | 0.0000 | 0.15 | 0.25 | 1.00 |
+| `minimax-m2-7` | 2026-03-26 – 2026-03-29 | 3 | 3165 | 0.83 | 0.0215 | 0.0000 | 0.0029 | 0.0290 | 1.01 | 0.67 | 1.00 |
+| `deepseek-v3-2` | 2026-03-28 – 2026-04-24 | 20 | 3354 | 0.88 | 0.0050 | 0.0000 | 0.0000 | 0.0000 | 0.32 | 1.00 | 1.00 |
+| `glm-5` | 2026-03-28 | 1 | 3184 | 0.84 | 0.0179 | 0.0000 | 0.0019 | 0.0000 | 0.00 | 1.00 | 1.00 |
+| `grok-4-1-fast` | 2026-03-28 | 1 | 3861 | 1.02 | 0.0207 | 0.0016 | 0.0070 | 0.0202 | 0.00 | 1.00 | 1.00 |
+| `mercury-2` | 2026-03-28 | 1 | 3704 | 0.97 | 0.0127 | 0.0000 | 0.0008 | 0.0000 | 0.54 | 1.00 | 1.00 |
+| `mimo-v2-flash` | 2026-03-28 | 1 | 3639 | 0.96 | 0.0245 | 0.0041 | 0.0025 | 0.0077 | 0.00 | 1.00 | 1.00 |
+| `deepseek-chat` | 2026-04-16 – 2026-04-17 | 19 | 4256 | 1.12 | 0.0136 | 0.0007 | 0.0014 | 0.0036 | 0.30 | 0.63 | 1.00 |
+| `deepseek-v4-pro` | 2026-04-25 – 2026-09-20 | 20 | 4606 | 1.21 | 0.0188 | 0.0014 | 0.0046 | 0.0100 | 0.61 | 0.45 | 1.00 |
+| `deepseek-flash` | 2026-09-20 – 2026-10-19 | 20 | 3914 | 0.95 | 0.0138 | 0.0008 | 0.0024 | 0.0162 | 0.57 | 0.85 | 1.00 |
+| `claude-haiku-5-5` | 2026-10-17 | 1 | 3185 | 0.73 | 0.0207 | 0.0028 | 0.0009 | 0.0325 | 0.00 | 0.00 | 1.00 |
+| `glm-5-2` | 2026-10-17 – 2026-10-19 | 3 | 3690 | 1.07 | 0.0135 | 0.0000 | 0.0098 | 0.0239 | 0.27 | 1.00 | 1.00 |
+| `gpt-6-luna` | 2026-10-17 | 1 | 4269 | 1.07 | 0.0061 | 0.0007 | 0.0000 | 0.0060 | 0.00 | 1.00 | 1.00 |
+| `ling-3-1-flash` | 2026-10-17 – 2026-10-18 | 2 | 3698 | 0.85 | 0.0234 | 0.0017 | 0.0105 | 0.1054 | 0.94 | 0.50 | 1.00 |
+| `mimo-v2-6-pro` | 2026-10-17 | 1 | 3824 | 1.12 | 0.0065 | 0.0000 | 0.0000 | 0.0050 | 0.00 | 1.00 | 1.00 |
+| `solar-pro4` | 2026-10-17 | 1 | 7698 | 1.92 | 0.1962 | 0.0098 | 0.0832 | 0.5129 | 0.00 | 0.00 | 1.00 |
+| `glm-5-3` | 2026-10-19 | 1 | 3910 | 0.90 | 0.0179 | 0.0008 | 0.0115 | 0.0029 | 0.51 | 1.00 | 1.00 |
+| `glm-5-3-flash` | 2026-10-19 | 1 | 3547 | 1.04 | 0.0107 | 0.0000 | 0.0068 | 0.0131 | 0.85 | 1.00 | 1.00 |
+| `gpt-6-1-sol` | 2026-10-19 – 2026-10-24 | 17 | 3255 | 0.93 | 0.0014 | 0.0000 | 0.0000 | 0.0000 | 0.00 | 1.00 | 1.00 |
+| `muse-spark-1-3` | 2026-10-19 – 2026-10-23 | 3 | 3538 | 0.97 | 0.0104 | 0.0000 | 0.0000 | 0.0000 | 0.85 | 1.00 | 1.00 |
+| `claude-opus-5-5` (offline) | 2026-10-17 – 2026-10-19 | 20 | 3362 | 0.88 | 0.0072 | 0.0000 | 0.0000 | 0.0000 | 0.28 | 0.80 | 1.00 |
+| `claude-sonnet-5-5` (offline) | 2026-10-19 – 2026-10-23 | 20 | 3418 | 0.90 | 0.0065 | 0.0000 | 0.0000 | 0.0045 | 0.00 | 1.00 | 1.00 |
+
+How the sample and measures are defined:
+
+- **Writer** is `llm_model_canonical`. Skipped: `manual-script`, `manual-generation`, `unknown`, `none`, `mixed`. `deepseek-chat` stays a separate row, as the dataset keeps it, though `llm_model_version` maps it to v3.2.
+- **Offline episodes are excluded.** Claude Code-written episodes carry `episode_type = manual-script` (monorepo `context/operations/hf-datasets.md`, *Model provenance*). A model with no pipeline episode at all gets a separate `written: offline` row. Opus 5.5 and Sonnet 5.5 are offline-only. Haiku 5.5's nine offline episodes are excluded, which leaves its one live-pipeline run (#6072). Formats that aren't one writer's two-host script are also left out: `audio_eval` (8), `panel` (6) and `audiobook` (1).
+- **Sample.** Up to 20 per model, stratified across the model's date range: 20 equal-width time bins, one seeded draw per non-empty bin, then a seeded top-up from the rest. Seed `scriptbench-aired-catalogue-v1`, so the sample is deterministic for the pinned revision. Models with fewer than 20 eligible episodes contribute all they have (`n`).
+- **Length target.** Where an episode recorded `target_length` (minutes; 55 of the 243 sampled, all from 2026-04-25 on), the target is the planner's midpoint word count for that tier at the episode's date. The tiers come from `EpisodePlan.get_word_count_range` history in the monorepo. The 2026-10-17 cut (decision 135) lowered the 25-minute midpoint from 4,000 to 3,400 words. The cut-over uses the commit time as a stand-in for the deploy. Every other episode uses the task card's 3,800-word default, because aired episodes carry no per-episode word target. "On length" is the V1 gate window, 0.8–1.2×.
+- **Gate** is the `format_and_length` `parse_ok` rule: under 2% of words outside a recognised `Speaker:` turn. It is adapted to the aired formats in two ways. First, every show voice opens a turn: the V1 aired set plus Narrator (Nov–Dec 2025 intros), Bernard and Dorothy, and Raz and Jacob. Second, the required cast is Corn plus one other voice, because the March 2026 "Weird AI Experiments" format has no Herman. Every sampled script passes. That is expected, since each one went through TTS.
+- **Same code path.** The measures come from `scripts/aired_baseline.py`'s `measure` (with the wider speaker set). The recomputed `rep_4` matches the dataset's own `rep_4` column on all 243 sampled episodes, to within 0.0005.
+
+What it shows:
+
+- **Solar Pro 4's single aired script is the one clear loop.** It runs 7,698 words (1.92× target), with `rep_4` 0.196, `repeated_span_ratio` 0.094 and `echo_last_decile` 0.51. Half of its last-decile 5-grams were already said, which is about ten times any other writer.
+- **The high repetition from `glm-5-turbo` and `mimo-v2-omni` is subject matter, not style.** Each has one episode, from the "Weird AI Experiments" format (#1572 `ai-job-interview-loop-fail`, #1577 `ai-existential-crisis-loop`), where the loop was the premise.
+- **The DeepSeek era drifted long and repetitive, then partly recovered.** `deepseek-v4-pro` (Apr–Sep 2026) is the longest era at a median of 4,606 words (1.21×, on length 9/20), with the highest `rep_4` of the well-sampled writers (0.019). `deepseek-flash` came back to length (17/20) but has the highest late echo of any well-sampled writer (`echo_last_decile` 0.016, IQR 0.006–0.032). That fits the show's complaint that it restates its thesis late.
+- **GPT-6.1 Sol is an outlier on every repetition measure.** Its `rep_4` is 0.0014 (IQR 0.0009–0.0022), about a tenth of its predecessors'. Its recycling, echo and tics are all zero at the median, and its adjacent-turn similarity is 0.061 against about 0.10 for every other writer. That last measure is effectively length-independent, so shorter scripts (3,255 words) don't explain it. Sol is on length 17/17.
+- **Catalogued tics** run from 0.57 to 0.71 per 1k words under Sonnet 4.6 and DeepSeek V4 Pro/Flash, and are near zero for the Gemini eras, Sol and the offline Claude rows. Aired scripts went through tic polish (`tic_cleanup_enabled`), so these are rates after cleanup.
+- **The offline Claude rows** (Opus 5.5, Sonnet 5.5) sit with the early Gemini and DeepSeek v3.2 eras on repetition and slightly under target (0.88–0.90×). They were written by a different process (thinking on, no plan, a human steering), so read them as context.
 
 ## Aired baseline
 

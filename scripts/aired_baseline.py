@@ -36,11 +36,11 @@ KEYS = ["word_count", "rep_4", "rep_4_last_third", "echo_last_decile", "tic_per_
         "question_per_turn"]
 
 
-def measure(script: str) -> dict:
-    m = script_metrics(script, AIRED_SPEAKERS)
-    c = candour_markers(script, AIRED_SPEAKERS)
+def measure(script: str, speakers: set[str] = AIRED_SPEAKERS) -> dict:
+    m = script_metrics(script, speakers)
+    c = candour_markers(script, speakers)
     c.pop("hits")
-    return {**m, **recycling(script, AIRED_SPEAKERS), **c, **liveness_markers(script, AIRED_SPEAKERS)}
+    return {**m, **recycling(script, speakers), **c, **liveness_markers(script, speakers)}
 
 
 def main() -> None:

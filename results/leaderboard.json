@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-24T09:53:12Z",
+  "generated": "2026-10-24T10:06:50Z",
   "benchmark_version": "v1.1",
   "contract": "My-Weird-Prompts monorepo PLAN-040 (Data contracts); built by scripts/build_leaderboard.py",
   "current": {
@@ -9,6 +9,2485 @@
     "note": "GPT-6.1 Sol, reasoning effort low, writes every pipeline episode; randomiser off (monorepo decision 144)."
   },
   "runs": [
+    {
+      "run_id": "aired-catalogue",
+      "date": "2026-10-24",
+      "kind": "aired-catalogue",
+      "summary": "Objective track: ScriptBench's deterministic measures on up to 20 aired, pipeline-written scripts per canonical writer model (public transcripts dataset), plus offline-only models as flagged rows. No judge, no spend. Per-episode rows are in results/aired-catalogue.json.",
+      "spend_usd": 0.0,
+      "judge": null,
+      "benchmark_version": null,
+      "source": "results/aired-catalogue.json",
+      "dataset": "My-Weird-Prompts/transcripts",
+      "dataset_revision": "8705df4670f1413f2f6680c882326b966be3b022",
+      "caveat": "Different prompts per model; repetition is length-dependent (r = 0.28); era flags, not a ranking.",
+      "rows": [
+        {
+          "model": "gemini-2-5-flash",
+          "v1_score": null,
+          "on_length": "5/20",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.7596,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 20,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2025-11-24",
+            "last": "2025-12-19",
+            "available": 65,
+            "offline_episodes_excluded": 0,
+            "word_count": 2886,
+            "word_count_iqr": [
+              2688,
+              3310
+            ],
+            "length_ratio": 0.7596,
+            "length_ratio_iqr": [
+              0.7072,
+              0.8709
+            ],
+            "rep_4": 0.0089,
+            "rep_4_iqr": [
+              0.0059,
+              0.0131
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0028,
+            "rep_4_last_third_iqr": [
+              0.0011,
+              0.0047
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0003
+            ],
+            "recycle_last": 0.0002,
+            "recycle_last_iqr": [
+              0.0,
+              0.0076
+            ],
+            "rep_4_middle_third": 0.0033,
+            "rep_4_middle_third_iqr": [
+              0.0027,
+              0.0063
+            ],
+            "echo_last_decile": 0.0023,
+            "echo_last_decile_iqr": [
+              0.0,
+              0.0141
+            ],
+            "adjacent_turn_similarity_mean": 0.1006,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.095,
+              0.1081
+            ],
+            "tic_per_1k_named": 0.2473,
+            "tic_per_1k_named_iqr": [
+              0.0,
+              0.5259
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.25,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "gemini-3-flash",
+          "v1_score": null,
+          "on_length": "13/20",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.8402,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 20,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2025-12-21",
+            "last": "2025-12-23",
+            "available": 27,
+            "offline_episodes_excluded": 0,
+            "word_count": 3193,
+            "word_count_iqr": [
+              2788,
+              3487
+            ],
+            "length_ratio": 0.8402,
+            "length_ratio_iqr": [
+              0.7336,
+              0.9176
+            ],
+            "rep_4": 0.0063,
+            "rep_4_iqr": [
+              0.0047,
+              0.0088
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.003,
+            "rep_4_last_third_iqr": [
+              0.002,
+              0.0036
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0
+            ],
+            "recycle_last": 0.0,
+            "recycle_last_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_middle_third": 0.0034,
+            "rep_4_middle_third_iqr": [
+              0.0024,
+              0.0053
+            ],
+            "echo_last_decile": 0.0,
+            "echo_last_decile_iqr": [
+              0.0,
+              0.0014
+            ],
+            "adjacent_turn_similarity_mean": 0.1202,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.1142,
+              0.1275
+            ],
+            "tic_per_1k_named": 0.0,
+            "tic_per_1k_named_iqr": [
+              0.0,
+              0.2863
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.65,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "gemini-3-flash-preview",
+          "v1_score": null,
+          "on_length": "14/20",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 1.02,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 20,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2025-12-23",
+            "last": "2026-04-11",
+            "available": 1934,
+            "offline_episodes_excluded": 0,
+            "word_count": 3876,
+            "word_count_iqr": [
+              3667,
+              4403
+            ],
+            "length_ratio": 1.02,
+            "length_ratio_iqr": [
+              0.9649,
+              1.1586
+            ],
+            "rep_4": 0.0095,
+            "rep_4_iqr": [
+              0.0087,
+              0.0132
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0038,
+            "rep_4_last_third_iqr": [
+              0.0025,
+              0.0076
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0011
+            ],
+            "recycle_last": 0.0009,
+            "recycle_last_iqr": [
+              0.0,
+              0.0042
+            ],
+            "rep_4_middle_third": 0.0052,
+            "rep_4_middle_third_iqr": [
+              0.0025,
+              0.0086
+            ],
+            "echo_last_decile": 0.0,
+            "echo_last_decile_iqr": [
+              0.0,
+              0.007
+            ],
+            "adjacent_turn_similarity_mean": 0.131,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.1211,
+              0.1397
+            ],
+            "tic_per_1k_named": 0.0,
+            "tic_per_1k_named_iqr": [
+              0.0,
+              0.2377
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.7,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "claude-sonnet-4-6",
+          "v1_score": null,
+          "on_length": "10/20",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 1.1945,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 20,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-03-26",
+            "last": "2026-04-21",
+            "available": 201,
+            "offline_episodes_excluded": 0,
+            "word_count": 4539,
+            "word_count_iqr": [
+              3751,
+              5150
+            ],
+            "length_ratio": 1.1945,
+            "length_ratio_iqr": [
+              0.9871,
+              1.3551
+            ],
+            "rep_4": 0.0166,
+            "rep_4_iqr": [
+              0.0123,
+              0.0185
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0059,
+            "rep_4_last_third_iqr": [
+              0.003,
+              0.0115
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0023
+            ],
+            "recycle_last": 0.0041,
+            "recycle_last_iqr": [
+              0.0007,
+              0.0068
+            ],
+            "rep_4_middle_third": 0.0083,
+            "rep_4_middle_third_iqr": [
+              0.0038,
+              0.0125
+            ],
+            "echo_last_decile": 0.0054,
+            "echo_last_decile_iqr": [
+              0.0,
+              0.0108
+            ],
+            "adjacent_turn_similarity_mean": 0.1049,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.0998,
+              0.1225
+            ],
+            "tic_per_1k_named": 0.7095,
+            "tic_per_1k_named_iqr": [
+              0.4073,
+              1.0979
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.5,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "glm-5-turbo",
+          "v1_score": null,
+          "on_length": "0/1",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.5542,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 1,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-03-26",
+            "last": "2026-03-26",
+            "available": 1,
+            "offline_episodes_excluded": 0,
+            "word_count": 2106,
+            "word_count_iqr": [
+              2106,
+              2106
+            ],
+            "length_ratio": 0.5542,
+            "length_ratio_iqr": [
+              0.5542,
+              0.5542
+            ],
+            "rep_4": 0.0533,
+            "rep_4_iqr": [
+              0.0533,
+              0.0533
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.02,
+            "rep_4_last_third_iqr": [
+              0.02,
+              0.02
+            ],
+            "recycle_middle": 0.0373,
+            "recycle_middle_iqr": [
+              0.0373,
+              0.0373
+            ],
+            "recycle_last": 0.0172,
+            "recycle_last_iqr": [
+              0.0172,
+              0.0172
+            ],
+            "rep_4_middle_third": 0.0615,
+            "rep_4_middle_third_iqr": [
+              0.0615,
+              0.0615
+            ],
+            "echo_last_decile": 0.0,
+            "echo_last_decile_iqr": [
+              0.0,
+              0.0
+            ],
+            "adjacent_turn_similarity_mean": 0.2345,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.2345,
+              0.2345
+            ],
+            "tic_per_1k_named": 1.4245,
+            "tic_per_1k_named_iqr": [
+              1.4245,
+              1.4245
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "mimo-v2-omni",
+          "v1_score": null,
+          "on_length": "0/1",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.5218,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 1,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-03-26",
+            "last": "2026-03-26",
+            "available": 1,
+            "offline_episodes_excluded": 0,
+            "word_count": 1983,
+            "word_count_iqr": [
+              1983,
+              1983
+            ],
+            "length_ratio": 0.5218,
+            "length_ratio_iqr": [
+              0.5218,
+              0.5218
+            ],
+            "rep_4": 0.0379,
+            "rep_4_iqr": [
+              0.0379,
+              0.0379
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.003,
+            "rep_4_last_third_iqr": [
+              0.003,
+              0.003
+            ],
+            "recycle_middle": 0.0274,
+            "recycle_middle_iqr": [
+              0.0274,
+              0.0274
+            ],
+            "recycle_last": 0.0137,
+            "recycle_last_iqr": [
+              0.0137,
+              0.0137
+            ],
+            "rep_4_middle_third": 0.041,
+            "rep_4_middle_third_iqr": [
+              0.041,
+              0.041
+            ],
+            "echo_last_decile": 0.012,
+            "echo_last_decile_iqr": [
+              0.012,
+              0.012
+            ],
+            "adjacent_turn_similarity_mean": 0.2236,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.2236,
+              0.2236
+            ],
+            "tic_per_1k_named": 0.5043,
+            "tic_per_1k_named_iqr": [
+              0.5043,
+              0.5043
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "mimo-v2-pro",
+          "v1_score": null,
+          "on_length": "1/4",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.7209,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 4,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-03-26",
+            "last": "2026-03-29",
+            "available": 4,
+            "offline_episodes_excluded": 0,
+            "word_count": 2740,
+            "word_count_iqr": [
+              2249,
+              3077
+            ],
+            "length_ratio": 0.7209,
+            "length_ratio_iqr": [
+              0.5918,
+              0.8097
+            ],
+            "rep_4": 0.0129,
+            "rep_4_iqr": [
+              0.0065,
+              0.0204
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.002,
+            "rep_4_last_third_iqr": [
+              0.0,
+              0.0071
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0053
+            ],
+            "recycle_last": 0.0004,
+            "recycle_last_iqr": [
+              0.0,
+              0.0021
+            ],
+            "rep_4_middle_third": 0.0039,
+            "rep_4_middle_third_iqr": [
+              0.0032,
+              0.0083
+            ],
+            "echo_last_decile": 0.0,
+            "echo_last_decile_iqr": [
+              0.0,
+              0.0082
+            ],
+            "adjacent_turn_similarity_mean": 0.1514,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.1292,
+              0.166
+            ],
+            "tic_per_1k_named": 0.1522,
+            "tic_per_1k_named_iqr": [
+              0.0,
+              0.3864
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.25,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "minimax-m2-7",
+          "v1_score": null,
+          "on_length": "2/3",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.8329,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 3,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-03-26",
+            "last": "2026-03-29",
+            "available": 3,
+            "offline_episodes_excluded": 0,
+            "word_count": 3165,
+            "word_count_iqr": [
+              2559,
+              3562
+            ],
+            "length_ratio": 0.8329,
+            "length_ratio_iqr": [
+              0.6734,
+              0.9374
+            ],
+            "rep_4": 0.0215,
+            "rep_4_iqr": [
+              0.0172,
+              0.0274
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0143,
+            "rep_4_last_third_iqr": [
+              0.0121,
+              0.0187
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0178
+            ],
+            "recycle_last": 0.0029,
+            "recycle_last_iqr": [
+              0.0014,
+              0.0046
+            ],
+            "rep_4_middle_third": 0.0091,
+            "rep_4_middle_third_iqr": [
+              0.0089,
+              0.0316
+            ],
+            "echo_last_decile": 0.029,
+            "echo_last_decile_iqr": [
+              0.0145,
+              0.0435
+            ],
+            "adjacent_turn_similarity_mean": 0.1448,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.1204,
+              0.1567
+            ],
+            "tic_per_1k_named": 1.0104,
+            "tic_per_1k_named_iqr": [
+              0.5052,
+              1.2732
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.6667,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "deepseek-v3-2",
+          "v1_score": null,
+          "on_length": "20/20",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.8828,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 20,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-03-28",
+            "last": "2026-04-24",
+            "available": 38,
+            "offline_episodes_excluded": 0,
+            "word_count": 3354,
+            "word_count_iqr": [
+              3098,
+              3741
+            ],
+            "length_ratio": 0.8828,
+            "length_ratio_iqr": [
+              0.8152,
+              0.9844
+            ],
+            "rep_4": 0.005,
+            "rep_4_iqr": [
+              0.0041,
+              0.0074
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.002,
+            "rep_4_last_third_iqr": [
+              0.0008,
+              0.0048
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0011
+            ],
+            "recycle_last": 0.0,
+            "recycle_last_iqr": [
+              0.0,
+              0.0009
+            ],
+            "rep_4_middle_third": 0.0025,
+            "rep_4_middle_third_iqr": [
+              0.0015,
+              0.0047
+            ],
+            "echo_last_decile": 0.0,
+            "echo_last_decile_iqr": [
+              0.0,
+              0.0025
+            ],
+            "adjacent_turn_similarity_mean": 0.1048,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.0935,
+              0.1179
+            ],
+            "tic_per_1k_named": 0.324,
+            "tic_per_1k_named_iqr": [
+              0.2874,
+              0.7086
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 1.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "glm-5",
+          "v1_score": null,
+          "on_length": "1/1",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.8379,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 1,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-03-28",
+            "last": "2026-03-28",
+            "available": 1,
+            "offline_episodes_excluded": 0,
+            "word_count": 3184,
+            "word_count_iqr": [
+              3184,
+              3184
+            ],
+            "length_ratio": 0.8379,
+            "length_ratio_iqr": [
+              0.8379,
+              0.8379
+            ],
+            "rep_4": 0.0179,
+            "rep_4_iqr": [
+              0.0179,
+              0.0179
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0076,
+            "rep_4_last_third_iqr": [
+              0.0076,
+              0.0076
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0
+            ],
+            "recycle_last": 0.0019,
+            "recycle_last_iqr": [
+              0.0019,
+              0.0019
+            ],
+            "rep_4_middle_third": 0.0132,
+            "rep_4_middle_third_iqr": [
+              0.0132,
+              0.0132
+            ],
+            "echo_last_decile": 0.0,
+            "echo_last_decile_iqr": [
+              0.0,
+              0.0
+            ],
+            "adjacent_turn_similarity_mean": 0.1426,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.1426,
+              0.1426
+            ],
+            "tic_per_1k_named": 0.0,
+            "tic_per_1k_named_iqr": [
+              0.0,
+              0.0
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 1.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "grok-4-1-fast",
+          "v1_score": null,
+          "on_length": "1/1",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 1.0161,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 1,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-03-28",
+            "last": "2026-03-28",
+            "available": 1,
+            "offline_episodes_excluded": 0,
+            "word_count": 3861,
+            "word_count_iqr": [
+              3861,
+              3861
+            ],
+            "length_ratio": 1.0161,
+            "length_ratio_iqr": [
+              1.0161,
+              1.0161
+            ],
+            "rep_4": 0.0207,
+            "rep_4_iqr": [
+              0.0207,
+              0.0207
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0156,
+            "rep_4_last_third_iqr": [
+              0.0156,
+              0.0156
+            ],
+            "recycle_middle": 0.0016,
+            "recycle_middle_iqr": [
+              0.0016,
+              0.0016
+            ],
+            "recycle_last": 0.007,
+            "recycle_last_iqr": [
+              0.007,
+              0.007
+            ],
+            "rep_4_middle_third": 0.0117,
+            "rep_4_middle_third_iqr": [
+              0.0117,
+              0.0117
+            ],
+            "echo_last_decile": 0.0202,
+            "echo_last_decile_iqr": [
+              0.0202,
+              0.0202
+            ],
+            "adjacent_turn_similarity_mean": 0.1521,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.1521,
+              0.1521
+            ],
+            "tic_per_1k_named": 0.0,
+            "tic_per_1k_named_iqr": [
+              0.0,
+              0.0
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 1.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "mercury-2",
+          "v1_score": null,
+          "on_length": "1/1",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.9747,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 1,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-03-28",
+            "last": "2026-03-28",
+            "available": 1,
+            "offline_episodes_excluded": 0,
+            "word_count": 3704,
+            "word_count_iqr": [
+              3704,
+              3704
+            ],
+            "length_ratio": 0.9747,
+            "length_ratio_iqr": [
+              0.9747,
+              0.9747
+            ],
+            "rep_4": 0.0127,
+            "rep_4_iqr": [
+              0.0127,
+              0.0127
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0065,
+            "rep_4_last_third_iqr": [
+              0.0065,
+              0.0065
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0
+            ],
+            "recycle_last": 0.0008,
+            "recycle_last_iqr": [
+              0.0008,
+              0.0008
+            ],
+            "rep_4_middle_third": 0.0097,
+            "rep_4_middle_third_iqr": [
+              0.0097,
+              0.0097
+            ],
+            "echo_last_decile": 0.0,
+            "echo_last_decile_iqr": [
+              0.0,
+              0.0
+            ],
+            "adjacent_turn_similarity_mean": 0.1433,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.1433,
+              0.1433
+            ],
+            "tic_per_1k_named": 0.54,
+            "tic_per_1k_named_iqr": [
+              0.54,
+              0.54
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 1.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "mimo-v2-flash",
+          "v1_score": null,
+          "on_length": "1/1",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.9576,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 1,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-03-28",
+            "last": "2026-03-28",
+            "available": 1,
+            "offline_episodes_excluded": 0,
+            "word_count": 3639,
+            "word_count_iqr": [
+              3639,
+              3639
+            ],
+            "length_ratio": 0.9576,
+            "length_ratio_iqr": [
+              0.9576,
+              0.9576
+            ],
+            "rep_4": 0.0245,
+            "rep_4_iqr": [
+              0.0245,
+              0.0245
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.014,
+            "rep_4_last_third_iqr": [
+              0.014,
+              0.014
+            ],
+            "recycle_middle": 0.0041,
+            "recycle_middle_iqr": [
+              0.0041,
+              0.0041
+            ],
+            "recycle_last": 0.0025,
+            "recycle_last_iqr": [
+              0.0025,
+              0.0025
+            ],
+            "rep_4_middle_third": 0.0107,
+            "rep_4_middle_third_iqr": [
+              0.0107,
+              0.0107
+            ],
+            "echo_last_decile": 0.0077,
+            "echo_last_decile_iqr": [
+              0.0077,
+              0.0077
+            ],
+            "adjacent_turn_similarity_mean": 0.1426,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.1426,
+              0.1426
+            ],
+            "tic_per_1k_named": 0.0,
+            "tic_per_1k_named_iqr": [
+              0.0,
+              0.0
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 1.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "deepseek-chat",
+          "v1_score": null,
+          "on_length": "12/19",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 1.12,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 19,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-04-16",
+            "last": "2026-04-17",
+            "available": 19,
+            "offline_episodes_excluded": 0,
+            "word_count": 4256,
+            "word_count_iqr": [
+              3670,
+              4822
+            ],
+            "length_ratio": 1.12,
+            "length_ratio_iqr": [
+              0.9658,
+              1.2691
+            ],
+            "rep_4": 0.0136,
+            "rep_4_iqr": [
+              0.011,
+              0.0171
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0055,
+            "rep_4_last_third_iqr": [
+              0.003,
+              0.0086
+            ],
+            "recycle_middle": 0.0007,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0035
+            ],
+            "recycle_last": 0.0014,
+            "recycle_last_iqr": [
+              0.0003,
+              0.0057
+            ],
+            "rep_4_middle_third": 0.0036,
+            "rep_4_middle_third_iqr": [
+              0.0017,
+              0.0059
+            ],
+            "echo_last_decile": 0.0036,
+            "echo_last_decile_iqr": [
+              0.0014,
+              0.0082
+            ],
+            "adjacent_turn_similarity_mean": 0.1026,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.097,
+              0.1097
+            ],
+            "tic_per_1k_named": 0.3002,
+            "tic_per_1k_named_iqr": [
+              0.2337,
+              0.6533
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.6316,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "deepseek-v4-pro",
+          "v1_score": null,
+          "on_length": "9/20",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 1.2075,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 20,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-04-25",
+            "last": "2026-09-20",
+            "available": 2957,
+            "offline_episodes_excluded": 0,
+            "word_count": 4606,
+            "word_count_iqr": [
+              4068,
+              4999
+            ],
+            "length_ratio": 1.2075,
+            "length_ratio_iqr": [
+              0.9852,
+              1.2849
+            ],
+            "rep_4": 0.0188,
+            "rep_4_iqr": [
+              0.013,
+              0.025
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0097,
+            "rep_4_last_third_iqr": [
+              0.0056,
+              0.014
+            ],
+            "recycle_middle": 0.0014,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0022
+            ],
+            "recycle_last": 0.0046,
+            "recycle_last_iqr": [
+              0.0016,
+              0.0089
+            ],
+            "rep_4_middle_third": 0.0079,
+            "rep_4_middle_third_iqr": [
+              0.0057,
+              0.0129
+            ],
+            "echo_last_decile": 0.01,
+            "echo_last_decile_iqr": [
+              0.0,
+              0.0268
+            ],
+            "adjacent_turn_similarity_mean": 0.1099,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.1009,
+              0.1177
+            ],
+            "tic_per_1k_named": 0.613,
+            "tic_per_1k_named_iqr": [
+              0.3555,
+              0.8613
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.45,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "deepseek-flash",
+          "v1_score": null,
+          "on_length": "17/20",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.9531,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 20,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-09-20",
+            "last": "2026-10-19",
+            "available": 653,
+            "offline_episodes_excluded": 0,
+            "word_count": 3914,
+            "word_count_iqr": [
+              3466,
+              4458
+            ],
+            "length_ratio": 0.9531,
+            "length_ratio_iqr": [
+              0.8664,
+              1.0919
+            ],
+            "rep_4": 0.0138,
+            "rep_4_iqr": [
+              0.0112,
+              0.017
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0075,
+            "rep_4_last_third_iqr": [
+              0.0055,
+              0.0128
+            ],
+            "recycle_middle": 0.0008,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0014
+            ],
+            "recycle_last": 0.0024,
+            "recycle_last_iqr": [
+              0.0008,
+              0.0044
+            ],
+            "rep_4_middle_third": 0.0069,
+            "rep_4_middle_third_iqr": [
+              0.0054,
+              0.012
+            ],
+            "echo_last_decile": 0.0162,
+            "echo_last_decile_iqr": [
+              0.0058,
+              0.0319
+            ],
+            "adjacent_turn_similarity_mean": 0.0969,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.0861,
+              0.1108
+            ],
+            "tic_per_1k_named": 0.5739,
+            "tic_per_1k_named_iqr": [
+              0.3391,
+              0.8674
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.85,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "claude-haiku-5-5",
+          "v1_score": null,
+          "on_length": "0/1",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.7322,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 1,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-10-17",
+            "last": "2026-10-17",
+            "available": 1,
+            "offline_episodes_excluded": 9,
+            "word_count": 3185,
+            "word_count_iqr": [
+              3185,
+              3185
+            ],
+            "length_ratio": 0.7322,
+            "length_ratio_iqr": [
+              0.7322,
+              0.7322
+            ],
+            "rep_4": 0.0207,
+            "rep_4_iqr": [
+              0.0207,
+              0.0207
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0151,
+            "rep_4_last_third_iqr": [
+              0.0151,
+              0.0151
+            ],
+            "recycle_middle": 0.0028,
+            "recycle_middle_iqr": [
+              0.0028,
+              0.0028
+            ],
+            "recycle_last": 0.0009,
+            "recycle_last_iqr": [
+              0.0009,
+              0.0009
+            ],
+            "rep_4_middle_third": 0.0104,
+            "rep_4_middle_third_iqr": [
+              0.0104,
+              0.0104
+            ],
+            "echo_last_decile": 0.0325,
+            "echo_last_decile_iqr": [
+              0.0325,
+              0.0325
+            ],
+            "adjacent_turn_similarity_mean": 0.1386,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.1386,
+              0.1386
+            ],
+            "tic_per_1k_named": 0.0,
+            "tic_per_1k_named_iqr": [
+              0.0,
+              0.0
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "glm-5-2",
+          "v1_score": null,
+          "on_length": "3/3",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 1.0682,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 3,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-10-17",
+            "last": "2026-10-19",
+            "available": 3,
+            "offline_episodes_excluded": 0,
+            "word_count": 3690,
+            "word_count_iqr": [
+              3661,
+              4062
+            ],
+            "length_ratio": 1.0682,
+            "length_ratio_iqr": [
+              1.0438,
+              1.0768
+            ],
+            "rep_4": 0.0135,
+            "rep_4_iqr": [
+              0.0123,
+              0.0153
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0122,
+            "rep_4_last_third_iqr": [
+              0.0119,
+              0.0212
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0
+            ],
+            "recycle_last": 0.0098,
+            "recycle_last_iqr": [
+              0.0066,
+              0.0136
+            ],
+            "rep_4_middle_third": 0.0058,
+            "rep_4_middle_third_iqr": [
+              0.0046,
+              0.0063
+            ],
+            "echo_last_decile": 0.0239,
+            "echo_last_decile_iqr": [
+              0.02,
+              0.0577
+            ],
+            "adjacent_turn_similarity_mean": 0.0934,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.0916,
+              0.099
+            ],
+            "tic_per_1k_named": 0.271,
+            "tic_per_1k_named_iqr": [
+              0.2483,
+              0.5485
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 1.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "gpt-6-luna",
+          "v1_score": null,
+          "on_length": "1/1",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 1.0673,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 1,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-10-17",
+            "last": "2026-10-17",
+            "available": 1,
+            "offline_episodes_excluded": 0,
+            "word_count": 4269,
+            "word_count_iqr": [
+              4269,
+              4269
+            ],
+            "length_ratio": 1.0673,
+            "length_ratio_iqr": [
+              1.0673,
+              1.0673
+            ],
+            "rep_4": 0.0061,
+            "rep_4_iqr": [
+              0.0061,
+              0.0061
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0042,
+            "rep_4_last_third_iqr": [
+              0.0042,
+              0.0042
+            ],
+            "recycle_middle": 0.0007,
+            "recycle_middle_iqr": [
+              0.0007,
+              0.0007
+            ],
+            "recycle_last": 0.0,
+            "recycle_last_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_middle_third": 0.0007,
+            "rep_4_middle_third_iqr": [
+              0.0007,
+              0.0007
+            ],
+            "echo_last_decile": 0.006,
+            "echo_last_decile_iqr": [
+              0.006,
+              0.006
+            ],
+            "adjacent_turn_similarity_mean": 0.0837,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.0837,
+              0.0837
+            ],
+            "tic_per_1k_named": 0.0,
+            "tic_per_1k_named_iqr": [
+              0.0,
+              0.0
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 1.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "ling-3-1-flash",
+          "v1_score": null,
+          "on_length": "1/2",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.8502,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 2,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-10-17",
+            "last": "2026-10-18",
+            "available": 2,
+            "offline_episodes_excluded": 0,
+            "word_count": 3698,
+            "word_count_iqr": [
+              3532,
+              3865
+            ],
+            "length_ratio": 0.8502,
+            "length_ratio_iqr": [
+              0.812,
+              0.8885
+            ],
+            "rep_4": 0.0234,
+            "rep_4_iqr": [
+              0.0196,
+              0.0272
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0234,
+            "rep_4_last_third_iqr": [
+              0.0162,
+              0.0307
+            ],
+            "recycle_middle": 0.0017,
+            "recycle_middle_iqr": [
+              0.0012,
+              0.0022
+            ],
+            "recycle_last": 0.0105,
+            "recycle_last_iqr": [
+              0.0097,
+              0.0112
+            ],
+            "rep_4_middle_third": 0.0117,
+            "rep_4_middle_third_iqr": [
+              0.0068,
+              0.0166
+            ],
+            "echo_last_decile": 0.1054,
+            "echo_last_decile_iqr": [
+              0.0733,
+              0.1375
+            ],
+            "adjacent_turn_similarity_mean": 0.1088,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.1086,
+              0.109
+            ],
+            "tic_per_1k_named": 0.9418,
+            "tic_per_1k_named_iqr": [
+              0.9165,
+              0.967
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.5,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "mimo-v2-6-pro",
+          "v1_score": null,
+          "on_length": "1/1",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 1.1247,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 1,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-10-17",
+            "last": "2026-10-17",
+            "available": 1,
+            "offline_episodes_excluded": 0,
+            "word_count": 3824,
+            "word_count_iqr": [
+              3824,
+              3824
+            ],
+            "length_ratio": 1.1247,
+            "length_ratio_iqr": [
+              1.1247,
+              1.1247
+            ],
+            "rep_4": 0.0065,
+            "rep_4_iqr": [
+              0.0065,
+              0.0065
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0016,
+            "rep_4_last_third_iqr": [
+              0.0016,
+              0.0016
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0
+            ],
+            "recycle_last": 0.0,
+            "recycle_last_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_middle_third": 0.0087,
+            "rep_4_middle_third_iqr": [
+              0.0087,
+              0.0087
+            ],
+            "echo_last_decile": 0.005,
+            "echo_last_decile_iqr": [
+              0.005,
+              0.005
+            ],
+            "adjacent_turn_similarity_mean": 0.09,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.09,
+              0.09
+            ],
+            "tic_per_1k_named": 0.0,
+            "tic_per_1k_named_iqr": [
+              0.0,
+              0.0
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 1.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "solar-pro4",
+          "v1_score": null,
+          "on_length": "0/1",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 1.9245,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 1,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-10-17",
+            "last": "2026-10-17",
+            "available": 1,
+            "offline_episodes_excluded": 0,
+            "word_count": 7698,
+            "word_count_iqr": [
+              7698,
+              7698
+            ],
+            "length_ratio": 1.9245,
+            "length_ratio_iqr": [
+              1.9245,
+              1.9245
+            ],
+            "rep_4": 0.1962,
+            "rep_4_iqr": [
+              0.1962,
+              0.1962
+            ],
+            "repeated_span_ratio": 0.0938,
+            "repeated_span_ratio_iqr": [
+              0.0938,
+              0.0938
+            ],
+            "rep_4_last_third": 0.4358,
+            "rep_4_last_third_iqr": [
+              0.4358,
+              0.4358
+            ],
+            "recycle_middle": 0.0098,
+            "recycle_middle_iqr": [
+              0.0098,
+              0.0098
+            ],
+            "recycle_last": 0.0832,
+            "recycle_last_iqr": [
+              0.0832,
+              0.0832
+            ],
+            "rep_4_middle_third": 0.0316,
+            "rep_4_middle_third_iqr": [
+              0.0316,
+              0.0316
+            ],
+            "echo_last_decile": 0.5129,
+            "echo_last_decile_iqr": [
+              0.5129,
+              0.5129
+            ],
+            "adjacent_turn_similarity_mean": 0.215,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.215,
+              0.215
+            ],
+            "tic_per_1k_named": 0.0,
+            "tic_per_1k_named_iqr": [
+              0.0,
+              0.0
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "glm-5-3",
+          "v1_score": null,
+          "on_length": "1/1",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.8989,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 1,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-10-19",
+            "last": "2026-10-19",
+            "available": 1,
+            "offline_episodes_excluded": 0,
+            "word_count": 3910,
+            "word_count_iqr": [
+              3910,
+              3910
+            ],
+            "length_ratio": 0.8989,
+            "length_ratio_iqr": [
+              0.8989,
+              0.8989
+            ],
+            "rep_4": 0.0179,
+            "rep_4_iqr": [
+              0.0179,
+              0.0179
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0115,
+            "rep_4_last_third_iqr": [
+              0.0115,
+              0.0115
+            ],
+            "recycle_middle": 0.0008,
+            "recycle_middle_iqr": [
+              0.0008,
+              0.0008
+            ],
+            "recycle_last": 0.0115,
+            "recycle_last_iqr": [
+              0.0115,
+              0.0115
+            ],
+            "rep_4_middle_third": 0.0038,
+            "rep_4_middle_third_iqr": [
+              0.0038,
+              0.0038
+            ],
+            "echo_last_decile": 0.0029,
+            "echo_last_decile_iqr": [
+              0.0029,
+              0.0029
+            ],
+            "adjacent_turn_similarity_mean": 0.1291,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.1291,
+              0.1291
+            ],
+            "tic_per_1k_named": 0.5115,
+            "tic_per_1k_named_iqr": [
+              0.5115,
+              0.5115
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 1.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "glm-5-3-flash",
+          "v1_score": null,
+          "on_length": "1/1",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 1.0432,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 1,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-10-19",
+            "last": "2026-10-19",
+            "available": 1,
+            "offline_episodes_excluded": 0,
+            "word_count": 3547,
+            "word_count_iqr": [
+              3547,
+              3547
+            ],
+            "length_ratio": 1.0432,
+            "length_ratio_iqr": [
+              1.0432,
+              1.0432
+            ],
+            "rep_4": 0.0107,
+            "rep_4_iqr": [
+              0.0107,
+              0.0107
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0059,
+            "rep_4_last_third_iqr": [
+              0.0059,
+              0.0059
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0
+            ],
+            "recycle_last": 0.0068,
+            "recycle_last_iqr": [
+              0.0068,
+              0.0068
+            ],
+            "rep_4_middle_third": 0.0,
+            "rep_4_middle_third_iqr": [
+              0.0,
+              0.0
+            ],
+            "echo_last_decile": 0.0131,
+            "echo_last_decile_iqr": [
+              0.0131,
+              0.0131
+            ],
+            "adjacent_turn_similarity_mean": 0.1,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.1,
+              0.1
+            ],
+            "tic_per_1k_named": 0.8458,
+            "tic_per_1k_named_iqr": [
+              0.8458,
+              0.8458
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 1.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "gpt-6-1-sol",
+          "v1_score": null,
+          "on_length": "17/17",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.9291,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 17,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-10-19",
+            "last": "2026-10-24",
+            "available": 17,
+            "offline_episodes_excluded": 0,
+            "word_count": 3255,
+            "word_count_iqr": [
+              3159,
+              3922
+            ],
+            "length_ratio": 0.9291,
+            "length_ratio_iqr": [
+              0.9076,
+              0.9538
+            ],
+            "rep_4": 0.0014,
+            "rep_4_iqr": [
+              0.0009,
+              0.0022
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0,
+            "rep_4_last_third_iqr": [
+              0.0,
+              0.0009
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0
+            ],
+            "recycle_last": 0.0,
+            "recycle_last_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_middle_third": 0.0015,
+            "rep_4_middle_third_iqr": [
+              0.0,
+              0.0023
+            ],
+            "echo_last_decile": 0.0,
+            "echo_last_decile_iqr": [
+              0.0,
+              0.0
+            ],
+            "adjacent_turn_similarity_mean": 0.0608,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.059,
+              0.0629
+            ],
+            "tic_per_1k_named": 0.0,
+            "tic_per_1k_named_iqr": [
+              0.0,
+              0.0
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 1.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "muse-spark-1-3",
+          "v1_score": null,
+          "on_length": "3/3",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.9736,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 3,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": null,
+          "extra": {
+            "written": "pipeline",
+            "first": "2026-10-19",
+            "last": "2026-10-23",
+            "available": 3,
+            "offline_episodes_excluded": 0,
+            "word_count": 3538,
+            "word_count_iqr": [
+              3306,
+              3886
+            ],
+            "length_ratio": 0.9736,
+            "length_ratio_iqr": [
+              0.9387,
+              1.0071
+            ],
+            "rep_4": 0.0104,
+            "rep_4_iqr": [
+              0.0091,
+              0.0107
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0025,
+            "rep_4_last_third_iqr": [
+              0.0016,
+              0.0067
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0
+            ],
+            "recycle_last": 0.0,
+            "recycle_last_iqr": [
+              0.0,
+              0.001
+            ],
+            "rep_4_middle_third": 0.0118,
+            "rep_4_middle_third_iqr": [
+              0.0098,
+              0.0157
+            ],
+            "echo_last_decile": 0.0,
+            "echo_last_decile_iqr": [
+              0.0,
+              0.0
+            ],
+            "adjacent_turn_similarity_mean": 0.0927,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.0862,
+              0.0989
+            ],
+            "tic_per_1k_named": 0.8479,
+            "tic_per_1k_named_iqr": [
+              0.7782,
+              1.0748
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 1.0,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "claude-opus-5-5",
+          "v1_score": null,
+          "on_length": "16/20",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.8847,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 20,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": "written offline (Claude Code); the model never wrote a pipeline episode",
+          "extra": {
+            "written": "offline",
+            "first": "2026-10-17",
+            "last": "2026-10-19",
+            "available": 43,
+            "offline_episodes_excluded": 0,
+            "word_count": 3362,
+            "word_count_iqr": [
+              3174,
+              3584
+            ],
+            "length_ratio": 0.8847,
+            "length_ratio_iqr": [
+              0.8352,
+              0.9432
+            ],
+            "rep_4": 0.0072,
+            "rep_4_iqr": [
+              0.0054,
+              0.0115
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0046,
+            "rep_4_last_third_iqr": [
+              0.0026,
+              0.0088
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0
+            ],
+            "recycle_last": 0.0,
+            "recycle_last_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_middle_third": 0.0049,
+            "rep_4_middle_third_iqr": [
+              0.0017,
+              0.0079
+            ],
+            "echo_last_decile": 0.0,
+            "echo_last_decile_iqr": [
+              0.0,
+              0.0049
+            ],
+            "adjacent_turn_similarity_mean": 0.1021,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.0883,
+              0.1103
+            ],
+            "tic_per_1k_named": 0.2792,
+            "tic_per_1k_named_iqr": [
+              0.0,
+              0.6045
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 0.8,
+            "gate_pass_rate": 1.0
+          }
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "v1_score": null,
+          "on_length": "20/20",
+          "priority": null,
+          "mid_hold": null,
+          "fun": null,
+          "candour": null,
+          "liveness": null,
+          "len_ratio": 0.8993,
+          "cost_vs_baseline": null,
+          "usd_per_script": null,
+          "est_usd_per_episode": null,
+          "judge_overall": null,
+          "n": 20,
+          "technical_fail": null,
+          "exclusion": null,
+          "notes": "written offline (Claude Code); the model never wrote a pipeline episode",
+          "extra": {
+            "written": "offline",
+            "first": "2026-10-19",
+            "last": "2026-10-23",
+            "available": 71,
+            "offline_episodes_excluded": 0,
+            "word_count": 3418,
+            "word_count_iqr": [
+              3330,
+              3686
+            ],
+            "length_ratio": 0.8993,
+            "length_ratio_iqr": [
+              0.8765,
+              0.97
+            ],
+            "rep_4": 0.0065,
+            "rep_4_iqr": [
+              0.0041,
+              0.009
+            ],
+            "repeated_span_ratio": 0.0,
+            "repeated_span_ratio_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_last_third": 0.0033,
+            "rep_4_last_third_iqr": [
+              0.0018,
+              0.0059
+            ],
+            "recycle_middle": 0.0,
+            "recycle_middle_iqr": [
+              0.0,
+              0.0008
+            ],
+            "recycle_last": 0.0,
+            "recycle_last_iqr": [
+              0.0,
+              0.0
+            ],
+            "rep_4_middle_third": 0.0027,
+            "rep_4_middle_third_iqr": [
+              0.0018,
+              0.0053
+            ],
+            "echo_last_decile": 0.0045,
+            "echo_last_decile_iqr": [
+              0.0,
+              0.0091
+            ],
+            "adjacent_turn_similarity_mean": 0.1023,
+            "adjacent_turn_similarity_mean_iqr": [
+              0.0957,
+              0.1107
+            ],
+            "tic_per_1k_named": 0.0,
+            "tic_per_1k_named_iqr": [
+              0.0,
+              0.2982
+            ],
+            "stray_word_share": 0.0,
+            "stray_word_share_iqr": [
+              0.0,
+              0.0
+            ],
+            "on_length_rate": 1.0,
+            "gate_pass_rate": 1.0
+          }
+        }
+      ]
+    },
     {
       "run_id": "on-air-toast-2026-10-19",
       "date": "2026-10-19",
@@ -1789,6 +4268,7 @@
     "technical_fail": "Any refusal by the model or a provider filter cut-off (plans/003-refusal-rule.md). Never rank a technical fail.",
     "v1_score": "25 x (priority - 1), gated on parse_ok and length ratio 0.8-1.2 (CHANGELOG v1.0). Comparable only within one benchmark_version.",
     "cost_vs_baseline": "Production episode cost with this writer / DeepSeek V4.1 Flash episode ($0.161). Computed from est_usd_per_episode where the run gave that instead.",
-    "on_length": "Scripts that passed the length gate (screens: the whole gate, incl. parse and cut-off), as passed/total."
+    "on_length": "Scripts that passed the length gate (screens: the whole gate, incl. parse and cut-off), as passed/total.",
+    "aired_catalogue": "Run kind aired-catalogue: deterministic measures only, medians per writer in extra (with *_iqr), len_ratio = median words/target, gate_pass_rate = TTS-format parse only. Different prompts per model; repetition is length-dependent (r = 0.28); era flags, not a ranking. Per-episode rows: results/aired-catalogue.json."
   }
 }

@@ -26,6 +26,37 @@ const COLS = [
   ["n", "n", true, "Samples"],
 ];
 
+// Run kinds whose rows don't fit COLS get their own column map. Each entry:
+// [key, label, numeric, title, getter(row)]; `extra.x` keys read row.extra.x.
+const ex = (k) => (r) => (r.extra || {})[k];
+const iqr = (k) => (r) => { const q = (r.extra || {})[k + "_iqr"]; return q ? `IQR ${q[0]} – ${q[1]}` : ""; };
+const KIND_COLS = {
+  "aired-catalogue": {
+    caveat: "Different prompts per model; repetition is length-dependent (r = 0.28); era flags, not a ranking.",
+    sort: { key: "extra.first", dir: 1 },
+    foot: "Medians over each writer's sampled aired scripts; hover a cell for its IQR. Sorted by era. Lower is better for every repetition, recycling, echo and tic column. Offline rows were written in Claude Code, not by the pipeline. Per-episode rows: results/aired-catalogue.json.",
+    cols: [
+      ["model", "model", false, "llm_model_canonical (the show's writer label)"],
+      ["extra.written", "written", false, "pipeline, or offline (Claude Code) where the model never wrote a pipeline episode"],
+      ["extra.first", "era", false, "First and last aired date of the model's eligible episodes", (r) => r.extra.first === r.extra.last ? r.extra.first : `${r.extra.first} – ${r.extra.last}`],
+      ["n", "n", true, "Episodes sampled (up to 20, stratified across the era)"],
+      ["extra.word_count", "words", true, "Spoken words (median)"],
+      ["len_ratio", "len ratio", true, "Words / target: the planner's midpoint where a target length was recorded, else 3,800"],
+      ["on_length", "on length", true, "Scripts within 0.8-1.2x of target"],
+      ["extra.rep_4", "rep_4", true, "Share of repeated 4-grams (length-dependent)"],
+      ["extra.repeated_span_ratio", "repeated span", true, "Share of tokens inside a repeated 25-token run"],
+      ["extra.rep_4_last_third", "rep_4 last ⅓", true, "rep_4 over the last third"],
+      ["extra.recycle_middle", "recycle middle", true, "Middle third's 6-grams already said in the first third"],
+      ["extra.recycle_last", "recycle last", true, "Last third's 6-grams already said in the first two"],
+      ["extra.rep_4_middle_third", "rep_4 middle ⅓", true, "rep_4 over the middle third"],
+      ["extra.echo_last_decile", "echo last 10%", true, "Last-decile turns: share of 5-grams said earlier"],
+      ["extra.adjacent_turn_similarity_mean", "adj. turn sim", true, "Mean TF-IDF cosine between consecutive turns (length-independent)"],
+      ["extra.tic_per_1k_named", "tics/1k", true, "Catalogued stock phrases per 1k words"],
+      ["extra.gate_pass_rate", "gate pass", true, "TTS-format gate (parseability only, not length)"],
+    ],
+  },
+};
+
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const label = (k) => k.replace(/_/g, " ");
@@ -56,6 +87,7 @@ function sortValue(row, key) {
   const v = key.startsWith("extra.") ? (row.extra || {})[key.slice(6)] : row[key];
   if (v === null || v === undefined) return null;
   if (typeof v === "string") {
+    if (/^\d{4}-\d{2}-\d{2}/.test(v)) return v;
     const m = v.match(/^(\d+)\/(\d+)$/);
     if (m) return +m[1] / +m[2];
     const n = parseFloat(v);
@@ -121,7 +153,11 @@ function renderRun() {
     run.hf_dataset && `<a href="https://huggingface.co/datasets/${esc(run.hf_dataset)}">samples on HF</a>`,
     `<a href="https://github.com/My-Weird-Prompts/eval/blob/main/${esc(run.source || "results/README.md")}">write-up</a>`,
   ].filter(Boolean).join(" · ");
-  $("run-head").innerHTML = `<p>${bits}</p><p>${esc(run.summary)}</p><p class="small">${extraLinks}</p>`;
+  const spec = KIND_COLS[run.kind];
+  const caveat = spec && (run.caveat || spec.caveat);
+  $("run-head").innerHTML = `<p>${bits}</p><p>${esc(run.summary)}</p>` +
+    (caveat ? `<p class="caveat"><b>Caveat.</b> ${esc(caveat)}</p>` : "") + `<p class="small">${extraLinks}</p>`;
+  if (spec) return renderKind(run, spec);
 
   const cols = COLS.filter(([k]) => k === "model" || run.rows.some((r) => r[k] !== null && r[k] !== undefined));
   const extraKeys = [...new Set(run.rows.flatMap((r) => Object.keys(r.extra || {})))];
@@ -172,6 +208,45 @@ function renderRun() {
   $("board-foot").innerHTML = ranked
     ? "Click a column to sort. Technical fails sink to the bottom unranked. ★ = current writer. Three scripts per model is triage, not a ranking; scores compare only within one benchmark version."
     : "Click a column to sort. This run has no V1 score, so there is no rank. ★ = current writer.";
+}
+
+function renderKind(run, spec) {
+  if (!sortState.key) sortState = { ...spec.sort };
+  const get = (r, c) => (c[4] ? c[4](r) : c[0].startsWith("extra.") ? (r.extra || {})[c[0].slice(6)] : r[c[0]]);
+  const rows = [...run.rows].sort((a, b) => {
+    const va = sortValue(a, sortState.key), vb = sortValue(b, sortState.key);
+    if (va === vb) return 0;
+    if (va === null) return 1;
+    if (vb === null) return -1;
+    return (va < vb ? -1 : 1) * sortState.dir;
+  });
+  const th = ([key, text, num, title]) => {
+    const aria = sortState.key === key ? ` aria-sort="${sortState.dir > 0 ? "ascending" : "descending"}"` : "";
+    return `<th class="${num ? "num" : ""}"${aria} title="${esc(title || "")}"><button data-key="${esc(key)}">${esc(text)}</button></th>`;
+  };
+  let html = "<thead><tr>" + spec.cols.map(th).join("") + "<th>notes</th></tr></thead><tbody>";
+  for (const r of rows) {
+    const offline = (r.extra || {}).written === "offline";
+    html += `<tr class="${offline ? "offline" : ""}">`;
+    for (const c of spec.cols) {
+      const [k, , num] = c;
+      const v = get(r, c);
+      if (k === "model") html += `<td class="model">${esc(r.model)}</td>`;
+      else if (k === "extra.written") html += `<td><span class="chip${offline ? " chip-warn" : ""}">${esc(v)}</span></td>`;
+      else if (k === "extra.gate_pass_rate" || k === "on_length" && typeof v === "number") html += `<td class="num">${v == null ? fmt(v) : Math.round(v * 100) + "%"}</td>`;
+      else if (k === "extra.word_count") html += `<td class="num" title="${esc(iqr("word_count")(r))}">${v == null ? fmt(v) : Math.round(v).toLocaleString("en")}</td>`;
+      else if (k.startsWith("extra.") && num) html += `<td class="num" title="${esc(iqr(k.slice(6))(r))}">${fmt(v, k)}</td>`;
+      else html += `<td class="${num ? "num" : "nowrap"}">${num ? fmt(v, k) : esc(v)}</td>`;
+    }
+    html += `<td class="notes">${esc(r.notes || "")}</td></tr>`;
+  }
+  $("board").innerHTML = html + "</tbody>";
+  $("board").querySelectorAll("th button").forEach((b) => b.addEventListener("click", () => {
+    const key = b.dataset.key;
+    sortState = sortState.key === key ? { key, dir: -sortState.dir } : { key, dir: ["model", "extra.first", "extra.written"].includes(key) ? 1 : -1 };
+    renderRun();
+  }));
+  $("board-foot").textContent = spec.foot;
 }
 
 function renderFails() {

@@ -101,6 +101,8 @@ These are **regression flags, not a ranking.** The repetition measures are lengt
 
 For context, `results/aired-deterministic.json` has the same measures on the aired scripts behind the V1 prompts, by writer model. It includes one clear failure: the single aired `upstage/solar-pro4` script ran 7,698 words with `rep_4` 0.196 and `echo_last_decile` 0.51, about ten times the other writers. That is the looping the gate and these measures exist to catch.
 
+The same measures run on the whole aired catalogue form ScriptBench's **objective track**. It covers up to 20 pipeline-written episodes per canonical writer model, across the show's history, from the public `transcripts` dataset (`scripts/aired_catalogue.py`, `results/aired-catalogue.json`, results README section `aired-catalogue`). The prompts differ per model and repetition depends on length, so its rows are era flags, not a ranking.
+
 ### 4.3 Rubric judge
 
 One judge call per script. The judge reads the full task card and the script, quotes evidence, and scores 12 axes from 1 to 5:
