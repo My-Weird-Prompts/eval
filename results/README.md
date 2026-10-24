@@ -2,7 +2,7 @@
 
 No full V1 leaderboard exists yet. Below are a 3-sample screen and a judged baseline of aired scripts.
 
-Full per-sample results (scripts, judge reasoning, every score) are published on Hugging Face: [`My-Weird-Prompts/mwp-script-results`](https://huggingface.co/datasets/My-Weird-Prompts/mwp-script-results). This page summarises them.
+Full per-sample results (scripts, judge reasoning, every score) are published on Hugging Face: [`My-Weird-Prompts/mwp-script-results`](https://huggingface.co/datasets/My-Weird-Prompts/mwp-script-results). This page summarises them. Informal verdicts on models that wrote aired episodes, with Claude as judge, are in [`informal-evaluations.md`](informal-evaluations.md).
 
 ## `on-air-toast-2026-10-19`: four-model mini-eval aired as an episode
 
