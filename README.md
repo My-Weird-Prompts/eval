@@ -15,6 +15,8 @@ It comes from [*My Weird Prompts*](https://myweirdprompts.com), a podcast writte
 | [`My-Weird-Prompts/episodes-eval`](https://huggingface.co/datasets/My-Weird-Prompts/episodes-eval) | 212 | Eval subset, stratified by writer model and time. V1 uses the 189 rows with a published prompt |
 | [`My-Weird-Prompts/mwp-script-results`](https://huggingface.co/datasets/My-Weird-Prompts/mwp-script-results) | per run | **Our benchmark results**: every scored script, judge reasoning and per-run leaderboards (`scripts/publish_results.py`) |
 
+**Leaderboard:** [`results/leaderboard.json`](results/leaderboard.json) (machine-readable, every run, current writer, exclusions), rendered by the public Space [`My-Weird-Prompts/script-leaderboard`](https://huggingface.co/spaces/My-Weird-Prompts/script-leaderboard) and on [myweirdprompts.com/benchmark](https://myweirdprompts.com/benchmark). Informal verdicts on aired writers: [`results/informal-evaluations.md`](results/informal-evaluations.md) ([JSON](results/informal-evaluations.json)).
+
 V1 loads `episodes-eval` straight from Hugging Face, pinned to revision `73bf102` (`src/mwp_eval/task.py`).
 
 ## The funnel
@@ -90,7 +92,10 @@ scripts/judge_aired.py      rubric-judge the aired scripts (baseline, no generat
 scripts/publish_results.py  logs -> parquet + card -> HF results dataset
 src/mwp_eval/data/probes.yaml   censorship (cn) and US-centrism (us) probes
 models.yaml                 candidate roster and default judge
-results/                    published outputs (aired-deterministic.json so far)
+scripts/build_leaderboard.py      results/README.md tables + exclusions.json -> results/leaderboard.json
+scripts/deploy_leaderboard_space.py  spaces/leaderboard/ -> public static Space My-Weird-Prompts/script-leaderboard
+results/                    published outputs: run write-ups (README.md), leaderboard.json, informal-evaluations.{md,json}, aired baselines
+spaces/leaderboard/         static leaderboard page (reads results/*.json from GitHub at load)
 ```
 
 ## Related

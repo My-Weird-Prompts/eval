@@ -4,7 +4,7 @@ Light verdicts on script-writer models that wrote real, aired episodes. Claude
 judges by reading one or two scripts per model; Daniel's own impressions are quoted
 where he gave them. These are production-trial evidence, read alongside the
 benchmark runs in [`README.md`](README.md). Procedure: mwp-admin skill
-`informal-model-eval`. Newest first.
+`informal-model-eval`, which also writes the same entries to [`informal-evaluations.json`](informal-evaluations.json). Newest first.
 
 ---
 

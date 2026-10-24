@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>MWP Script Leaderboard</title>
+  <meta name="description" content="Which model writes My Weird Prompts, and how every candidate scored on the MWP-Script benchmark.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>My Weird Prompts: script-model leaderboard</h1>
+    <p class="lede">
+      <a href="https://myweirdprompts.com">My Weird Prompts</a> is a podcast written entirely by language models.
+      This page shows which model writes it now, how candidates scored on the
+      <a href="https://github.com/My-Weird-Prompts/eval">MWP-Script</a> benchmark (one ~3,800-word,
+      two-host script in a single pass), which ones failed on censorship or refusals, and informal
+      verdicts on models that wrote aired episodes. The data is read live from the eval repo.
+    </p>
+    <ul class="links">
+      <li><a href="https://myweirdprompts.com/benchmark">Benchmark hub on the site</a></li>
+      <li><a href="https://github.com/My-Weird-Prompts/eval">Eval repo (GitHub)</a></li>
+      <li><a href="https://huggingface.co/spaces/My-Weird-Prompts/transcripts-explorer">Transcript explorer</a></li>
+      <li><a href="https://huggingface.co/datasets/My-Weird-Prompts/model-chronicle">Model chronicle dataset</a></li>
+      <li><a href="https://huggingface.co/datasets/My-Weird-Prompts/mwp-script-results">Per-sample results</a></li>
+    </ul>
+  </header>
+
+  <main>
+    <section aria-labelledby="h-current">
+      <h2 id="h-current">Current writer</h2>
+      <div id="current" class="card"><span class="muted">Loading…</span></div>
+    </section>
+
+    <section aria-labelledby="h-board">
+      <h2 id="h-board">Leaderboard</h2>
+      <div class="controls">
+        <label class="field grow">Run
+          <select id="run-picker"></select>
+        </label>
+      </div>
+      <div id="run-head" class="run-head"></div>
+      <div class="table-wrap"><table id="board"></table></div>
+      <p class="muted small" id="board-foot"></p>
+    </section>
+
+    <section aria-labelledby="h-fails">
+      <h2 id="h-fails">Technical fails and exclusions</h2>
+      <p class="muted small">A <b>technical fail</b> is any refusal, by the model or by a hosting provider's filter
+        cutting the output off. A technical fail is never ranked and is out of the production round robin.</p>
+      <div class="table-wrap"><table id="fails"></table></div>
+      <h3>Exclusions</h3>
+      <p class="muted small">Models not screened again, with the reason: technical fails, superseded generations
+        (only the newest generation of a family is evaluated), geo-blocks, already aired.</p>
+      <div class="controls">
+        <label class="field grow">Filter
+          <input type="search" id="excl-filter" placeholder="model id or reason">
+        </label>
+      </div>
+      <div class="table-wrap"><table id="exclusions"></table></div>
+    </section>
+
+    <section aria-labelledby="h-informal">
+      <h2 id="h-informal">Informal evaluations</h2>
+      <p class="muted small">Claude reads one or two aired scripts per model and gives a light verdict; Daniel's own
+        impressions are quoted where he gave them. Production-trial evidence, not a benchmark.</p>
+      <div id="informal"><span class="muted">Loading…</span></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Source: <a href="https://github.com/My-Weird-Prompts/eval/blob/main/results/leaderboard.json">results/leaderboard.json</a>
+      and <a href="https://github.com/My-Weird-Prompts/eval/blob/main/results/informal-evaluations.json">results/informal-evaluations.json</a>,
+      rebuilt after every run; <code>git log</code> on them is the history. <span id="generated"></span></p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

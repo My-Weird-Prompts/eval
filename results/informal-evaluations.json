@@ -1,0 +1,97 @@
+{
+  "_doc": "Machine-readable copy of informal-evaluations.md (newest first). Written alongside the .md by the mwp-admin skill informal-model-eval. Contract: My-Weird-Prompts monorepo PLAN-040 (Data contracts). episode_number is the show's episode number; slug resolves at https://myweirdprompts.com/episode/<slug>/. written: pipeline = the Modal pipeline wrote the script; offline = written outside the pipeline (Claude Code) and only voiced by it.",
+  "entries": [
+    {
+      "date": "2026-10-24",
+      "title": "Muse Spark 1.3 vs Claude Sonnet 5.5 vs GPT-6.1 Sol",
+      "judge": "claude-opus-5-5",
+      "models": [
+        "meta/muse-spark-1.3",
+        "anthropic/claude-sonnet-5.5",
+        "openai/gpt-6.1-sol"
+      ],
+      "episodes": [
+        {
+          "model": "meta/muse-spark-1.3",
+          "episode_number": 6220,
+          "slug": "mixture-of-experts-active-parameters-33076",
+          "written": "pipeline"
+        },
+        {
+          "model": "meta/muse-spark-1.3",
+          "episode_number": 6229,
+          "slug": "voice-design-tts-knobs-17599",
+          "written": "pipeline"
+        },
+        {
+          "model": "anthropic/claude-sonnet-5.5",
+          "episode_number": 6223,
+          "slug": "fine-tuning-epoch-count-guide-05662",
+          "written": "offline",
+          "note": "Claude Code offline-script-writer, voiced by pipeline"
+        },
+        {
+          "model": "anthropic/claude-sonnet-5.5",
+          "episode_number": 6227,
+          "slug": "cork-chippers-double-fry-science-35844",
+          "written": "offline",
+          "note": "voiced by pipeline"
+        },
+        {
+          "model": "openai/gpt-6.1-sol",
+          "episode_number": 6234,
+          "slug": "phone-mic-dictation-setup-44697",
+          "written": "pipeline"
+        },
+        {
+          "model": "openai/gpt-6.1-sol",
+          "episode_number": 6232,
+          "slug": "daycare-germs-building-immunity-83083",
+          "written": "pipeline"
+        }
+      ],
+      "caveats": "Muse Spark 1.3 wrote three episodes in this window (#6137, #6220, #6229). Every Sonnet 5.5 episode since 2026-10-19 is episode_type=script (offline), so the Sonnet samples had their own research notes and prompt, not the pipeline's. They aren't like for like.",
+      "cost_per_script": {
+        "meta/muse-spark-1.3": 0.05,
+        "anthropic/claude-sonnet-5.5": 0.1,
+        "openai/gpt-6.1-sol": 0.1
+      },
+      "cost_basis": {
+        "date": "2026-10-24",
+        "source": "OpenRouter list prices",
+        "mix": "26k input tokens (9k cached) and 6.5k output",
+        "usd_per_million_in_cached_out": {
+          "meta/muse-spark-1.3": [
+            1.25,
+            0.15,
+            4.25
+          ],
+          "anthropic/claude-sonnet-5.5": [
+            2.0,
+            0.1,
+            10.0
+          ],
+          "openai/gpt-6.1-sol": [
+            2.0,
+            0.1,
+            10.0
+          ]
+        },
+        "notes": {
+          "anthropic/claude-sonnet-5.5": "offline runs cost subscription, not this",
+          "openai/gpt-6.1-sol": "plus low-effort reasoning tokens"
+        }
+      },
+      "impressions": {
+        "openai/gpt-6.1-sol": "The best of the three. It's the most accurate and the most careful about what a source does and doesn't show (\"I'm not giving the beamformer credit for work it may not have done\"). It handles a personal health prompt with real judgement. Corn has real agency: he makes analytical points, not just quips. The humour is dry and lands. Weaknesses: the register is a little formal and British (\"an appalling interpretation of convenience\"), so it's less warm than Sonnet, and Hilbert's cameo monologues ramble.",
+        "meta/muse-spark-1.3": "Solid value, clearly a step down. It's dense, factual, on length and cheap. But Corn turns into a quip machine: nearly every Corn line is a three-to-five-word aphorism (\"Store an elephant, ride a bicycle\", \"Death by tapas\"). There are speaker slips: in #6229 Corn delivers Herman's research, and Hilbert answers Herman as \"Corn\". It drops question marks (\"Is that roughly right.\"), which hurts TTS prosody. The Hilbert cameos are its best moments.",
+        "anthropic/claude-sonnet-5.5": "The liveliest and warmest, but offline-written. It has the best guest voice (Roy the Cork plumber), a real two-sided argument with the Daniel clone, and natural long turns. Its honest hedging is good, but it slips into narrating research mechanics on air (\"I've only seen that in a search snippet\"). At OpenRouter prices it costs the same as Sol, so it has no value edge in the pipeline."
+      },
+      "impressions_all_models": "Every model, so the prompt drives it: formulaic hand-offs (\"Corn, would you...?\", \"Do you buy that, Corn?\") and non-sequitur cameo inserts. Don't score these against one model.",
+      "daniel": "Sol seems very good, no complaints about it.",
+      "daniel_note": "None given for Muse Spark or Sonnet. He didn't remember which episodes Muse Spark had written, so the lookup above answers that.",
+      "verdict": "Keep GPT-6.1 Sol as the writer. Muse Spark 1.3 is the fallback if cost pressure appears: about half the price per script, but expect weaker co-host play and TTS-unfriendly punctuation. Sonnet 5.5 is worth it only offline, where its cost is already paid. In the pipeline it costs what Sol costs and isn't better.",
+      "source": "results/informal-evaluations.md#2026-10-24-muse-spark-13-vs-claude-sonnet-55-vs-gpt-61-sol"
+    }
+  ]
+}

@@ -4,6 +4,12 @@ No full V1 leaderboard exists yet. Below are a 3-sample screen and a judged base
 
 Full per-sample results (scripts, judge reasoning, every score) are published on Hugging Face: [`My-Weird-Prompts/mwp-script-results`](https://huggingface.co/datasets/My-Weird-Prompts/mwp-script-results). This page summarises them. Informal verdicts on models that wrote aired episodes, with Claude as judge, are in [`informal-evaluations.md`](informal-evaluations.md).
 
+**Machine-readable copies** (contract: monorepo PLAN-040, *Data contracts*):
+
+- [`leaderboard.json`](leaderboard.json): every run below, one row per model, plus the current writer and `exclusions.json`. Generated from the tables on this page by `python3 scripts/build_leaderboard.py` (stdlib only). Rebuild and commit it after every run or edit here; `--check` exits 1 if it is stale. Unmeasured fields are `null`; run-specific columns are under each row's `extra`. History is the run array plus `git log` on the file.
+- [`informal-evaluations.json`](informal-evaluations.json): the informal log as JSON, written alongside the `.md` by the `informal-model-eval` skill.
+- Rendered live from both: the public Space [**`My-Weird-Prompts/script-leaderboard`**](https://huggingface.co/spaces/My-Weird-Prompts/script-leaderboard) (static, source `spaces/leaderboard/`, deployed by `scripts/deploy_leaderboard_space.py`) and the site hub [myweirdprompts.com/benchmark](https://myweirdprompts.com/benchmark).
+
 ## `on-air-toast-2026-10-19`: four-model mini-eval aired as an episode
 
 One toast prompt, one sample each, judged by the hosts on air rather than by rubric. Sol was the only fully correct script. DeepSeek and GPT-3.5 invented their evidence. Haiku got the answer wrong. Details: [`on-air-toast-2026-10-19/`](on-air-toast-2026-10-19/README.md).
@@ -12,15 +18,15 @@ One toast prompt, one sample each, judged by the hosts on air rather than by rub
 
 **Reading copy (PDF, 166 pages; print or tablet):** [`reports/bakeoff-2026-10-19.pdf`](../reports/bakeoff-2026-10-19.pdf). Run → prompt → model → script, with run, model and page in the footer. Judge scores are in an appendix at the end. Built with `scripts/build_bakeoff_pdf.py`.
 
-Each contender wrote 3 ordinary prompts from `lite`, under the three-sample rule, judged by Opus 5.5 on the rubric only. Spend was about $1.75. DeepSeek was not run: it's out of the evaluation.
+Each contender wrote 3 ordinary prompts from `lite`, under the three-sample rule, judged by Opus 5.5 on the rubric only. Spend was about $1.75. `technical fail`, `$/script` and `est $/episode` are from `scripts/report.py logs/bakeoff-2026-10-19` (added 2026-10-24). DeepSeek was not run: it's out of the evaluation.
 
-| model | cost vs DeepSeek / episode | V1 score | on length | priority | **holds the middle** | **fun** | candour | liveness | len ratio |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| **`openai/gpt-6.1-sol`** | 163% | **58** | 3/3 | 3.33 | **4.00** | 3.0 | 3.0 | 2.78 | 0.89 |
-| **`meta/muse-spark-1.3`** | **133%** | 53 | 3/3 | 3.11 | 3.00 | 3.0 | 3.3 | 2.22 | 0.96 |
-| `x-ai/grok-4.7` | 167% | 0 | 0/3 | **3.44** | 2.67 | **3.3** | **4.3** | **3.00** | 1.57 |
-| `google/gemini-3.8-flash` | 128% | 0 | 0/3 | 3.22 | 2.33 | **3.3** | 4.0 | 2.44 | 1.58 |
-| `openai/gpt-6-luna` (reasoning low) | ~100% | 0 | 0/3 | 2.33 | 2.33 | 2.7 | 2.0 | 1.89 | 1.59 |
+| model | technical fail | cost vs DeepSeek / episode | V1 score | on length | priority | **holds the middle** | **fun** | candour | liveness | len ratio | $/script | est $/episode |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| **`openai/gpt-6.1-sol`** | pass | 163% | **58** | 3/3 | 3.33 | **4.00** | 3.0 | 3.0 | 2.78 | 0.89 | 0.047 | 0.257 |
+| **`meta/muse-spark-1.3`** | pass | **133%** | 53 | 3/3 | 3.11 | 3.00 | 3.0 | 3.3 | 2.22 | 0.96 | 0.025 | 0.214 |
+| `x-ai/grok-4.7` | pass | 167% | 0 | 0/3 | **3.44** | 2.67 | **3.3** | **4.3** | **3.00** | 1.57 | 0.053 | 0.262 |
+| `google/gemini-3.8-flash` | pass | 128% | 0 | 0/3 | 3.22 | 2.33 | **3.3** | 4.0 | 2.44 | 1.58 | 0.033 | 0.210 |
+| `openai/gpt-6-luna` (reasoning low) | pass | ~100% | 0 | 0/3 | 2.33 | 2.33 | 2.7 | 2.0 | 1.89 | 1.59 | 0.004 | 0.162 |
 
 **Verdict (informal, Claude as judge, 2026-10-19), combining this run with the screens:**
 - **Best option: GPT-6.1 Sol.** It held the middle best in every run (4.0 out of 5, twice) and stayed on length 6 of 6 times. Fun is mid (3.0). It costs about 1.6× today's episode cost.
