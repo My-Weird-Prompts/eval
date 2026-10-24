@@ -4,17 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <title>MWP Script Leaderboard</title>
-  <meta name="description" content="Which model writes My Weird Prompts, and how every candidate scored on the MWP-Script benchmark.">
+  <title>ScriptBench Leaderboard</title>
+  <meta name="description" content="Which model writes My Weird Prompts, and how every candidate scored on ScriptBench, the My Weird Prompts script-writer benchmark.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>My Weird Prompts: script-model leaderboard</h1>
+    <h1>ScriptBench — the My Weird Prompts script-writer benchmark</h1>
+    <p class="disclaimer">ScriptBench is our own internal benchmark, open-sourced. It measures one workload: a ~28k-token brief turned into a ~3,800-word, two-host comedic dialogue for text-to-speech. It probably isn't the right benchmark for your use case. Fork it and tailor the task card, rubric and measures to yours.</p>
     <p class="lede">
       <a href="https://myweirdprompts.com">My Weird Prompts</a> is a podcast written entirely by language models.
-      This page shows which model writes it now, how candidates scored on the
-      <a href="https://github.com/My-Weird-Prompts/eval">MWP-Script</a> benchmark (one ~3,800-word,
+      This page shows which model writes it now, how candidates scored on
+      <a href="https://github.com/My-Weird-Prompts/eval">ScriptBench</a> (formerly MWP-Script; one ~3,800-word,
       two-host script in a single pass), which ones failed on censorship or refusals, and informal
       verdicts on models that wrote aired episodes. The data is read live from the eval repo.
     </p>
@@ -25,6 +26,9 @@
       <li><a href="https://huggingface.co/datasets/My-Weird-Prompts/model-chronicle">Model chronicle dataset</a></li>
       <li><a href="https://huggingface.co/datasets/My-Weird-Prompts/mwp-script-results">Per-sample results</a></li>
     </ul>
+    <p class="small muted related">Related work: <a href="https://arxiv.org/abs/2601.14903">PodBench</a> (Tencent, ACL 2026,
+      arXiv 2601.14903; <a href="https://github.com/xucncn/PodBench">code</a>, MIT) is the closest public benchmark in this
+      space: 800 samples, inputs up to 21k tokens, multi-speaker podcast scripts, deterministic checks plus an LLM judge.</p>
   </header>
 
   <main>

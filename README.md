@@ -1,6 +1,8 @@
-# MWP-Script — a benchmark for long-form podcast script writing
+# ScriptBench — the My Weird Prompts script-writer benchmark
 
-Workspace for **MWP-Script**, a proposed benchmark for one skill most evals skip: writing a long (≈3,800-word), coherent, funny, frank two-host conversation in a single pass, without looping, thinning out or losing the thread in the middle.
+> ScriptBench is our own internal benchmark, open-sourced. It measures one workload: a ~28k-token brief turned into a ~3,800-word, two-host comedic dialogue for text-to-speech. It probably isn't the right benchmark for your use case. Fork it and tailor the task card, rubric and measures to yours.
+
+Workspace for **ScriptBench** (formerly MWP-Script), a proposed benchmark for one skill most evals skip: writing a long (≈3,800-word), coherent, funny, frank two-host conversation in a single pass, without looping, thinning out or losing the thread in the middle.
 
 It comes from [*My Weird Prompts*](https://myweirdprompts.com), a podcast written entirely by language models. Over its first year the show ran on more than twenty script-writing models doing the same task in the same format, and it needs a principled way to choose the next one.
 
@@ -100,6 +102,7 @@ spaces/leaderboard/         static leaderboard page (reads results/*.json from G
 
 ## Related
 
+- **Related work:** [PodBench](https://arxiv.org/abs/2601.14903) (Tencent, ACL 2026, arXiv 2601.14903; [code](https://github.com/xucncn/PodBench), MIT) is the closest public benchmark in this space: 800 samples, inputs up to 21k tokens, multi-speaker podcast scripts, deterministic checks plus an LLM judge.
 - [`My-Weird-Prompts/pipeline`](https://github.com/My-Weird-Prompts/pipeline) — public snapshot of the production pipeline the writer sits in.
 - [`My-Weird-Prompts/MWP-Script-Analysis-0926`](https://github.com/My-Weird-Prompts/MWP-Script-Analysis-0926) — the corpus study behind the repetition and tic measures.
 - The show's internal harness (private) runs the same scorers on captured production prompts; V2 aims to publish that input (paper §7).

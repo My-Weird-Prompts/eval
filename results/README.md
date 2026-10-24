@@ -1,4 +1,6 @@
-# Results
+# ScriptBench results
+
+> ScriptBench is our own internal benchmark, open-sourced. It measures one workload: a ~28k-token brief turned into a ~3,800-word, two-host comedic dialogue for text-to-speech. It probably isn't the right benchmark for your use case. Fork it and tailor the task card, rubric and measures to yours.
 
 No full V1 leaderboard exists yet. Below are a 3-sample screen and a judged baseline of aired scripts.
 

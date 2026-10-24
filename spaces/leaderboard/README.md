@@ -1,5 +1,5 @@
 ---
-title: MWP Script-Model Leaderboard
+title: ScriptBench Leaderboard
 emoji: 🏆
 colorFrom: indigo
 colorTo: pink
@@ -18,9 +18,13 @@ tags:
   - censorship
 ---
 
-# My Weird Prompts: script-model leaderboard
+# ScriptBench — the My Weird Prompts script-writer benchmark
 
-A static page (no build step) that renders the MWP-Script benchmark results and the
+> ScriptBench is our own internal benchmark, open-sourced. It measures one workload: a ~28k-token brief turned into a ~3,800-word, two-host comedic dialogue for text-to-speech. It probably isn't the right benchmark for your use case. Fork it and tailor the task card, rubric and measures to yours.
+
+**Related work:** [PodBench](https://arxiv.org/abs/2601.14903) (Tencent, ACL 2026, arXiv 2601.14903; [code](https://github.com/xucncn/PodBench), MIT) is the closest public benchmark in this space: 800 samples, inputs up to 21k tokens, multi-speaker podcast scripts, deterministic checks plus an LLM judge.
+
+A static page (no build step) that renders the ScriptBench (formerly MWP-Script) benchmark results and the
 informal evaluation log. At load it fetches, from the public eval repo's `main` branch:
 
 - [`results/leaderboard.json`](https://github.com/My-Weird-Prompts/eval/blob/main/results/leaderboard.json),

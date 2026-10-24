@@ -1,5 +1,7 @@
 # MWP-Script: how My Weird Prompts chooses the model that writes its episodes
 
+*Name change (2026-10-24): MWP-Script is now called **ScriptBench**; the benchmark, task card and versions are unchanged.*
+
 **White paper v1.0, 2026-10-19.** Daniel Rosehill, *My Weird Prompts*. Drafted with Claude Opus 5.5.
 
 This is the method the show uses now. It supersedes "working paper, draft 1" of the same day. The source is `paper/working-paper.md` in `github.com/My-Weird-Prompts/eval`, and the canonical brief is `docs/selection-criteria.md`. Results: `results/README.md`, plus the HF datasets `My-Weird-Prompts/mwp-script-results` and `My-Weird-Prompts/mwp-censorship-results`.
