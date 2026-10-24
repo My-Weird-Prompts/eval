@@ -38,7 +38,8 @@ a { color: var(--accent); }
 .controls { display: flex; flex-wrap: wrap; gap: .75rem; align-items: flex-end; margin-bottom: .8rem; }
 .field { display: flex; flex-direction: column; gap: .2rem; font-size: .75rem; font-weight: 600;
          color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
-.field.grow { flex: 1 1 260px; }
+.field.grow { flex: 1 1 260px; min-width: 0; }
+.field select { width: 100%; min-width: 0; }
 input, select {
   font: inherit; font-size: .95rem; color: var(--fg); background: var(--card);
   border: 1px solid var(--line); border-radius: 8px; padding: .45rem .7rem; max-width: 100%;
