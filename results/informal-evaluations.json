@@ -2,6 +2,95 @@
   "_doc": "Machine-readable copy of informal-evaluations.md (newest first). Written alongside the .md by the mwp-admin skill informal-model-eval. Contract: My-Weird-Prompts monorepo PLAN-040 (Data contracts). episode_number is the show's episode number; slug resolves at https://myweirdprompts.com/episode/<slug>/. written: pipeline = the Modal pipeline wrote the script; offline = written outside the pipeline (Claude Code) and only voiced by it.",
   "entries": [
     {
+      "date": "2026-11-02",
+      "title": "GLM-5.3 vs Claude Sonnet 5.5 vs Mistral Large 4 vs Gemini 3.8 Flash (blind, Eval-Prompts ep-01/ep-02)",
+      "judge": "claude-opus-5-5 (blind subagent; letters shuffled per episode)",
+      "models": [
+        "z-ai/glm-5.3",
+        "anthropic/claude-sonnet-5.5",
+        "mistralai/mistral-large-4-0",
+        "google/gemini-3.8-flash"
+      ],
+      "episodes": [
+        {
+          "model": "z-ai/glm-5.3",
+          "job_id": "script-f2a56dd2",
+          "eval_prompt": "ep-01-typeface-and-hebrew-font",
+          "written": "pipeline script_only",
+          "script_url": "https://episodes.myweirdprompts.com/scripts/by-job/script-f2a56dd2.txt"
+        },
+        {
+          "model": "z-ai/glm-5.3",
+          "job_id": "script-522cd4d8",
+          "eval_prompt": "ep-02-slowest-civilizations",
+          "written": "pipeline script_only",
+          "script_url": "https://episodes.myweirdprompts.com/scripts/by-job/script-522cd4d8.txt"
+        },
+        {
+          "model": "mistralai/mistral-large-4-0",
+          "job_id": "script-dc0d0385",
+          "eval_prompt": "ep-01-typeface-and-hebrew-font",
+          "written": "pipeline script_only",
+          "script_url": "https://episodes.myweirdprompts.com/scripts/by-job/script-dc0d0385.txt"
+        },
+        {
+          "model": "mistralai/mistral-large-4-0",
+          "job_id": "script-b245aeab",
+          "eval_prompt": "ep-02-slowest-civilizations",
+          "written": "pipeline script_only",
+          "script_url": "https://episodes.myweirdprompts.com/scripts/by-job/script-b245aeab.txt"
+        },
+        {
+          "model": "google/gemini-3.8-flash",
+          "job_id": "script-fbf8122c",
+          "eval_prompt": "ep-01-typeface-and-hebrew-font",
+          "written": "pipeline script_only",
+          "script_url": "https://episodes.myweirdprompts.com/scripts/by-job/script-fbf8122c.txt"
+        },
+        {
+          "model": "google/gemini-3.8-flash",
+          "job_id": "script-4ed629b0",
+          "eval_prompt": "ep-02-slowest-civilizations",
+          "written": "pipeline script_only",
+          "script_url": "https://episodes.myweirdprompts.com/scripts/by-job/script-4ed629b0.txt"
+        },
+        {
+          "model": "anthropic/claude-sonnet-5.5",
+          "episode_number": 6407,
+          "slug": "typeface-design-readability-system-17909",
+          "eval_prompt": "ep-01-typeface-and-hebrew-font",
+          "written": "pipeline (aired)"
+        },
+        {
+          "model": "anthropic/claude-sonnet-5.5",
+          "episode_number": 6403,
+          "slug": "slowness-ancient-civilizations-leisure-44234",
+          "eval_prompt": "ep-02-slowest-civilizations",
+          "written": "pipeline (aired)"
+        }
+      ],
+      "caveats": "Two prompts, one Claude judge (possible Anthropic-house-style bias toward Sonnet). Sonnet samples are the aired scripts; the others are script_only runs with their own research pass, so research differs per run. Guest beats varied.",
+      "cost_per_script": null,
+      "cost_basis": {
+        "date": "2026-11-02",
+        "source": "OpenRouter keys endpoint",
+        "notes": {
+          "anthropic/claude-sonnet-5.5": "about $0.35-0.37 LLM per aired episode (mwp-script key, traces #2677/#2682)",
+          "all three challengers": "6 script_only runs together $0.94 on the supervised-scripts key, all stages included; per-model split pending activity data"
+        }
+      },
+      "impressions": {
+        "z-ai/glm-5.3": "Ranked 2nd on ep-01 and 1st on ep-02. The most evidence-minded writer, with a vivid primary-source day-in-the-life (Cheshire 1662 court depositions) and an opinionated Corn. No Herman quizzing. Weakness: continuity and attribution glitches (lines answering things never said, wrong speaker).",
+        "anthropic/claude-sonnet-5.5": "Ranked 1st on ep-01 and 2nd on ep-02. Warm, balanced, the most natural back-and-forth; Corn pushes back. Some hedging and one Herman-quizzes-Corn question on ep-02.",
+        "mistralai/mistral-large-4-0": "Ranked 3rd on both. Clipped, natural lines but tutorial-like stretches; Corn often a question feeder; two Herman-quizzes-Corn on ep-02.",
+        "google/gemini-3.8-flash": "Last on both. Lecture-like with no contractions, Corn echoing each Herman paragraph as a metaphor, shaky invented details, most slop."
+      },
+      "daniel": null,
+      "daniel_note": "Pending: Daniel to read or hear the scripts.",
+      "verdict": "GLM-5.3 matched Sonnet 5.5 (one win each) at a fraction of the cost; Mistral Large 4 a clear third; Gemini 3.8 Flash last, consistent with its EQ-Bench slop score.",
+      "source": "monorepo session 2026-11-02"
+    },
+    {
       "date": "2026-10-24",
       "title": "Muse Spark 1.3 vs Claude Sonnet 5.5 vs GPT-6.1 Sol",
       "judge": "claude-opus-5-5",

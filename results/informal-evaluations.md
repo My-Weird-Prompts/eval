@@ -8,6 +8,27 @@ benchmark runs in [`README.md`](README.md). Procedure: mwp-admin skill
 
 ---
 
+## 2026-11-02: GLM-5.3 vs Claude Sonnet 5.5 vs Mistral Large 4 vs Gemini 3.8 Flash (blind)
+
+**Judge:** Claude (`claude-opus-5-5`) as a blind subagent, letters shuffled per episode. **Prompts:** [Eval-Prompts](https://huggingface.co/datasets/My-Weird-Prompts/Eval-Prompts) `ep-01` (typeface + Hebrew font) and `ep-02` (slowest civilizations). The challengers ran as pipeline `script_only` jobs. Sonnet's samples are the aired episodes #6407 and #6403.
+
+| Rank | ep-01 | ep-02 |
+|---|---|---|
+| 1 | Sonnet 5.5 | GLM-5.3 |
+| 2 | GLM-5.3 | Sonnet 5.5 |
+| 3 | Mistral Large 4 | Mistral Large 4 |
+| 4 | Gemini 3.8 Flash | Gemini 3.8 Flash |
+
+- **GLM-5.3:** the most evidence-minded writer, with a vivid primary-source day-in-the-life and an opinionated Corn. No Herman quizzing. Weakness: continuity and attribution glitches.
+- **Sonnet 5.5:** warm and natural, and Corn pushes back. One Herman-quizzes-Corn question and some hedging.
+- **Mistral Large 4:** clipped, natural lines, but tutorial-like stretches. Two Herman-quizzes-Corn questions on ep-02.
+- **Gemini 3.8 Flash:** lecture-like with no contractions, Corn echoing Herman, shaky details. Consistent with its EQ-Bench slop score (22.6).
+
+**Cost:** Sonnet is about $0.35–0.37 of LLM spend per aired episode. The 6 challenger runs cost $0.94 together, all stages included.
+**Caveats:** two prompts, one Claude judge (a possible house-style bias toward Sonnet), and research that differs per run. Daniel's verdict is pending.
+
+---
+
 ## 2026-10-24: Muse Spark 1.3 vs Claude Sonnet 5.5 vs GPT-6.1 Sol
 
 **Judge:** Claude (`claude-opus-5-5`). **Models:** `meta/muse-spark-1.3`,
