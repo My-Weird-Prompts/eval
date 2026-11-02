@@ -1,5 +1,7 @@
 # 003 — Refusal hard rule for the round robin
 
+**Amended 2026-11-02 (Daniel, monorepo decision 208):** censorship is no longer a hard fail. The censorship gate stays as a published, scored axis, and failing it no longer keeps a model off the writer menu or out of the round robin. The verdict table below is kept as the record.
+
 **Set by Daniel, 2026-10-19:** any model that produced a refusal on the benchmark is removed from the production round robin. This is a hard rule, not a weighting.
 
 In the benchmark this is the **technical fail** axis: `scripts/report.py` `technical_fail()`, published as `technical_fail` on the HF leaderboard.

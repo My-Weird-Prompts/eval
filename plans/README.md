@@ -7,7 +7,7 @@ What the benchmark should measure next and how. A plan is a proposal until it sh
 | 006 | [Reasoning mode as a variable](006-reasoning-mode.md) | Proposed; strongest lead for holding the middle |
 | 005 | [Perspective lenses (from Dan-Eval)](005-perspective-lenses.md) | Parked: kept in Dan-Eval, not MWP selection |
 | 004 | [Censorship track: separate axis and results dataset](004-censorship-track.md) | Proposed |
-| 003 | [Refusal hard rule for the round robin](003-refusal-rule.md) | Rule set 2026-10-19; round-robin models not yet probed |
+| 003 | [Refusal hard rule for the round robin](003-refusal-rule.md) | Rule set 2026-10-19; censorship made a scored axis, not a hard fail, 2026-11-02 |
 | 002 | [Human preference layer](002-human-preference.md) | Proposed |
 | 001 | [Unsolicited disclaimers and excessive hedging](001-unsolicited-disclaimers.md) | Proposed |
 
