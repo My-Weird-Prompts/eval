@@ -65,7 +65,7 @@ def main() -> None:
     # whose reasoning can't be turned off); `args` are provider model args.
     def name(model_id: str) -> str:
         # Bare ids are OpenRouter's; anything with a known Inspect provider prefix passes through.
-        return model_id if model_id.split("/")[0] in ("mockllm", "openrouter", "hf", "vllm", "ollama") \
+        return model_id if model_id.split("/")[0] in ("mockllm", "openrouter", "hf", "hf-inference-providers", "vllm", "ollama") \
             else f"openrouter/{model_id}"
 
     models = [get_model(name(e["id"]), config=GenerateConfig(**(e.get("config") or {})),

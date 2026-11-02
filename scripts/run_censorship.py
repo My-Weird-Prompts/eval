@@ -55,7 +55,10 @@ def main() -> None:
         by_id.setdefault(m, next((e for e in reversed(roster) if e["id"] == m), {"id": m, "args": {}}))
     if not by_id:
         sys.exit("no models selected")
-    models = [get_model(e["id"] if e["id"].startswith("mockllm/") else f"openrouter/{e['id']}",
+    # Bare ids are OpenRouter's; a known Inspect provider prefix passes through
+    # (hf-inference-providers/<hub-id> for Benchmark Queue models with no OpenRouter route).
+    passthrough = ("mockllm", "openrouter", "hf", "hf-inference-providers", "vllm", "ollama")
+    models = [get_model(e["id"] if e["id"].split("/")[0] in passthrough else f"openrouter/{e['id']}",
                         config=GenerateConfig(**(e.get("config") or {})), **(e.get("args") or {}))
               for e in by_id.values()]
     log_dir = args.log_dir or str(ROOT / "logs" / f"{args.track}-{date.today().isoformat()}")

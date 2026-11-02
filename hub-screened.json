@@ -1,0 +1,3 @@
+{
+  "_doc": "Hugging Face Hub repos already looked at by the hub-model-discovery skill (mwp-admin plugin) and not put in the Benchmark Queue collection (huggingface.co/collections/My-Weird-Prompts/benchmark-queue-6ae770cd31cc30228f5b46bc). Keys are Hub ids; values say why and when. The skill's scan skips every key here, so a model is vetted once. Models that reach the benchmark are tracked in exclusions.json by OpenRouter id instead."
+}

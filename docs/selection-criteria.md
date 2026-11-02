@@ -73,3 +73,9 @@ General intelligence indexes (e.g. the Artificial Analysis index) don't measure 
 5. willingness (SpeechMap, UGI).
 
 Always check a name match against the raw board row; fuzzy matching has given false matches several times.
+
+## Where candidates come from (2026-11-02)
+
+- **OpenRouter and public boards:** the monorepo's `scripts/model_scan.py` (skill `script-model-scan`).
+- **The Hugging Face Hub:** most dialogue and writing fine-tunes never reach OpenRouter. The `hub-model-discovery` skill (mwp-admin plugin) scans recent text-generation repos by id words (podcast, dialogue, screenplay, roleplay, writer...) and tags (`creative-writing`, `roleplay`, `storytelling`...). It keeps those of at least 7B parameters with a `config.json` context of at least 40k (H4), drops quantised re-uploads and bare adapters, and vets the rest by hand against this page. Keepers go into the HF collection [Benchmark Queue](https://huggingface.co/collections/My-Weird-Prompts/benchmark-queue-6ae770cd31cc30228f5b46bc), which also holds models Daniel adds himself. Rejects are listed in `hub-screened.json` so they are vetted once.
+- **Routing a queued model:** OpenRouter when it lists the repo as its `hugging_face_id`. Otherwise an HF inference provider (`hf-inference-providers/<hub-id>` in `models.yaml`, which `run.py` and `run_censorship.py` pass straight to Inspect). Otherwise self-hosting, which is a paid step approved per model.
