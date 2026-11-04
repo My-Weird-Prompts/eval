@@ -15,12 +15,12 @@ It is **creative writing**, not analysis, coding or agentic work. A model's gene
 
 ## What we're really looking for (Daniel, 2026-10-19)
 
-Apart from refusals, the deciding qualities are two: **vivid, genuinely fun dialogue**, and **holding the long context through the middle**. One or two focused runs on a few contenders can tell those apart. Wide, repetitive sweeps across many models add little.
+Apart from refusals, the deciding qualities are two: **vivid, genuinely fun dialogue**, and **holding the long context through the middle**. Two scripts from each of many candidates can tell those apart. What adds little is repetition, not breadth: more iterations of the same few models.
 
 ## How to run evaluations (Daniel, 2026-10-19)
 
-- **Three samples per model per evaluation** by default: enough to see a trend and rule out a one-off fluke, and quick enough to change course. Use more only when targeting one specific behaviour.
-- **Few contenders, focused runs.** Shortlist on paper first, then run the 3-sample screen on 3–5 models. Prefer one decisive run over several wide ones.
+- **Two samples per model per evaluation** by default (three until 2026-10-31): enough to see a trend and rule out a one-off fluke, and quick enough to change course. Use more only when targeting one specific behaviour.
+- **Wide and shallow (2026-11-04).** Screen 12–20 candidates at two scripts each. Spend on more models rather than on more iterations of the same few. This replaces the 2026-10-19 "few contenders" rule.
 - **Censorship testing is for Chinese-origin or unknown labs.** Western labs, Meta included, aren't a censorship concern; at most a quick probe.
 - **No incumbent baseline runs.** DeepSeek is out of the evaluation and isn't re-run as a baseline. Compare contenders with each other and with the aired scripts.
 - **Keep the history.** Every run goes into `results/README.md`, every exit into `exclusions.json`, and samples into the HF results datasets. Nothing is deleted, including partial or aborted runs.
